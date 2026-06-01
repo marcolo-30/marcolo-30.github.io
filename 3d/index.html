@@ -1,0 +1,1456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Marco Loaiza - ML2 3D Portfolio</title>
+<link rel="icon" type="image/svg+xml" href="logo.svg"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#060d18;--navy2:#0a1628;--navy3:#0e1d30;
+  --blue:#1d6fa4;--blue2:#38bdf8;
+  --green:#10b981;--green2:#34d399;
+  --text:#dde6f0;--muted:#4d7fa0;--border:#1a3050;
+  --mono:'JetBrains Mono',monospace;--sans:'Inter',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{background:var(--navy);color:var(--text);font-family:var(--sans);overflow-x:hidden}
+::selection{background:var(--blue);color:#fff}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--navy)}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+
+#bg-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.content{position:relative;z-index:10}
+
+/* NAV */
+#nav{position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1rem 2rem;background:rgba(6,13,24,0.75);
+  backdrop-filter:blur(20px);border-bottom:1px solid rgba(26,48,80,0.6);transition:all 0.3s}
+#nav.scrolled{background:rgba(6,13,24,0.95);border-bottom-color:rgba(29,111,164,0.3)}
+.nav-brand{display:flex;align-items:center;gap:0.6rem;font-family:var(--mono);font-size:1rem;
+  background:linear-gradient(135deg,#38bdf8,#1d6fa4,#10b981);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;font-weight:700}
+.nav-links{display:flex;gap:1.5rem;list-style:none}
+.nav-links a{font-family:var(--mono);font-size:0.75rem;color:var(--muted);
+  text-decoration:none;letter-spacing:0.05em;transition:color 0.2s}
+.nav-links a:hover,.nav-links a.active{color:var(--blue2)}
+.nav-links a.active{border-bottom:1px solid var(--blue)}
+
+/* HERO */
+#hero{min-height:100vh;display:flex;align-items:center;
+  padding:0 2rem;max-width:1200px;margin:0 auto;gap:3rem;padding-top:80px}
+.hero-left{flex:1}
+.hero-badge{display:inline-flex;align-items:center;gap:0.5rem;
+  font-family:var(--mono);font-size:0.72rem;letter-spacing:0.15em;
+  color:var(--green);padding:0.35rem 0.9rem;border-radius:20px;
+  background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.25);margin-bottom:1.5rem}
+.hero-badge::before{content:'';width:6px;height:6px;border-radius:50%;
+  background:var(--green);box-shadow:0 0 6px var(--green);animation:gpulse 2s ease-in-out infinite}
+@keyframes gpulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+.hero-name{font-family:var(--mono);font-weight:700;line-height:1;
+  font-size:clamp(3rem,7vw,6rem);margin-bottom:0.4rem;
+  background:linear-gradient(135deg,#38bdf8 0%,#1d6fa4 50%,#10b981 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero-ml2{font-family:var(--mono);font-size:clamp(1rem,2.5vw,1.4rem);
+  color:var(--muted);margin-bottom:1.2rem;letter-spacing:0.05em}
+.hero-ml2 .hl{color:var(--blue2)}
+.hero-title{font-size:clamp(1rem,2vw,1.2rem);color:#8cb4cc;
+  margin-bottom:1.5rem;line-height:1.7;max-width:520px}
+.hero-ctas{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:2rem}
+.btn-primary{display:inline-flex;align-items:center;gap:0.5rem;
+  padding:0.75rem 1.6rem;border-radius:10px;font-weight:600;font-size:0.88rem;
+  cursor:pointer;border:none;background:linear-gradient(135deg,#1d6fa4,#155f8a);color:#fff;
+  box-shadow:0 0 24px rgba(29,111,164,0.35);transition:all 0.2s;text-decoration:none}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 0 40px rgba(29,111,164,0.55)}
+.btn-ghost{display:inline-flex;align-items:center;gap:0.5rem;
+  padding:0.75rem 1.6rem;border-radius:10px;font-weight:600;font-size:0.88rem;
+  cursor:pointer;background:transparent;color:var(--text);
+  border:1px solid var(--border);transition:all 0.2s;text-decoration:none}
+.btn-ghost:hover{border-color:rgba(29,111,164,0.5);color:var(--blue2);transform:translateY(-2px)}
+.hero-tags{display:flex;flex-wrap:wrap;gap:0.5rem}
+.htag{font-family:var(--mono);font-size:0.68rem;padding:0.25rem 0.7rem;
+  border-radius:20px;border:1px solid var(--border);color:var(--muted);transition:all 0.2s}
+.htag:hover{border-color:rgba(29,111,164,0.5);color:var(--blue2)}
+
+/* HERO 3D canvas */
+.hero-3d{flex-shrink:0;width:380px;height:380px;position:relative}
+#hero-canvas{width:100%;height:100%}
+
+/* SECTIONS */
+section{padding:6rem 2rem;max-width:1200px;margin:0 auto}
+.sec-label{font-family:var(--mono);font-size:0.72rem;letter-spacing:0.2em;
+  color:var(--green);text-transform:uppercase;margin-bottom:0.5rem}
+.sec-title{font-family:var(--mono);font-weight:700;margin-bottom:3rem;
+  font-size:clamp(1.8rem,3.5vw,2.8rem);color:var(--text)}
+.sec-title .gt{background:linear-gradient(135deg,#38bdf8,#1d6fa4,#10b981);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent}
+
+/* PROJECT CARDS */
+.projects-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1.5rem}
+.proj-card{background:var(--navy3);border:1px solid var(--border);border-radius:18px;
+  overflow:hidden;cursor:pointer;transform-style:preserve-3d;
+  transition:border-color 0.3s,box-shadow 0.3s;will-change:transform}
+.proj-card:hover{border-color:rgba(29,111,164,0.6);box-shadow:0 20px 60px rgba(13,71,161,0.2)}
+.proj-card.featured{grid-column:span 2}
+@media(max-width:768px){.proj-card.featured{grid-column:span 1}}
+
+/* Project card 3D icon canvas */
+.proj-icon-wrap{height:180px;position:relative;overflow:hidden;
+  background:linear-gradient(135deg,#0a1628,#0d2440)}
+.proj-icon-wrap canvas{width:100%;height:100%;display:block}
+.proj-icon-wrap.featured-banner{height:220px}
+.proj-overlay{position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(14,29,48,0.95) 0%,transparent 55%);
+  opacity:0;transition:opacity 0.3s;display:flex;align-items:flex-end;padding:1rem;gap:0.5rem}
+.proj-card:hover .proj-overlay{opacity:1}
+
+.proj-body{padding:1.25rem 1.5rem}
+.proj-meta{font-family:var(--mono);font-size:0.7rem;color:var(--muted);margin-bottom:0.4rem}
+.proj-name{font-weight:700;font-size:1.05rem;color:var(--text);margin-bottom:0.6rem}
+.proj-desc{font-size:0.88rem;color:#8cb4cc;line-height:1.7;margin-bottom:1rem}
+.proj-tags{display:flex;flex-wrap:wrap;gap:0.4rem}
+.ptag{font-family:var(--mono);font-size:0.68rem;padding:0.2rem 0.6rem;
+  border-radius:20px;border:1px solid rgba(29,111,164,0.3);
+  background:rgba(29,111,164,0.08);color:#38bdf8}
+
+/* ABOUT */
+#about-section{max-width:1200px;margin:0 auto;padding:6rem 2rem}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start}
+@media(max-width:768px){.about-grid{grid-template-columns:1fr}}
+
+/* Photo 3D */
+.photo-3d-wrap{position:relative;width:220px;height:220px;margin:0 auto 1.5rem;
+  perspective:800px}
+.photo-3d-inner{width:100%;height:100%;border-radius:50%;overflow:hidden;
+  border:2.5px solid rgba(29,111,164,0.6);
+  box-shadow:0 0 0 6px rgba(13,71,161,0.1),0 0 40px rgba(29,111,164,0.25);
+  transform:rotateY(0deg) rotateX(0deg);
+  transition:transform 0.1s ease;
+  animation:photo3dFloat 6s ease-in-out infinite}
+@keyframes photo3dFloat{
+  0%,100%{transform:rotateY(-8deg) rotateX(3deg) translateY(0)}
+  25%{transform:rotateY(8deg) rotateX(-3deg) translateY(-8px)}
+  50%{transform:rotateY(10deg) rotateX(5deg) translateY(-4px)}
+  75%{transform:rotateY(-10deg) rotateX(-5deg) translateY(-10px)}
+}
+.photo-3d-inner img{width:100%;height:100%;object-fit:cover;object-position:center top}
+.photo-3d-inner:hover{animation:none}
+.photo-orbit{position:absolute;inset:-16px;border-radius:50%;
+  border:1px dashed rgba(29,111,164,0.3);animation:spin 12s linear infinite;pointer-events:none}
+.photo-orbit::before{content:'';position:absolute;top:10px;left:50%;transform:translateX(-50%);
+  width:10px;height:10px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green)}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.about-card{background:var(--navy3);border:1px solid var(--border);
+  border-radius:14px;padding:1.25rem 1.5rem;margin-bottom:1rem}
+.about-card h4{font-family:var(--mono);font-size:0.75rem;letter-spacing:0.15em;
+  color:var(--green);text-transform:uppercase;margin-bottom:0.75rem}
+.tl{position:relative;padding-left:2rem}
+.tl::before{content:'';position:absolute;left:6px;top:4px;bottom:0;
+  width:1px;background:linear-gradient(to bottom,var(--blue),transparent)}
+.tl-item{position:relative;margin-bottom:1.5rem}
+.tl-item::before{content:'';position:absolute;left:-2rem;top:4px;
+  width:12px;height:12px;border-radius:50%;border:2px solid var(--blue);background:var(--navy)}
+.tl-date{font-family:var(--mono);font-size:0.7rem;color:var(--muted);margin-bottom:0.2rem}
+.tl-role{font-weight:600;font-size:0.95rem;color:var(--text);margin-bottom:0.2rem}
+.tl-desc{font-size:0.83rem;color:#8cb4cc}
+.skill-row{margin-bottom:1rem}
+.skill-head{display:flex;justify-content:space-between;font-family:var(--mono);font-size:0.75rem;margin-bottom:0.4rem}
+.skill-head span:first-child{color:#38bdf8}
+.skill-head span:last-child{color:var(--muted)}
+.skill-track{height:3px;background:var(--border);border-radius:2px}
+.skill-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,#1d6fa4,#10b981);
+  transform:scaleX(0);transform-origin:left;transition:transform 1.2s cubic-bezier(0.25,0.46,0.45,0.94)}
+.skill-fill.on{transform:scaleX(1)}
+
+/* PUBLICATIONS */
+#pubs-section{padding:6rem 2rem;max-width:1200px;margin:0 auto}
+.pub-card{background:var(--navy3);border:1px solid var(--border);border-radius:12px;
+  padding:1.1rem 1.4rem;margin-bottom:0.75rem;transition:border-color 0.2s,transform 0.2s;
+  display:flex;align-items:flex-start;gap:1rem;text-decoration:none}
+.pub-card:hover{border-color:rgba(29,111,164,0.5);transform:translateX(6px)}
+.pub-year{font-family:var(--mono);font-size:0.7rem;color:var(--green);white-space:nowrap;padding-top:2px}
+.pub-title{font-size:0.9rem;color:var(--text);font-weight:500;margin-bottom:0.25rem}
+.pub-authors{font-family:var(--mono);font-size:0.7rem;color:var(--muted)}
+
+/* CONTACT */
+#contact-section{padding:6rem 2rem 10rem;max-width:1200px;margin:0 auto;text-align:center}
+.contact-subtitle{color:#8cb4cc;font-size:1.1rem;max-width:500px;margin:0 auto 2.5rem}
+.contact-links{display:flex;justify-content:center;flex-wrap:wrap;gap:1rem;margin-bottom:3rem}
+.c-link{display:flex;align-items:center;gap:0.6rem;padding:0.75rem 1.4rem;border-radius:12px;
+  background:var(--navy3);border:1px solid var(--border);color:var(--muted);
+  font-family:var(--mono);font-size:0.82rem;text-decoration:none;transition:all 0.2s}
+.c-link:hover{border-color:rgba(29,111,164,0.5);color:var(--blue2);
+  background:rgba(29,111,164,0.08);transform:translateY(-2px)}
+
+/* FOOTER */
+footer{text-align:center;padding:1.5rem 2rem;border-top:1px solid var(--border);
+  font-family:var(--mono);font-size:0.75rem;color:var(--muted)}
+footer span{color:var(--blue2)}
+
+/* DOCK */
+#dock{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);z-index:200;
+  display:flex;align-items:center;gap:4px;padding:8px 14px;
+  background:rgba(6,13,24,0.88);backdrop-filter:blur(24px);
+  border:1px solid rgba(26,48,80,0.9);border-radius:22px;
+  box-shadow:0 8px 40px rgba(0,0,0,0.6)}
+.di{display:flex;flex-direction:column;align-items:center;gap:3px;
+  padding:7px 13px;border-radius:12px;font-size:0.68rem;
+  font-family:var(--mono);color:var(--muted);cursor:pointer;
+  transition:all 0.2s;text-decoration:none;border:1px solid transparent}
+.di svg{width:16px;height:16px;transition:transform 0.2s}
+.di:hover{color:var(--text);background:rgba(29,111,164,0.15);transform:translateY(-4px)}
+.di.active{color:#38bdf8;background:rgba(29,111,164,0.2);border-color:rgba(29,111,164,0.35)}
+.dsep{width:1px;height:24px;background:var(--border);margin:0 2px}
+
+/* REVEAL */
+.rev{opacity:0;transform:translateY(28px);transition:opacity 0.7s ease,transform 0.7s ease;
+  animation:revFall 0.1s 2.5s forwards}
+.rev.on{opacity:1;transform:none;animation:none}
+@keyframes revFall{to{opacity:1;transform:none}}
+.d1{transition-delay:0.1s}.d2{transition-delay:0.2s}.d3{transition-delay:0.3s}
+
+@media(max-width:900px){
+  #hero{flex-direction:column;text-align:center;padding-top:100px}
+  .hero-3d{width:280px;height:280px}
+  .hero-ctas{justify-content:center}
+  .hero-tags{justify-content:center}
+  .nav-links{gap:1rem}
+}
+@media(max-width:600px){.nav-links{display:none}}
+</style>
+</head>
+<body>
+<canvas id="bg-canvas"></canvas>
+<div class="content">
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-brand">
+    <svg viewBox="0 0 80 55" width="32" height="22">
+      <defs><linearGradient id="nlg" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" style="stop-color:#38bdf8"/><stop offset="100%" style="stop-color:#10b981"/>
+      </linearGradient></defs>
+      <polygon points="27,2 51,14 51,38 27,50 3,38 3,14" fill="rgba(29,111,164,0.15)" stroke="url(#nlg)" stroke-width="1.5"/>
+      <polyline points="8,36 8,18 16,28 23,18" fill="none" stroke="url(#nlg)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      <polyline points="23,18 23,36 35,36" fill="none" stroke="url(#nlg)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="35" cy="36" r="3" fill="#10b981"/>
+      <text x="42" y="14" font-family="monospace" font-size="10" font-weight="700" fill="#1d6fa4">2</text>
+    </svg>
+    ML&#178;
+  </div>
+  <ul class="nav-links">
+    <li><a href="#hero" class="active">Home</a></li>
+    <li><a href="#projects-section">Projects</a></li>
+    <li><a href="#about-section">About</a></li>
+    <li><a href="#pubs-section">Research</a></li>
+    <li><a href="#contact-section">Contact</a></li>
+  </ul>
+  <a href="Marco_Loaiza_CV.pdf" download class="btn-ghost" style="padding:0.45rem 1rem;font-size:0.78rem">&#8595; CV</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-left rev">
+    <div class="hero-badge">Available for collaboration &middot; PhD ICT 2026</div>
+    <h1 class="hero-name">Marco<br>Loaiza</h1>
+    <p class="hero-ml2">
+      <span class="hl">M</span>arco <span class="hl">L</span>oaiza
+      &nbsp;&equiv;&nbsp;
+      <span class="hl">M</span>achine <span class="hl">L</span>earning
+    </p>
+    <p class="hero-title">
+      Distributed Systems &amp; Edge-Cloud Engineer &middot; Python Developer &middot; PhD ICT.<br>
+      7+ years building ML platforms, IoT systems and cloud infrastructure.<br>
+      EU Horizon Europe &middot; MLSysOps researcher.
+    </p>
+    <div class="hero-ctas">
+      <a href="#projects-section" class="btn-primary">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        View Projects
+      </a>
+      <a href="Marco_Loaiza_CV.pdf" download class="btn-ghost">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download CV
+      </a>
+    </div>
+    <div class="hero-tags">
+      <span class="htag">Kubernetes</span><span class="htag">Edge-Cloud</span>
+      <span class="htag">Python</span><span class="htag">AI/ML</span>
+      <span class="htag">IoT</span><span class="htag">Docker</span>
+      <span class="htag">Terraform</span><span class="htag">SPADE</span>
+    </div>
+  </div>
+  <div class="hero-3d rev d2">
+    <canvas id="hero-canvas"></canvas>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects-section">
+  <p class="sec-label rev">02 // key_projects</p>
+  <h2 class="sec-title rev d1">Featured <span class="gt">Projects</span></h2>
+  <div class="projects-grid">
+
+    <div class="proj-card featured rev" data-tilt>
+      <div class="proj-icon-wrap featured-banner">
+        <canvas id="c-p1"></canvas>
+        <div class="proj-overlay">
+          <a href="https://github.com/marcolo-30/k8s-gitops-lab" target="_blank" class="btn-primary" style="padding:0.4rem 0.9rem;font-size:0.75rem">GitHub &rarr;</a>
+        </div>
+      </div>
+      <div class="proj-body">
+        <p class="proj-meta">Personal &middot; 2024 &nbsp;&middot;&nbsp; <span style="color:#34d399">&#9889; 20min &rarr; 90sec deploy</span></p>
+        <p class="proj-name">K8s GitOps Lab &mdash; Zero-Touch CI/CD</p>
+        <p class="proj-desc">End-to-end GitOps pipeline that reduced deployment cycle from <strong style="color:#34d399">20 minutes to 90 seconds</strong>. GitHub Actions as CI (multi-platform AMD64/ARM64), ArgoCD on k3s as CD &mdash; zero manual intervention.</p>
+        <div class="proj-tags">
+          <span class="ptag">GitHub Actions</span><span class="ptag">ArgoCD</span>
+          <span class="ptag">k3s</span><span class="ptag">Docker</span><span class="ptag">Python</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="proj-card rev d1" data-tilt>
+      <div class="proj-icon-wrap">
+        <canvas id="c-p2"></canvas>
+        <div class="proj-overlay">
+          <a href="https://github.com/marcolo-30" target="_blank" class="btn-primary" style="padding:0.4rem 0.9rem;font-size:0.75rem">GitHub &rarr;</a>
+        </div>
+      </div>
+      <div class="proj-body">
+        <p class="proj-meta">IoT &middot; 2021</p>
+        <p class="proj-name">IoT-Cloud ML Health Monitor</p>
+        <p class="proj-desc">ESP32 wearable with SpO2 and heart rate sensors &rarr; real-time AWS IoT Core &rarr; ML pipeline for predictive analytics over physiological signals.</p>
+        <div class="proj-tags"><span class="ptag">ESP32</span><span class="ptag">AWS IoT</span><span class="ptag">MQTT</span><span class="ptag">ML Pipeline</span></div>
+      </div>
+    </div>
+
+    <div class="proj-card rev d2" data-tilt>
+      <div class="proj-icon-wrap" id="globe-wrap" style="position:relative;cursor:grab">
+        <canvas id="c-p3" style="width:100%;height:100%;display:block"></canvas>
+        <!-- Globe UI -->
+        <div style="position:absolute;top:8px;left:10px;font-family:'Segoe UI',sans-serif;font-size:0.68rem;color:rgba(56,189,248,0.85);letter-spacing:0.06em;pointer-events:none;text-shadow:0 0 8px rgba(56,189,248,0.6)">MLSysOps · EU Region</div>
+        <div style="position:absolute;bottom:8px;left:50%;transform:translateX(-50%);font-family:'Segoe UI',sans-serif;font-size:0.62rem;color:rgba(180,210,240,0.55);pointer-events:none;white-space:nowrap">Arrastra para rotar</div>
+        <div style="position:absolute;top:8px;right:8px;display:flex;gap:4px;z-index:10">
+          <button id="globe-autorotate" onclick="globeToggleAuto()" style="font-family:'Segoe UI',sans-serif;font-size:0.6rem;padding:3px 7px;border-radius:6px;border:1px solid rgba(56,189,248,0.4);background:rgba(6,10,20,0.75);color:rgba(56,189,248,0.9);cursor:pointer;backdrop-filter:blur(4px)">Auto &#9654;</button>
+          <button onclick="globeReset()" style="font-family:'Segoe UI',sans-serif;font-size:0.6rem;padding:3px 7px;border-radius:6px;border:1px solid rgba(56,189,248,0.3);background:rgba(6,10,20,0.75);color:rgba(180,210,240,0.7);cursor:pointer;backdrop-filter:blur(4px)">Reset</button>
+        </div>
+        <div class="proj-overlay">
+          <a href="https://github.com/marcolo-30" target="_blank" class="btn-primary" style="padding:0.4rem 0.9rem;font-size:0.75rem">GitHub &rarr;</a>
+        </div>
+      </div>
+      <div class="proj-body">
+        <p class="proj-meta">EU Horizon Europe &middot; 2023&ndash;2026</p>
+        <p class="proj-name">MLSysOps &mdash; PhD Research</p>
+        <p class="proj-desc">ML-IoT platform orchestrated with Kubernetes for the computing continuum. Multi-agent SPADE, full observability stack. 3 peer-reviewed publications.</p>
+        <div class="proj-tags"><span class="ptag">Kubernetes</span><span class="ptag">SPADE</span><span class="ptag">Prometheus</span><span class="ptag">IEEE</span></div>
+      </div>
+    </div>
+
+    <div class="proj-card rev d3" data-tilt>
+      <div class="proj-icon-wrap">
+        <canvas id="c-p4"></canvas>
+        <div class="proj-overlay">
+          <a href="https://github.com/marcolo-30" target="_blank" class="btn-primary" style="padding:0.4rem 0.9rem;font-size:0.75rem">GitHub &rarr;</a>
+        </div>
+      </div>
+      <div class="proj-body">
+        <p class="proj-meta">MSc Thesis &middot; 2022</p>
+        <p class="proj-name">IoT Fleet Traceability</p>
+        <p class="proj-desc">End-to-end IoT node for supply chain fleet: PCB design, C/C++ firmware, GPS + sensors &rarr; MQTT &rarr; ThingsBoard dashboard.</p>
+        <div class="proj-tags"><span class="ptag">ESP32</span><span class="ptag">C/C++</span><span class="ptag">MQTT</span><span class="ptag">ThingsBoard</span></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about-section" style="padding:6rem 2rem;max-width:1200px;margin:0 auto">
+  <p class="sec-label rev">03 // about_me</p>
+  <h2 class="sec-title rev d1">About <span class="gt">Me</span></h2>
+  <div class="about-grid">
+    <div class="rev">
+      <div style="text-align:center">
+        <div class="photo-3d-wrap" id="photo-wrap">
+          <div class="photo-orbit"></div>
+          <div class="photo-3d-inner" id="photo-3d">
+            <img src="MarcoFoto.jpg" alt="Marco Alfredo Loaiza Carrillo"/>
+          </div>
+        </div>
+        <p style="font-weight:700;font-size:1.1rem;color:var(--text)">Marco Alfredo Loaiza</p>
+        <p style="font-family:var(--mono);font-size:0.78rem;color:var(--blue2)">PhD ICT &middot; Edge-Cloud Engineer</p>
+        <p style="font-size:0.82rem;color:var(--muted);margin-top:0.3rem">Rende, Calabria &#127470;&#127481; &middot; Colombian &#127464;&#127476;</p>
+        <a href="Marco_Loaiza_CV.pdf" download class="btn-primary" style="margin:1rem auto 0;display:inline-flex;font-size:0.8rem">&#8595; Download CV</a>
+      </div>
+      <div class="about-card" style="margin-top:1.5rem">
+        <h4>Experience</h4>
+        <div class="tl">
+          <div class="tl-item">
+            <p class="tl-date">Dec 2025 &ndash; May 2026</p>
+            <p class="tl-role">Research Fellow &mdash; DIMES, Università della Calabria</p>
+            <p class="tl-desc">Technical closure MLSysOps EU Horizon Europe &middot; Ongoing publications</p>
+          </div>
+          <div class="tl-item">
+            <p class="tl-date">Jan 2023 &ndash; Jan 2026</p>
+            <p class="tl-role">PhD ICT &mdash; Università della Calabria</p>
+            <p class="tl-desc">MLSysOps &middot; SPADE &middot; Kubernetes &middot; 3 peer-reviewed papers</p>
+          </div>
+          <div class="tl-item">
+            <p class="tl-date">Jan 2022 &ndash; Feb 2023</p>
+            <p class="tl-role">Research Engineer &mdash; CAR Cundinamarca</p>
+            <p class="tl-desc">R&amp;D platform &middot; Power BI &middot; Environmental Innovation Lab</p>
+          </div>
+          <div class="tl-item" style="margin-bottom:0">
+            <p class="tl-date">Dec 2016 &ndash; May 2018</p>
+            <p class="tl-role">OS Administrator &mdash; IBM Colombia</p>
+            <p class="tl-desc">800+ servers &middot; Enterprise clients &middot; Colombia-India liaison</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="rev d2">
+      <div class="about-card">
+        <h4>Technical Proficiency</h4>
+        <div class="skill-row"><div class="skill-head"><span>Kubernetes &middot; Docker &middot; DevOps</span><span>92%</span></div><div class="skill-track"><div class="skill-fill" data-w="0.92"></div></div></div>
+        <div class="skill-row"><div class="skill-head"><span>Python &middot; C/C++ &middot; REST APIs</span><span>88%</span></div><div class="skill-track"><div class="skill-fill" data-w="0.88"></div></div></div>
+        <div class="skill-row"><div class="skill-head"><span>AI/ML &middot; Multi-Agent &middot; IoT</span><span>85%</span></div><div class="skill-track"><div class="skill-fill" data-w="0.85"></div></div></div>
+        <div class="skill-row"><div class="skill-head"><span>Terraform &middot; Ansible &middot; Observability</span><span>78%</span></div><div class="skill-track"><div class="skill-fill" data-w="0.78"></div></div></div>
+        <div class="skill-row" style="margin-bottom:0"><div class="skill-head"><span>Claude &middot; ChatGPT &middot; Gemini &middot; AI Tools</span><span>95%</span></div><div class="skill-track"><div class="skill-fill" data-w="0.95"></div></div></div>
+      </div>
+      <div class="about-card">
+        <h4>Education</h4>
+        <div style="display:flex;flex-direction:column;gap:0.75rem">
+          <div><p style="font-weight:600;color:var(--text);font-size:0.9rem">PhD Information &amp; Communication Technologies</p><p style="font-family:var(--mono);font-size:0.72rem;color:var(--blue2)">Università della Calabria &middot; 2026</p></div>
+          <div><p style="font-weight:600;color:var(--text);font-size:0.9rem">MSc Internet of Things Engineering</p><p style="font-family:var(--mono);font-size:0.72rem;color:var(--green)">P. Universidad Javeriana &middot; 2022</p></div>
+          <div><p style="font-weight:600;color:var(--text);font-size:0.9rem">Electronic Engineering</p><p style="font-family:var(--mono);font-size:0.72rem;color:#38bdf8">P. Universidad Javeriana &middot; 2017</p></div>
+        </div>
+      </div>
+      <div class="about-card">
+        <h4>Languages &amp; AI Tools</h4>
+        <div style="display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:0.75rem">
+          <span class="ptag">&#127464;&#127476; ES Native</span>
+          <span class="ptag">&#127468;&#127463; EN Professional</span>
+          <span class="ptag">&#127470;&#127481; IT Basic</span>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:0.4rem">
+          <span class="htag" style="color:#38bdf8;border-color:rgba(56,189,248,0.3)">Claude &amp; Cowork</span>
+          <span class="htag" style="color:#34d399;border-color:rgba(52,211,153,0.3)">ChatGPT</span>
+          <span class="htag" style="color:#10b981;border-color:rgba(16,185,129,0.3)">Gemini</span>
+          <span class="htag">Copilot</span><span class="htag">Prompt Eng.</span><span class="htag">RAG / Agents</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PUBLICATIONS -->
+<section id="pubs-section">
+  <p class="sec-label rev">04 // research</p>
+  <h2 class="sec-title rev d1">Published <span class="gt">Research</span></h2>
+
+  <div class="pub-card rev" style="cursor:default">
+    <span class="pub-year">IEEE VTM<br>2026</span>
+    <div>
+      <p class="pub-title">Enhancing Public Safety in Intelligent Transportation Systems: Energy-Efficient Task Orchestration in 5G Vehicular Edge Networks</p>
+      <p class="pub-authors">Ali, N., Fortino, G., Aloi, G., Loaiza, M., Gravina, R., Sodhro, A.H., Johnsson, M. &middot; IEEE Vehicular Technology Magazine</p>
+    </div>
+  </div>
+
+  <div class="pub-card rev d1" style="cursor:default">
+    <span class="pub-year">Book Ch.<br>2025</span>
+    <div>
+      <p class="pub-title">From Objects to Agents, and Back to Smart Objects: Software Agents for Intelligent Internet of Things (IoT) Systems</p>
+      <p class="pub-authors">Bouleanu, D.C., Loaiza, M., Savaglio, C., B&#259;dic&#259;, C., Gravina, R., Fortino, G. &middot; The Agents Journey: Twenty-Five Years of Multi-agent Systems, pp. 340&ndash;365</p>
+    </div>
+  </div>
+
+  <a href="https://doi.org/10.1109/INISTA62901.2024.10683829" target="_blank" class="pub-card rev d1">
+    <span class="pub-year">IEEE INISTA<br>2024</span>
+    <div>
+      <p class="pub-title">Benefits of Agent-Oriented Transitioning from Monolithic to Service-Based Architectures</p>
+      <p class="pub-authors">Bouleanu, D.C., Loaiza, M., B&#259;dic&#259;, C., Gravina, R., Fortino, G. &middot; DOI: 10.1109/INISTA62901.2024.10683829</p>
+    </div>
+  </a>
+
+  <a href="https://doi.org/10.5555/3639940.3639991" target="_blank" class="pub-card rev d2">
+    <span class="pub-year">EWSN<br>2023</span>
+    <div>
+      <p class="pub-title">Agents in the Computing Continuum: The MLSysOps Perspective</p>
+      <p class="pub-authors">Loaiza, M., Savaglio, C., Gravina, R., Chatzopoulos, D., Lalis, S. &middot; DOI: 10.5555/3639940.3639991</p>
+    </div>
+  </a>
+
+  <div class="pub-card rev d3" style="cursor:default">
+    <span class="pub-year">WOA<br>2023</span>
+    <div>
+      <p class="pub-title">Agents in Software Development Architectures</p>
+      <p class="pub-authors">Loaiza, M., Savaglio, C., Arijo, N.H., Aloi, G., Fortino, G., Gravina, R. &middot; WOA 2023, pp. 66&ndash;77 &middot; CEUR-WS.org</p>
+    </div>
+  </div>
+
+</section>
+
+<!-- CONTACT -->
+<section id="contact-section">
+  <p class="sec-label rev" style="text-align:center">05 // get_in_touch</p>
+  <h2 class="sec-title rev d1" style="text-align:center">Let's work <span class="gt">together</span></h2>
+  <p class="contact-subtitle rev d2">Open to projects, collaborations or just connecting. Always reply in &lt;24h.</p>
+  <div class="contact-links rev d2">
+    <a href="mailto:maloaiza30@gmail.com" class="c-link">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      maloaiza30@gmail.com
+    </a>
+    <a href="https://github.com/marcolo-30" target="_blank" class="c-link">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+      github.com/marcolo-30
+    </a>
+    <a href="https://linkedin.com/in/marco-loaiza" target="_blank" class="c-link">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+      linkedin.com/in/marco-loaiza
+    </a>
+  </div>
+  <a href="Marco_Loaiza_CV.pdf" download class="btn-primary rev d3" style="display:inline-flex;margin:0 auto">&#8595; Download Full CV</a>
+</section>
+
+<footer>
+  <p>Built by <span>Marco Alfredo Loaiza Carrillo</span> &middot; PhD ICT &middot; Rende, Calabria &#127470;&#127481; &middot; 2026</p>
+  <p style="margin-top:0.4rem;font-size:0.68rem"><a href="index.html" style="color:var(--blue2);text-decoration:none">&larr; Standard version</a></p>
+</footer>
+</div>
+
+<!-- DOCK -->
+<nav id="dock">
+  <a href="#hero" class="di active" data-s="hero"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Home</a>
+  <div class="dsep"></div>
+  <a href="#projects-section" class="di" data-s="projects-section"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>Work</a>
+  <a href="#about-section" class="di" data-s="about-section"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>About</a>
+  <a href="#pubs-section" class="di" data-s="pubs-section"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>Papers</a>
+  <a href="#contact-section" class="di" data-s="contact-section"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>Contact</a>
+  <div class="dsep"></div>
+  <a href="Marco_Loaiza_CV.pdf" download class="di"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>CV</a>
+</nav>
+
+<script>
+// Helper: create a mini Three.js renderer on a canvas
+function makeScene(canvas, w, h) {
+  var R = new THREE.WebGLRenderer({canvas:canvas, alpha:true, antialias:true});
+  R.setPixelRatio(Math.min(window.devicePixelRatio,2));
+  R.setSize(w, h);
+  var S = new THREE.Scene();
+  var C = new THREE.PerspectiveCamera(50, w/h, 0.1, 100);
+  C.position.z = 4;
+  S.add(new THREE.AmbientLight(0x1a3050, 2));
+  var p1 = new THREE.PointLight(0x38bdf8, 4, 15); p1.position.set(3,4,3); S.add(p1);
+  var p2 = new THREE.PointLight(0x10b981, 3, 15); p2.position.set(-3,-2,3); S.add(p2);
+  return {R:R, S:S, C:C, p1:p1, p2:p2};
+}
+
+// =============================================
+// =============================================
+// HERO: ML² Labs — Professional Badge Logo
+// =============================================
+(function(){
+  var canvas = document.getElementById('hero-canvas');
+  if(!canvas) return;
+  var W = canvas.parentElement.offsetWidth  || 380;
+  var H = canvas.parentElement.offsetHeight || 380;
+
+  var renderer = new THREE.WebGLRenderer({canvas:canvas, alpha:true, antialias:true});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+  renderer.setSize(W,H);
+
+  var scene  = new THREE.Scene();
+  var camera = new THREE.PerspectiveCamera(42, W/H, 0.1, 100);
+  camera.position.set(0, 0.2, 5.8);
+  camera.lookAt(0,0,0);
+
+  // ── Master group (upright — no PI/2 pre-rotation) ──
+  var group = new THREE.Group();
+  scene.add(group);
+
+  // ── Hexagonal badge face (CylinderGeometry rotated so flat face = front) ──
+  var hexGeo = new THREE.CylinderGeometry(2.05, 2.05, 0.26, 6);
+  var hexMat = new THREE.MeshPhongMaterial({
+    color:0x0b1c30, emissive:0x040c1a,
+    specular:0x38bdf8, shininess:80
+  });
+  var hexBadge = new THREE.Mesh(hexGeo, hexMat);
+  hexBadge.rotation.x = Math.PI/2;   // flat face now points toward camera
+  group.add(hexBadge);
+
+  // Badge inner bevel ring (hex-shaped, thin)
+  var rimInner = new THREE.Mesh(
+    new THREE.TorusGeometry(1.90, 0.014, 8, 6),
+    new THREE.MeshBasicMaterial({color:0x10b981, transparent:true, opacity:0.5})
+  );
+  group.add(rimInner);
+
+  // Badge outer rim (hex-shaped glow edge)
+  var rimOuter = new THREE.Mesh(
+    new THREE.TorusGeometry(2.06, 0.030, 8, 6),
+    new THREE.MeshBasicMaterial({color:0x38bdf8, transparent:true, opacity:0.75})
+  );
+  group.add(rimOuter);
+
+  // ── Canvas texture: ML² LABS professional wordmark ──
+  var tc = document.createElement('canvas');
+  tc.width=1024; tc.height=512;
+  var ctx = tc.getContext('2d');
+  ctx.clearRect(0,0,1024,512);
+
+  // Gradient: blue → teal
+  var grd = ctx.createLinearGradient(100,50,924,460);
+  grd.addColorStop(0,'#38bdf8');
+  grd.addColorStop(0.45,'#1d6fa4');
+  grd.addColorStop(1,'#10b981');
+
+  // "ML" — centered, large, bold
+  ctx.save();
+  ctx.font = 'bold 320px "Arial Black", Arial, sans-serif';
+  ctx.fillStyle = grd;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText('ML', 440, 270);
+  ctx.restore();
+
+  // "²" — superscript tight against ML
+  ctx.save();
+  ctx.font = 'bold 130px "Arial Black", Arial, sans-serif';
+  ctx.fillStyle = '#10b981';
+  ctx.textAlign = 'left';
+  ctx.textBaseline = 'alphabetic';
+  ctx.fillText('²', 712, 148);
+  ctx.restore();
+
+  var textTex = new THREE.CanvasTexture(tc);
+  textTex.needsUpdate = true;
+
+  // Text plane — sits in front of the badge
+  var textPlane = new THREE.Mesh(
+    new THREE.PlaneGeometry(3.2, 1.6),
+    new THREE.MeshBasicMaterial({map:textTex, transparent:true, depthWrite:false})
+  );
+  textPlane.position.set(0, 0, 0.16);
+  group.add(textPlane);
+
+  // ── Orbit ring (scene space, tilted — data-flow symbol) ──
+  var orbitRing = new THREE.Mesh(
+    new THREE.TorusGeometry(2.7, 0.016, 8, 100),
+    new THREE.MeshBasicMaterial({color:0x1d6fa4, transparent:true, opacity:0.38})
+  );
+  orbitRing.rotation.x = Math.PI/5;
+  scene.add(orbitRing);
+
+  // Orbit sphere (glowing node on ring)
+  var orbGeo = new THREE.SphereGeometry(0.068, 14, 14);
+  var orbMat = new THREE.MeshBasicMaterial({color:0x10b981});
+  var orbSphere = new THREE.Mesh(orbGeo, orbMat);
+  scene.add(orbSphere);
+
+  // ── Particles: low density, blue + green ──
+  var particles = [];
+  var pColors = [0x38bdf8, 0x10b981, 0x1d6fa4];
+  for(var i=0;i<22;i++){
+    var pm = new THREE.Mesh(
+      new THREE.SphereGeometry(0.022+Math.random()*0.018, 6,6),
+      new THREE.MeshBasicMaterial({
+        color:pColors[i%3], transparent:true, opacity:0.6
+      })
+    );
+    pm.userData = {
+      angle  : Math.random()*Math.PI*2,
+      radius : 2.4+Math.random()*1.6,
+      height : (Math.random()-0.5)*2.8,
+      speed  : 0.18+Math.random()*0.3,
+      yspeed : 0.25+Math.random()*0.35
+    };
+    particles.push(pm);
+    scene.add(pm);
+  }
+
+  // ── Lighting ──
+  scene.add(new THREE.AmbientLight(0x0a1628,1.8));
+  // Blue key
+  var blueKey = new THREE.PointLight(0x38bdf8,5,14);
+  blueKey.position.set(3,2,5);
+  scene.add(blueKey);
+  // Green accent
+  var greenAcc = new THREE.PointLight(0x10b981,3,10);
+  greenAcc.position.set(-3,-1.5,4);
+  scene.add(greenAcc);
+  // Front rim
+  var frontFill = new THREE.DirectionalLight(0x1a3a5c,1.2);
+  frontFill.position.set(0,0,6);
+  scene.add(frontFill);
+
+  // ── Mouse (smooth lerp) ──
+  var mouse={x:0,y:0}, tgt={x:0,y:0};
+  (canvas.parentElement||document).addEventListener('mousemove',function(e){
+    var el=canvas.getBoundingClientRect();
+    tgt.x=((e.clientX-el.left)/el.width -0.5)*2;
+    tgt.y=-((e.clientY-el.top)/el.height-0.5)*2;
+  });
+
+  var clk = new THREE.Clock();
+  (function loop(){
+    requestAnimationFrame(loop);
+    var t = clk.getElapsedTime();
+
+    // Smooth mouse
+    mouse.x += (tgt.x-mouse.x)*0.04;
+    mouse.y += (tgt.y-mouse.y)*0.04;
+
+    // Logo: upright, only mouse micro-rotation
+    group.rotation.y = mouse.x*0.28;
+    group.rotation.x = mouse.y*0.11;
+
+    // Badge subtle breathe
+    var pulse = 1+Math.sin(t*1.4)*0.007;
+    hexBadge.scale.set(pulse,1,pulse);
+
+    // Orbit ring slow spin
+    orbitRing.rotation.y = t*0.22;
+    orbitRing.rotation.x = Math.PI/5+Math.sin(t*0.35)*0.04;
+
+    // Orbit sphere follows ring path
+    var oa = t*0.75;
+    var rx=Math.PI/5;
+    orbSphere.position.set(
+      Math.cos(oa)*2.7,
+      Math.sin(oa)*2.7*Math.sin(rx),
+      Math.sin(oa)*2.7*Math.cos(rx)
+    );
+    orbMat.color.setHSL(0.43,0.9,0.45+Math.sin(t*2)*0.08);
+
+    // Particles
+    particles.forEach(function(p){
+      p.userData.angle+=0.004*p.userData.speed;
+      p.position.x=Math.cos(p.userData.angle)*p.userData.radius;
+      p.position.y=p.userData.height+Math.sin(t*p.userData.yspeed+p.userData.angle)*0.35;
+      p.position.z=Math.sin(p.userData.angle)*p.userData.radius*0.38;
+      p.material.opacity=0.25+Math.abs(Math.sin(t*0.5+p.userData.angle))*0.5;
+    });
+
+    // Rim glow pulse
+    rimOuter.material.opacity=0.55+Math.sin(t*1.8)*0.22;
+    rimInner.material.opacity=0.35+Math.cos(t*1.3)*0.18;
+
+    // Lights
+    blueKey.intensity  = 4.5+Math.sin(t*2.1)*0.9;
+    greenAcc.intensity = 2.5+Math.cos(t*1.7)*0.7;
+
+    renderer.render(scene,camera);
+  })();
+
+  window.addEventListener('resize',function(){
+    var nw=canvas.parentElement.offsetWidth||380;
+    var nh=canvas.parentElement.offsetHeight||380;
+    camera.aspect=nw/nh;
+    camera.updateProjectionMatrix();
+    renderer.setSize(nw,nh);
+  });
+})();
+
+// =============================================
+// PROJECT CARDS: mini 3D scenes per card
+// =============================================
+function makeProjectScene(id, H, shapeFn) {
+  var canvas = document.getElementById(id);
+  if (!canvas) return;
+  var W = canvas.parentElement.offsetWidth || 400;
+  canvas.width = W; canvas.height = H;
+  var s = makeScene(canvas, W, H);
+  s.C.position.z = 3.5;
+  var obj = shapeFn(s.S);
+  var clk = new THREE.Clock();
+  (function loop(){
+    requestAnimationFrame(loop);
+    var t = clk.getElapsedTime();
+    obj.forEach(function(o){ if(o.userData.animate) o.userData.animate(t); });
+    s.p1.intensity = 3+Math.sin(t*2)*1;
+    s.p2.intensity = 2+Math.cos(t*1.5)*0.7;
+    s.R.render(s.S, s.C);
+  })();
+  window.addEventListener('resize',function(){
+    var nw=canvas.parentElement.offsetWidth||400;
+    canvas.width=nw; s.C.aspect=nw/H; s.C.updateProjectionMatrix(); s.R.setSize(nw,H);
+  });
+}
+
+// P1: Kubernetes Logo (helm wheel) - animated
+makeProjectScene('c-p1', 220, function(sc){
+  var objs=[];
+  var k8sBlue=new THREE.MeshPhongMaterial({color:0x326ce5,emissive:0x0a1840,shininess:140,specular:0x6699ff});
+  var k8sWhite=new THREE.MeshPhongMaterial({color:0xdde6f0,emissive:0x1a2a40,shininess:100});
+  var wireMat=new THREE.MeshBasicMaterial({color:0x38bdf8,wireframe:true,transparent:true,opacity:0.2});
+
+  // ── Wheel group (spins) ──
+  var wheel=new THREE.Group();
+  sc.add(wheel);
+
+  // Outer ring (thick torus)
+  var outerRing=new THREE.Mesh(new THREE.TorusGeometry(1.35,0.12,16,64),k8sBlue);
+  wheel.add(outerRing);
+
+  // Outer ring glow wire
+  wheel.add(new THREE.Mesh(new THREE.TorusGeometry(1.38,0.14,8,32),wireMat));
+
+  // Inner ring
+  var innerRing=new THREE.Mesh(new THREE.TorusGeometry(0.38,0.09,12,32),k8sBlue);
+  wheel.add(innerRing);
+
+  // Center disc
+  var centerDisc=new THREE.Mesh(new THREE.CylinderGeometry(0.28,0.28,0.18,6),k8sWhite);
+  centerDisc.rotation.y=Math.PI/6;
+  wheel.add(centerDisc);
+
+  // K8s logo: 7 spokes (like the actual helm logo)
+  for(var i=0;i<7;i++){
+    var angle=(i/7)*Math.PI*2;
+    // Main spoke (cylinder from inner to outer ring)
+    var spokeGeo=new THREE.CylinderGeometry(0.055,0.055,0.97,8);
+    var spoke=new THREE.Mesh(spokeGeo,k8sBlue);
+    spoke.rotation.z=Math.PI/2;
+    spoke.rotation.x=angle;
+    // Position at midpoint between inner(0.38) and outer(1.35) radii
+    var midR=0.86;
+    spoke.position.set(Math.cos(angle)*midR,0,Math.sin(angle)*midR);
+    spoke.rotation.set(0,0,Math.PI/2);
+    // Re-orient spoke to point outward
+    var spokeGroup=new THREE.Group();
+    spokeGroup.rotation.y=angle;
+    var spokeInner=new THREE.Mesh(new THREE.CylinderGeometry(0.055,0.055,0.97,8),k8sBlue);
+    spokeInner.rotation.z=Math.PI/2;
+    spokeInner.position.x=midR;
+    spokeGroup.add(spokeInner);
+    wheel.add(spokeGroup);
+  }
+
+  // Outer gear teeth (7 bumps on outer ring)
+  for(var i=0;i<7;i++){
+    var a=(i/7)*Math.PI*2+Math.PI/14;
+    var tooth=new THREE.Mesh(new THREE.BoxGeometry(0.14,0.18,0.14),k8sBlue);
+    tooth.position.set(Math.cos(a)*1.48,0,Math.sin(a)*1.48);
+    tooth.rotation.y=a;
+    wheel.add(tooth);
+  }
+
+  // K letter cutout (white "K" on center using planes)
+  // Left vertical bar of K
+  var kv=new THREE.Mesh(new THREE.BoxGeometry(0.05,0.28,0.08),k8sWhite);
+  kv.position.set(-0.06,0,0.1);
+  wheel.add(kv);
+  // Upper diagonal of K
+  var ku=new THREE.Mesh(new THREE.BoxGeometry(0.22,0.05,0.08),k8sWhite);
+  ku.rotation.z=Math.PI/4; ku.position.set(0.04,0.09,0.1);
+  wheel.add(ku);
+  // Lower diagonal of K
+  var kl=new THREE.Mesh(new THREE.BoxGeometry(0.22,0.05,0.08),k8sWhite);
+  kl.rotation.z=-Math.PI/4; kl.position.set(0.04,-0.09,0.1);
+  wheel.add(kl);
+
+  // Animate: spin the whole wheel
+  wheel.userData={animate:function(t){
+    wheel.rotation.y=t*0.5;
+    wheel.rotation.x=Math.sin(t*0.3)*0.2;
+  }};
+  objs.push(wheel);
+
+  // Floating particles around
+  var pMat=new THREE.MeshBasicMaterial({color:0x326ce5,transparent:true,opacity:0.7});
+  for(var i=0;i<12;i++){
+    var p=new THREE.Mesh(new THREE.SphereGeometry(0.035,6,6),pMat.clone());
+    var a=(i/12)*Math.PI*2, r=1.8+Math.random()*0.4;
+    p.userData={a:a,r:r,sp:0.3+Math.random()*0.4,ht:(Math.random()-0.5)*1.2};
+    p.userData.animate=function(t){
+      this.userData.a+=0.006*this.userData.sp;
+      this.position.set(Math.cos(this.userData.a)*this.userData.r,this.userData.ht+Math.sin(t+this.userData.a)*0.25,Math.sin(this.userData.a)*this.userData.r);
+      this.material.opacity=0.3+Math.abs(Math.sin(t+this.userData.a))*0.6;
+    }.bind(p);
+    sc.add(p);objs.push(p);
+  }
+  return objs;
+});
+
+// P2: Health - DNA double helix
+makeProjectScene('c-p2', 200, function(sc){
+  var objs=[];
+  var mat1=new THREE.MeshPhongMaterial({color:0x10b981,emissive:0x041810,shininess:120,specular:0x34d399});
+  var mat2=new THREE.MeshPhongMaterial({color:0x38bdf8,emissive:0x0a2840,shininess:120,specular:0x38bdf8});
+  var helixPts1=[],helixPts2=[],rungs=[];
+  for(var i=0;i<40;i++){
+    var t=i/40,angle=t*Math.PI*4,y=(t-0.5)*3;
+    var s1=new THREE.Mesh(new THREE.SphereGeometry(0.08,8,8),mat1.clone());
+    var s2=new THREE.Mesh(new THREE.SphereGeometry(0.08,8,8),mat2.clone());
+    s1.userData={t:t,baseAngle:angle,y:y,idx:i};
+    s2.userData={t:t,baseAngle:angle+Math.PI,y:y,idx:i};
+    s1.userData.animate=function(time){
+      var a=this.userData.baseAngle+time*0.5;
+      this.position.set(Math.cos(a)*0.7,this.userData.y,Math.sin(a)*0.7);
+      this.material.opacity=0.5+Math.abs(Math.sin(time+this.userData.idx*0.3))*0.5;
+    }.bind(s1);
+    s2.userData.animate=function(time){
+      var a=this.userData.baseAngle+time*0.5;
+      this.position.set(Math.cos(a)*0.7,this.userData.y,Math.sin(a)*0.7);
+    }.bind(s2);
+    s1.material.transparent=true;
+    sc.add(s1);sc.add(s2);
+    helixPts1.push(s1);helixPts2.push(s2);objs.push(s1,s2);
+    if(i%4===0){
+      var rg=new THREE.Mesh(new THREE.CylinderGeometry(0.03,0.03,1.4,6),
+        new THREE.MeshBasicMaterial({color:0x1a3050,transparent:true,opacity:0.4}));
+      rg.userData={s1:s1,s2:s2};
+      rg.userData.animate=function(){
+        var a=this.userData.s1.position,b=this.userData.s2.position;
+        this.position.set((a.x+b.x)/2,(a.y+b.y)/2,(a.z+b.z)/2);
+        this.lookAt(b);this.rotateX(Math.PI/2);
+      }.bind(rg);
+      sc.add(rg);objs.push(rg);
+    }
+  }
+  // Pulsing center glow
+  var glow=new THREE.Mesh(new THREE.SphereGeometry(0.15,12,12),
+    new THREE.MeshBasicMaterial({color:0x10b981,transparent:true,opacity:0.6}));
+  glow.userData.animate=function(t){var s=0.8+Math.sin(t*3)*0.4;glow.scale.set(s,s,s);};
+  sc.add(glow);objs.push(glow);
+  return objs;
+});
+
+// P3: Interactive Earth Globe (MLSysOps - EU Region)
+(function(){
+  var canvas = document.getElementById('c-p3');
+  if(!canvas) return;
+  var wrap = document.getElementById('globe-wrap');
+  var W = wrap.offsetWidth || 400;
+  var H = wrap.offsetHeight || 200;
+  canvas.width = W; canvas.height = H;
+  var renderer = new THREE.WebGLRenderer({canvas:canvas, alpha:false, antialias:true});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+  renderer.setSize(W, H);
+  renderer.setClearColor(0x060a14, 1);
+  var scene = new THREE.Scene();
+  var camera = new THREE.PerspectiveCamera(45, W/H, 0.1, 100);
+  camera.position.z = 6;
+  (function(){
+    var pos = new Float32Array(2000*3);
+    for(var i=0;i<2000*3;i++) pos[i]=(Math.random()-0.5)*200;
+    var sg = new THREE.BufferGeometry();
+    sg.setAttribute('position', new THREE.BufferAttribute(pos,3));
+    scene.add(new THREE.Points(sg, new THREE.PointsMaterial({color:0xffffff,size:0.2,transparent:true,opacity:0.6})));
+  })();
+  scene.add(new THREE.AmbientLight(0xffffff, 1.1));
+  var dl = new THREE.DirectionalLight(0xffeedd, 0.8); dl.position.set(5,3,5); scene.add(dl);
+  var dl2 = new THREE.DirectionalLight(0xaaccff, 0.5); dl2.position.set(-4,-2,4); scene.add(dl2);
+  var globeGroup = new THREE.Group(); scene.add(globeGroup);
+  var earthGeo = new THREE.SphereGeometry(2, 64, 32);
+  var earthMat = new THREE.MeshPhongMaterial({color:0x1a5c8a, shininess:25, specular:0x112233});
+  globeGroup.add(new THREE.Mesh(earthGeo, earthMat));
+  new THREE.TextureLoader().load(
+    'https://raw.githubusercontent.com/mrdoob/three.js/r128/examples/textures/planets/earth_atmos_2048.jpg',
+    function(tex){ earthMat.map=tex; earthMat.needsUpdate=true; }, undefined, function(){}
+  );
+  globeGroup.add(new THREE.Mesh(
+    new THREE.SphereGeometry(2*1.025,32,16),
+    new THREE.MeshPhongMaterial({color:0x1a5a9a,transparent:true,opacity:0.10,side:THREE.BackSide})
+  ));
+  // Europe marker: green ping at lat=50°N lon=10°E
+  // THREE.js SphereGeometry vertex formula: phi=2PI*(lon+180)/360, theta=PI*(90-lat)/180
+  // x=-R*cos(phi)*sin(theta), y=R*cos(theta), z=R*sin(phi)*sin(theta)
+  var euroMesh;
+  (function(){
+    var R=2.04;
+    var phi=2*Math.PI*(10+180)/360;   // lon=10E
+    var theta=Math.PI*(90-50)/180;    // lat=50N
+    var x=-R*Math.cos(phi)*Math.sin(theta);
+    var y= R*Math.cos(theta);
+    var z= R*Math.sin(phi)*Math.sin(theta);
+    // Tiny green core dot
+    var dotMat=new THREE.MeshBasicMaterial({color:0x00ff88,transparent:true,opacity:1.0});
+    var dot=new THREE.Mesh(new THREE.SphereGeometry(0.045,10,10),dotMat);
+    dot.position.set(x,y,z); globeGroup.add(dot);
+    // Static thin ring (location pin outline)
+    var ringMat=new THREE.MeshBasicMaterial({color:0x00ff88,transparent:true,opacity:0.85});
+    var ring=new THREE.Mesh(new THREE.TorusGeometry(0.10,0.010,8,32),ringMat);
+    ring.position.set(x,y,z); ring.lookAt(0,0,0); globeGroup.add(ring);
+    // Pulsing expanding ring (signal wave)
+    var pMat=new THREE.MeshBasicMaterial({color:0x00ff88,transparent:true,opacity:0.5});
+    var pulse=new THREE.Mesh(new THREE.TorusGeometry(0.10,0.007,8,32),pMat);
+    pulse.position.set(x,y,z); pulse.lookAt(0,0,0); globeGroup.add(pulse);
+    euroMesh={dot:dot,ring:ring,pulse:pulse,pMat:pMat,dotMat:dotMat};
+  })();
+
+  // rotY=-1.748 places lon=10°E (Europe) facing the camera
+  var autoR=true,isDrag=false,prevM={x:0,y:0},rotX=0.52,rotY=-1.748,velX=0,velY=0,zoom=5.0;
+  window.globeToggleAuto=function(){autoR=!autoR;var b=document.getElementById('globe-autorotate');if(b)b.textContent=autoR?'Auto ▶':'Auto ⏸';};
+  window.globeReset=function(){rotX=0.52;rotY=-1.748;velX=0;velY=0;zoom=5.0;camera.position.z=5.0;};
+  canvas.addEventListener('mousedown',function(e){isDrag=true;prevM.x=e.clientX;prevM.y=e.clientY;velX=0;velY=0;wrap.style.cursor='grabbing';e.preventDefault();});
+  window.addEventListener('mousemove',function(e){if(!isDrag)return;velY=(e.clientX-prevM.x)*0.008;velX=(e.clientY-prevM.y)*0.008;rotY+=velY;rotX+=velX;rotX=Math.max(-Math.PI/2,Math.min(Math.PI/2,rotX));prevM.x=e.clientX;prevM.y=e.clientY;});
+  window.addEventListener('mouseup',function(){isDrag=false;wrap.style.cursor='grab';});
+  canvas.addEventListener('wheel',function(e){e.preventDefault();zoom+=e.deltaY*0.01;zoom=Math.max(3.5,Math.min(12,zoom));},{passive:false});
+  var lT=null;
+  canvas.addEventListener('touchstart',function(e){lT={x:e.touches[0].clientX,y:e.touches[0].clientY};velX=0;velY=0;e.preventDefault();},{passive:false});
+  canvas.addEventListener('touchmove',function(e){if(!lT)return;velY=(e.touches[0].clientX-lT.x)*0.008;velX=(e.touches[0].clientY-lT.y)*0.008;rotY+=velY;rotX+=velX;rotX=Math.max(-Math.PI/2,Math.min(Math.PI/2,rotX));lT={x:e.touches[0].clientX,y:e.touches[0].clientY};e.preventDefault();},{passive:false});
+  canvas.addEventListener('touchend',function(){lT=null;});
+  var clk3=new THREE.Clock();
+  (function loop(){
+    requestAnimationFrame(loop);
+    var t=clk3.getElapsedTime();
+    if(!isDrag){
+      if(autoR){
+        // Gentle swing ±0.38 rad around Europe center — Atlantic to just past Italy
+        rotY = -1.748 + Math.sin(t*0.22)*0.38;
+      }
+      velX*=0.9; velY*=0.9;
+      rotX+=velX; rotY+=velY;
+      rotX=Math.max(-Math.PI/2,Math.min(Math.PI/2,rotX));
+    }
+    globeGroup.rotation.x=rotX; globeGroup.rotation.y=rotY;
+    camera.position.z+=(zoom-camera.position.z)*0.1;
+    // Green ping pulse: expanding ring scale + fade
+    if(euroMesh){
+      var ps=(t*0.8)%1; // 0→1 loop
+      euroMesh.pulse.scale.set(1+ps*2.2,1+ps*2.2,1+ps*2.2);
+      euroMesh.pMat.opacity=(1-ps)*0.55;
+      euroMesh.dotMat.opacity=0.85+Math.sin(t*3)*0.15;
+    }
+    renderer.render(scene,camera);
+  })();
+  window.addEventListener('resize',function(){var nw=wrap.offsetWidth||400,nh=wrap.offsetHeight||200;camera.aspect=nw/nh;camera.updateProjectionMatrix();renderer.setSize(nw,nh);});
+})();
+/*
+  var mc=document.createElement('canvas');
+  mc.width=1024;mc.height=512;
+  var cx=mc.getContext('2d');
+
+  // Deep ocean
+  var oceanGrd=cx.createLinearGradient(0,0,0,512);
+  oceanGrd.addColorStop(0,'#060d1a');
+  oceanGrd.addColorStop(1,'#09152a');
+  cx.fillStyle=oceanGrd;cx.fillRect(0,0,1024,512);
+
+  // Helper: lon/lat to x/y
+  function px(lon){return(lon+180)/360*1024;}
+  function py(lat){return(90-lat)/180*512;}
+
+  // Draw a land polygon
+  function land(pts,col){
+    cx.beginPath();
+    cx.moveTo(px(pts[0][0]),py(pts[0][1]));
+    for(var i=1;i<pts.length;i++)cx.lineTo(px(pts[i][0]),py(pts[i][1]));
+    cx.closePath();cx.fillStyle=col;cx.fill();
+  }
+
+  var col0='#0d2235'; // base land
+  var col1='#0f2d45'; // slightly brighter
+  var colEU='#163a55'; // EU highlight
+  var colEUb='#1d5070'; // EU bright
+
+  // North America
+  land([[-168,72],[-50,72],[-50,25],[-80,10],[-120,15],[-168,55]],col0);
+  // South America
+  land([[-82,12],[-34,8],[-34,-58],[-72,-55],[-82,12]],col0);
+  // Africa
+  land([[-18,38],[42,38],[52,12],[42,-36],[16,-36],[-18,20]],col0);
+  // Asia (rough)
+  land([[25,72],[180,72],[180,0],[100,0],[60,20],[25,38]],col0);
+  // Australia
+  land([[114,-22],[154,-22],[154,-44],[130,-44],[114,-30]],col0);
+
+  // Europe - more detailed
+  land([
+    [-10,36],[4,36],[14,38],[20,38],[28,42],[30,36],[36,42],[42,44],[42,50],
+    [38,56],[28,62],[22,65],[15,68],[5,62],[-2,56],[-8,44],[-10,36]
+  ],col1);
+
+  // EU core highlight (western europe)
+  land([
+    [-5,44],[2,44],[8,44],[14,44],[16,50],[14,54],[8,56],[2,54],[-2,50],[-5,44]
+  ],colEU);
+
+  // Italy boot shape
+  land([[8,44],[12,44],[16,40],[16,38],[14,36],[10,38],[8,40],[8,44]],colEU);
+  // Iberian peninsula
+  land([[-10,36],[-2,36],[-2,44],[-8,44],[-10,42]],colEU);
+  // Scandinavia
+  land([[4,56],[8,58],[14,58],[18,70],[5,70],[5,58]],col1);
+
+  // Grid lines
+  cx.strokeStyle='rgba(29,111,164,0.08)';cx.lineWidth=0.8;
+  for(var ln=-180;ln<=180;ln+=30){cx.beginPath();cx.moveTo(px(ln),0);cx.lineTo(px(ln),512);cx.stroke();}
+  for(var la=-90;la<=90;la+=30){cx.beginPath();cx.moveTo(0,py(la));cx.lineTo(1024,py(la));cx.stroke();}
+
+  // Atmosphere rim on EU coast
+  cx.strokeStyle='rgba(56,189,248,0.12)';cx.lineWidth=1.5;
+  cx.beginPath();
+  cx.moveTo(px(-5),py(44));cx.lineTo(px(2),py(44));cx.lineTo(px(8),py(44));
+  cx.lineTo(px(16),py(50));cx.lineTo(px(14),py(54));cx.lineTo(px(8),py(56));
+  cx.lineTo(px(2),py(54));cx.lineTo(px(-2),py(50));cx.lineTo(px(-5),py(44));
+  cx.stroke();
+
+  // Brussels glow (EU HQ)
+  var bGrd=cx.createRadialGradient(px(4.4),py(50.8),1,px(4.4),py(50.8),22);
+  bGrd.addColorStop(0,'rgba(56,189,248,0.95)');bGrd.addColorStop(1,'rgba(56,189,248,0)');
+  cx.fillStyle=bGrd;cx.beginPath();cx.arc(px(4.4),py(50.8),22,0,Math.PI*2);cx.fill();
+
+  // Key EU city dots
+  var cities=[[2.35,48.85],[13.4,52.5],[12.5,41.9],[-3.7,40.4],[2.17,41.4],[4.9,52.4]];
+  cities.forEach(function(c){
+    cx.fillStyle='rgba(52,211,153,0.8)';cx.beginPath();cx.arc(px(c[0]),py(c[1]),2.5,0,Math.PI*2);cx.fill();
+  });
+
+  var tex=new THREE.CanvasTexture(mc);
+  var globe=new THREE.Mesh(new THREE.SphereGeometry(1.1,48,24),
+    new THREE.MeshPhongMaterial({map:tex,shininess:20,specular:0x0a1828}));
+  globe.userData.animate=function(t){globe.rotation.y=-0.3+t*0.18;};
+  sc.add(globe);objs.push(globe);
+
+  // Atmosphere
+  sc.add(new THREE.Mesh(new THREE.SphereGeometry(1.17,24,12),
+    new THREE.MeshBasicMaterial({color:0x1d6fa4,transparent:true,opacity:0.06,side:THREE.BackSide})));
+
+  // EU stars (12 gold stars in a circle over Europe)
+  var starMat=new THREE.MeshBasicMaterial({color:0xfbbf24,transparent:true,opacity:0.9});
+  for(var i=0;i<12;i++){
+    var a=(i/12)*Math.PI*2;
+    var star=new THREE.Mesh(new THREE.SphereGeometry(0.022,5,5),starMat.clone());
+    star.userData={a:a,idx:i};
+    star.userData.animate=function(t){
+      // Orbit in Europe region (lat~52, lon~10)
+      var lng=(10+Math.cos(this.userData.a)*9+globe.rotation.y*180/Math.PI)*Math.PI/180;
+      var lat=(52+Math.sin(this.userData.a)*7)*Math.PI/180;
+      var r=1.15;
+      this.position.set(r*Math.cos(lat)*Math.cos(lng),r*Math.sin(lat),r*Math.cos(lat)*Math.sin(lng));
+      this.material.opacity=0.6+Math.sin(t*1.5+this.userData.idx)*0.4;
+    }.bind(star);
+    sc.add(star);objs.push(star);
+  }
+
+  // Orbiting consortium nodes
+  var nodeMat=new THREE.MeshBasicMaterial({color:0x38bdf8,transparent:true,opacity:0.8});
+  for(var i=0;i<3;i++){
+    var nd=new THREE.Mesh(new THREE.SphereGeometry(0.06,8,8),nodeMat.clone());
+    nd.userData={a:(i/3)*Math.PI*2,idx:i};
+    nd.userData.animate=function(t){
+      this.userData.a+=0.007;
+      this.position.set(Math.cos(this.userData.a)*1.55,Math.sin(t*0.4+this.userData.idx*2)*0.4,Math.sin(this.userData.a)*1.55);
+      this.material.opacity=0.35+Math.abs(Math.sin(t+this.userData.idx))*0.65;
+*/
+
+// P4: IoT Fleet - Cargo Truck 3D + upward WiFi signal transmission
+makeProjectScene('c-p4', 200, function(sc){
+  var objs=[];
+
+  // ── Draw detailed cargo truck side-view on canvas ──
+  var cc=document.createElement('canvas');
+  cc.width=512;cc.height=200;
+  var ctx=cc.getContext('2d');
+  ctx.clearRect(0,0,512,200);
+
+  // ── Cargo truck: cab + trailer ──
+  // Dimensions (canvas 512×200, ground at y=160)
+  var G=155; // ground y
+
+  // --- TRAILER ---
+  var trailerGrd=ctx.createLinearGradient(0,55,0,G);
+  trailerGrd.addColorStop(0,'#1e3a5f');trailerGrd.addColorStop(0.5,'#162d4a');trailerGrd.addColorStop(1,'#0e1e33');
+  ctx.fillStyle=trailerGrd;
+  ctx.beginPath();
+  ctx.moveTo(50,G);ctx.lineTo(50,58);ctx.lineTo(360,58);ctx.lineTo(360,G);ctx.closePath();
+  ctx.fill();
+  // Trailer top highlight
+  ctx.fillStyle='rgba(56,189,248,0.12)';
+  ctx.fillRect(50,58,310,8);
+  // Trailer panel lines (vertical ribs)
+  ctx.strokeStyle='rgba(255,255,255,0.07)';ctx.lineWidth=1;
+  for(var rib=80;rib<360;rib+=30){ctx.beginPath();ctx.moveTo(rib,60);ctx.lineTo(rib,G);ctx.stroke();}
+  // Trailer horizontal center stripe
+  var stripeGrd=ctx.createLinearGradient(50,100,360,100);
+  stripeGrd.addColorStop(0,'rgba(56,189,248,0)');stripeGrd.addColorStop(0.2,'rgba(56,189,248,0.18)');stripeGrd.addColorStop(0.8,'rgba(56,189,248,0.18)');stripeGrd.addColorStop(1,'rgba(56,189,248,0)');
+  ctx.fillStyle=stripeGrd;ctx.fillRect(50,102,310,6);
+  // Trailer rear door lines
+  ctx.strokeStyle='rgba(56,189,248,0.35)';ctx.lineWidth=1.5;
+  ctx.strokeRect(53,61,18,G-63);
+  // Trailer border
+  ctx.strokeStyle='rgba(56,189,248,0.5)';ctx.lineWidth=2;
+  ctx.strokeRect(50,58,310,G-58);
+
+  // --- CAB ---
+  // Cab body
+  var cabGrd=ctx.createLinearGradient(360,50,360,G);
+  cabGrd.addColorStop(0,'#2a5f8a');cabGrd.addColorStop(0.4,'#1d4f78');cabGrd.addColorStop(1,'#112a45');
+  ctx.fillStyle=cabGrd;
+  ctx.beginPath();
+  ctx.moveTo(360,G);
+  ctx.lineTo(360,60);
+  ctx.lineTo(390,60);
+  ctx.lineTo(425,42);
+  ctx.lineTo(470,38);
+  ctx.lineTo(490,48);
+  ctx.lineTo(490,G);
+  ctx.closePath();
+  ctx.fill();
+  // Cab top highlight
+  var cabTopGrd=ctx.createLinearGradient(360,38,490,38);
+  cabTopGrd.addColorStop(0,'rgba(56,189,248,0.15)');cabTopGrd.addColorStop(1,'rgba(56,189,248,0.04)');
+  ctx.fillStyle=cabTopGrd;
+  ctx.beginPath();ctx.moveTo(360,60);ctx.lineTo(390,60);ctx.lineTo(425,42);ctx.lineTo(470,38);ctx.lineTo(490,48);ctx.lineTo(490,52);ctx.lineTo(470,42);ctx.lineTo(425,46);ctx.lineTo(390,64);ctx.lineTo(360,64);ctx.closePath();ctx.fill();
+  // Cab border
+  ctx.strokeStyle='rgba(56,189,248,0.65)';ctx.lineWidth=2;
+  ctx.beginPath();ctx.moveTo(360,G);ctx.lineTo(360,60);ctx.lineTo(390,60);ctx.lineTo(425,42);ctx.lineTo(470,38);ctx.lineTo(490,48);ctx.lineTo(490,G);ctx.stroke();
+  // Windshield
+  ctx.fillStyle='rgba(160,220,255,0.30)';
+  ctx.beginPath();ctx.moveTo(392,62);ctx.lineTo(424,44);ctx.lineTo(465,40);ctx.lineTo(486,50);ctx.lineTo(486,68);ctx.lineTo(392,68);ctx.closePath();ctx.fill();
+  ctx.strokeStyle='rgba(56,189,248,0.6)';ctx.lineWidth=1.2;
+  ctx.beginPath();ctx.moveTo(392,62);ctx.lineTo(424,44);ctx.lineTo(465,40);ctx.lineTo(486,50);ctx.lineTo(486,68);ctx.lineTo(392,68);ctx.closePath();ctx.stroke();
+  // Windshield glare
+  ctx.fillStyle='rgba(255,255,255,0.10)';
+  ctx.beginPath();ctx.moveTo(398,62);ctx.lineTo(418,46);ctx.lineTo(430,44);ctx.lineTo(430,62);ctx.closePath();ctx.fill();
+  // Side cab window
+  ctx.fillStyle='rgba(120,200,255,0.22)';
+  ctx.beginPath();ctx.moveTo(362,63);ctx.lineTo(362,85);ctx.lineTo(388,85);ctx.lineTo(388,63);ctx.closePath();ctx.fill();
+  ctx.strokeStyle='rgba(56,189,248,0.5)';ctx.lineWidth=1;
+  ctx.strokeRect(362,63,26,22);
+  // Door line
+  ctx.strokeStyle='rgba(56,189,248,0.3)';ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(388,63);ctx.lineTo(388,G);ctx.stroke();
+  // Step
+  ctx.fillStyle='rgba(29,111,164,0.6)';ctx.fillRect(460,G-4,28,4);
+  ctx.fillStyle='rgba(56,189,248,0.4)';ctx.fillRect(460,G-4,28,2);
+  // Headlights
+  var hl1=ctx.createRadialGradient(488,G-18,1,488,G-18,14);
+  hl1.addColorStop(0,'rgba(255,250,210,1)');hl1.addColorStop(0.4,'rgba(255,240,150,0.7)');hl1.addColorStop(1,'rgba(255,240,150,0)');
+  ctx.fillStyle=hl1;ctx.beginPath();ctx.ellipse(488,G-18,14,8,0,0,Math.PI*2);ctx.fill();
+  var hl2=ctx.createRadialGradient(488,G-35,1,488,G-35,8);
+  hl2.addColorStop(0,'rgba(180,220,255,1)');hl2.addColorStop(1,'rgba(180,220,255,0)');
+  ctx.fillStyle=hl2;ctx.beginPath();ctx.ellipse(488,G-35,8,5,0,0,Math.PI*2);ctx.fill();
+  // Exhaust stack on cab roof
+  ctx.fillStyle='rgba(80,100,120,0.8)';ctx.fillRect(370,28,8,32);
+  ctx.fillStyle='rgba(56,189,248,0.3)';ctx.fillRect(370,28,8,4);
+
+  // --- WHEELS ---
+  function drawWheel(cx2,wy,R,r){
+    // Shadow
+    var shGrd=ctx.createRadialGradient(cx2+4,wy+4,2,cx2+4,wy+4,R+4);
+    shGrd.addColorStop(0,'rgba(0,0,0,0.35)');shGrd.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.fillStyle=shGrd;ctx.beginPath();ctx.arc(cx2+4,wy+4,R+4,0,Math.PI*2);ctx.fill();
+    // Tire
+    var tireGrd=ctx.createRadialGradient(cx2-4,wy-4,2,cx2,wy,R);
+    tireGrd.addColorStop(0,'#2a2a35');tireGrd.addColorStop(1,'#060a12');
+    ctx.fillStyle=tireGrd;ctx.beginPath();ctx.arc(cx2,wy,R,0,Math.PI*2);ctx.fill();
+    ctx.strokeStyle='rgba(56,189,248,0.2)';ctx.lineWidth=2;
+    ctx.beginPath();ctx.arc(cx2,wy,R,0,Math.PI*2);ctx.stroke();
+    // Rim outer ring
+    var rimGrd=ctx.createRadialGradient(cx2-3,wy-3,1,cx2,wy,r);
+    rimGrd.addColorStop(0,'#6ab0d4');rimGrd.addColorStop(0.5,'#2a6fa0');rimGrd.addColorStop(1,'#0e2a40');
+    ctx.fillStyle=rimGrd;ctx.beginPath();ctx.arc(cx2,wy,r,0,Math.PI*2);ctx.fill();
+    // Spokes
+    ctx.strokeStyle='rgba(56,189,248,0.75)';ctx.lineWidth=2;
+    for(var s=0;s<6;s++){
+      var sa=s/6*Math.PI*2;
+      ctx.beginPath();ctx.moveTo(cx2+Math.cos(sa)*4,wy+Math.sin(sa)*4);
+      ctx.lineTo(cx2+Math.cos(sa)*(r-3),wy+Math.sin(sa)*(r-3));ctx.stroke();
+    }
+    // Hub cap
+    ctx.fillStyle='#1d6fa4';ctx.beginPath();ctx.arc(cx2,wy,5,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle='rgba(56,189,248,0.9)';ctx.beginPath();ctx.arc(cx2,wy,2,0,Math.PI*2);ctx.fill();
+    // Lug nuts
+    for(var n=0;n<6;n++){var na=n/6*Math.PI*2;ctx.fillStyle='rgba(56,189,248,0.5)';ctx.beginPath();ctx.arc(cx2+Math.cos(na)*9,wy+Math.sin(na)*9,1.5,0,Math.PI*2);ctx.fill();}
+  }
+  drawWheel(100,G,26,17); // trailer rear wheel
+  drawWheel(155,G,26,17); // trailer rear wheel 2
+  drawWheel(415,G,28,18); // cab front wheel
+  drawWheel(462,G,26,17); // cab rear wheel
+
+  // --- ROAD SURFACE UNDER TRUCK ---
+  ctx.fillStyle='rgba(20,40,60,0.5)';ctx.fillRect(0,G,512,200-G);
+  ctx.fillStyle='rgba(56,189,248,0.12)';ctx.fillRect(0,G,512,2);
+
+  var carTex=new THREE.CanvasTexture(cc);
+  var carMat=new THREE.MeshBasicMaterial({map:carTex,transparent:true,side:THREE.DoubleSide});
+  var carPlane=new THREE.Mesh(new THREE.PlaneGeometry(4.2,1.65),carMat);
+  carPlane.position.set(0,-0.15,0);
+  sc.add(carPlane);
+
+  // ── Road ──
+  var rdC=document.createElement('canvas');rdC.width=512;rdC.height=32;
+  var rdX=rdC.getContext('2d');
+  var rdG=rdX.createLinearGradient(0,0,0,32);
+  rdG.addColorStop(0,'#0e1e30');rdG.addColorStop(1,'#060d18');
+  rdX.fillStyle=rdG;rdX.fillRect(0,0,512,32);
+  // Road markings
+  rdX.fillStyle='rgba(56,189,248,0.15)';rdX.fillRect(0,14,512,3);
+  for(var m=0;m<512;m+=40){rdX.fillStyle='rgba(255,255,255,0.12)';rdX.fillRect(m,14,20,3);}
+  var road=new THREE.Mesh(new THREE.PlaneGeometry(10,0.35),
+    new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(rdC),transparent:true}));
+  road.position.y=-1.0;sc.add(road);
+
+  // ── WiFi signals: 3 arcs stacked upward from truck roof, bottom=small, top=large ──
+  // Each arc is a half-torus, oriented so it opens upward
+  var wifiGroup=new THREE.Group();
+  sc.add(wifiGroup);
+  var wifiArcs=[];
+  var wifiColors=[0x10b981,0x38bdf8,0x1d6fa4];
+  wifiColors.forEach(function(col,i){
+    var radius=0.18+i*0.22; // grows upward
+    var arc=new THREE.Mesh(
+      new THREE.TorusGeometry(radius,0.018,8,32,Math.PI),
+      new THREE.MeshBasicMaterial({color:col,transparent:true,opacity:0.9,side:THREE.DoubleSide})
+    );
+    // Rotate so the arc opens upward (flat end at bottom)
+    arc.rotation.z=Math.PI; // flip: gap faces down, arc curves up
+    arc.position.y=0.28+i*0.30; // stack upward
+    arc.userData={idx:i,phase:i*0.55};
+    wifiGroup.add(arc);
+    wifiArcs.push(arc);
+  });
+  // Center dot (signal origin on roof)
+  var sigDot=new THREE.Mesh(new THREE.SphereGeometry(0.04,8,8),
+    new THREE.MeshBasicMaterial({color:0x10b981,transparent:true,opacity:1}));
+  sigDot.position.y=0.10;
+  wifiGroup.add(sigDot);
+
+  var wifiMover={userData:{animate:function(t){
+    // Truck stays still, signals pulse sequentially bottom→top
+    wifiArcs.forEach(function(arc,i){
+      var phase=(t*1.2 - i*0.4);
+      var fade=((phase%1+1)%1); // 0→1
+      arc.material.opacity=Math.max(0,(1-fade)*0.9);
+      var sc2=0.85+fade*0.3;
+      arc.scale.set(sc2,sc2,sc2);
+    });
+    sigDot.material.opacity=0.5+Math.abs(Math.sin(t*3))*0.5;
+  }}};
+  objs.push(wifiMover);
+
+  // Slight truck bob
+  var truckBob={userData:{animate:function(t){
+    carPlane.position.y=-0.15+Math.sin(t*1.8)*0.012;
+    wifiGroup.position.y=carPlane.position.y+0.83;
+  }}};
+  objs.push(truckBob);
+
+  return objs;
+});
+
+// =============================================
+// BACKGROUND: Neural network particles
+// =============================================
+(function(){
+  var canvas = document.getElementById('bg-canvas');
+  var R = new THREE.WebGLRenderer({canvas:canvas,alpha:true,antialias:false});
+  R.setPixelRatio(1);
+  R.setSize(window.innerWidth,window.innerHeight);
+  var S = new THREE.Scene(), C = new THREE.PerspectiveCamera(60,window.innerWidth/window.innerHeight,0.1,1000);
+  C.position.z=80;
+  var N=100, pos=[], vel=[];
+  for(var i=0;i<N;i++){
+    pos.push((Math.random()-0.5)*200,(Math.random()-0.5)*120,(Math.random()-0.5)*50);
+    vel.push((Math.random()-0.5)*0.05,(Math.random()-0.5)*0.05,(Math.random()-0.5)*0.02);
+  }
+  var pGeo=new THREE.BufferGeometry();
+  var pArr=new Float32Array(pos);
+  pGeo.setAttribute('position',new THREE.BufferAttribute(pArr,3));
+  S.add(new THREE.Points(pGeo,new THREE.PointsMaterial({color:0x1d6fa4,size:1.1,transparent:true,opacity:0.6})));
+  var lGeo=new THREE.BufferGeometry();
+  var lArr=new Float32Array(N*N*6);
+  lGeo.setAttribute('position',new THREE.BufferAttribute(lArr,3));
+  S.add(new THREE.LineSegments(lGeo,new THREE.LineBasicMaterial({color:0x1a3050,transparent:true,opacity:0.35})));
+  var mouse={x:0,y:0};
+  document.addEventListener('mousemove',function(e){mouse.x=(e.clientX/window.innerWidth-0.5)*2;mouse.y=-(e.clientY/window.innerHeight-0.5)*2;});
+  var sc=0;
+  window.addEventListener('scroll',function(){sc=window.scrollY;});
+  window.addEventListener('resize',function(){C.aspect=window.innerWidth/window.innerHeight;C.updateProjectionMatrix();R.setSize(window.innerWidth,window.innerHeight);});
+  var clk=new THREE.Clock();
+  (function loop(){
+    requestAnimationFrame(loop);
+    var pa=pGeo.attributes.position.array;
+    for(var i=0;i<N;i++){
+      pa[i*3]+=vel[i*3]; pa[i*3+1]+=vel[i*3+1]; pa[i*3+2]+=vel[i*3+2];
+      if(Math.abs(pa[i*3])>100)vel[i*3]*=-1;
+      if(Math.abs(pa[i*3+1])>60)vel[i*3+1]*=-1;
+      if(Math.abs(pa[i*3+2])>25)vel[i*3+2]*=-1;
+    }
+    pGeo.attributes.position.needsUpdate=true;
+    var la=lGeo.attributes.position.array, li=0;
+    for(var a=0;a<N;a++) for(var b=a+1;b<N;b++){
+      var dx=pa[a*3]-pa[b*3],dy=pa[a*3+1]-pa[b*3+1],dz=pa[a*3+2]-pa[b*3+2];
+      if(Math.sqrt(dx*dx+dy*dy+dz*dz)<28&&li<lArr.length-6){
+        la[li++]=pa[a*3];la[li++]=pa[a*3+1];la[li++]=pa[a*3+2];
+        la[li++]=pa[b*3];la[li++]=pa[b*3+1];la[li++]=pa[b*3+2];
+      }
+    }
+    for(var k=li;k<lArr.length;k++)la[k]=0;
+    lGeo.attributes.position.needsUpdate=true;
+    lGeo.setDrawRange(0,li/3);
+    C.position.x+=(mouse.x*6-C.position.x)*0.02;
+    C.position.y+=(mouse.y*3-C.position.y)*0.02;
+    C.position.z=80-sc*0.035;
+    C.lookAt(0,0,0);
+    R.render(S,C);
+  })();
+})();
+
+// =============================================
+// PHOTO 3D tilt on mouse
+// =============================================
+(function(){
+  var wrap = document.getElementById('photo-wrap');
+  var photo = document.getElementById('photo-3d');
+  if (!wrap||!photo) return;
+  wrap.addEventListener('mousemove',function(e){
+    var r=wrap.getBoundingClientRect();
+    var x=((e.clientX-r.left)/r.width-0.5)*2;
+    var y=-((e.clientY-r.top)/r.height-0.5)*2;
+    photo.style.animation='none';
+    photo.style.transform='perspective(800px) rotateY('+(x*18)+'deg) rotateX('+(y*18)+'deg) scale(1.04)';
+    photo.style.transition='transform 0.1s ease';
+  });
+  wrap.addEventListener('mouseleave',function(){
+    photo.style.animation='photo3dFloat 6s ease-in-out infinite';
+    photo.style.transform='';
+  });
+})();
+
+// =============================================
+// SCROLL REVEAL + SKILL BARS + DOCK
+// =============================================
+var ro=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('on');ro.unobserve(e.target);}});},{threshold:0.08});
+document.querySelectorAll('.rev').forEach(function(el){ro.observe(el);});
+setTimeout(function(){document.querySelectorAll('#hero .rev').forEach(function(e){e.classList.add('on');});},100);
+
+var so=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.style.transform='scaleX('+e.target.dataset.w+')';setTimeout(function(){e.target.classList.add('on');},50);so.unobserve(e.target);}});},{threshold:0.2});
+document.querySelectorAll('.skill-fill').forEach(function(el){so.observe(el);});
+
+document.querySelectorAll('[data-tilt]').forEach(function(card){
+  card.addEventListener('mousemove',function(e){
+    var r=card.getBoundingClientRect(),x=(e.clientX-r.left-r.width/2)/(r.width/2),y=(e.clientY-r.top-r.height/2)/(r.height/2);
+    card.style.transform='perspective(800px) rotateY('+(x*7)+'deg) rotateX('+(-y*7)+'deg) scale(1.02)';
+    card.style.transition='transform 0.1s ease';
+  });
+  card.addEventListener('mouseleave',function(){card.style.transform='';card.style.transition='transform 0.5s ease';});
+});
+
+window.addEventListener('scroll',function(){
+  document.getElementById('nav').classList.toggle('scrolled',window.scrollY>50);
+});
+
+var dis=document.querySelectorAll('.di[data-s]');
+var dockObs=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){dis.forEach(function(d){d.classList.remove('active');});var a=document.querySelector('.di[data-s="'+e.target.id+'"]');if(a)a.classList.add('active');}});},{threshold:0.35});
+['hero','projects-section','about-section','pubs-section','contact-section'].forEach(function(id){var s=document.getElementById(id);if(s)dockObs.observe(s);});
+
+var dAll=document.querySelectorAll('.di');
+dAll.forEach(function(item,i){
+  item.addEventListener('mouseenter',function(){
+    dAll.forEach(function(d,j){var dist=Math.abs(i-j);if(dist===0)d.style.transform='translateY(-5px) scale(1.2)';else if(dist===1)d.style.transform='translateY(-2px) scale(1.07)';else d.style.transform='';});
+  });
+});
+document.getElementById('dock').addEventListener('mouseleave',function(){dAll.forEach(function(d){d.style.transform='';});});
+</script>
+</body>
+</html>
