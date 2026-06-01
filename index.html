@@ -825,6 +825,7 @@
   </div>
 </section>
 
+
 <!-- ════════════════════════════════
      DOCK
 ════════════════════════════════ -->
@@ -833,33 +834,51 @@
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
     <span data-i18n="nav.home">Inicio</span>
   </a>
+
   <div class="dsep"></div>
+
   <a href="#projects" class="di" data-s="projects">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
     <span data-i18n="nav.projects">Proyectos</span>
   </a>
+
   <a href="#about" class="di" data-s="about">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
     <span data-i18n="nav.about">Sobre mí</span>
   </a>
+
   <a href="#contact" class="di" data-s="contact">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
     <span data-i18n="nav.contact">Contacto</span>
   </a>
+
   <div class="dsep"></div>
+
+  <!-- 🚀 3D EXPERIENCE BUTTON -->
+  <a href="/3d/" class="di di-3d" title="Enter 3D Experience">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M12 2l9 4.5v11L12 22 3 17.5v-11L12 2z"/>
+      <path d="M12 22V12"/>
+      <path d="M21 6.5l-9 5L3 6.5"/>
+    </svg>
+    <span>3D</span>
+  </a>
+
+  <div class="dsep"></div>
+
   <a href="Marco_Loaiza_CV.pdf" download class="di">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
     CV
   </a>
+
   <div class="dsep"></div>
+
   <!-- LANGUAGE TOGGLE -->
-    <!-- LANGUAGE TOGGLE -->
   <button id="lang-btn" onclick="toggleLang()" class="di" title="Switch language" style="background:none;border:1px solid transparent;cursor:pointer">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="17" height="17"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
     <span id="lang-label">EN</span>
   </button>
-</nav>
-
+</nav>  
 <script>
 // ── SCROLL REVEAL ──
 const ro=new IntersectionObserver(entries=>{
