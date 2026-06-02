@@ -2,8 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
+<base href="../"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Marco Loaiza - ML2 3D Portfolio</title>
+<title>Marco Loaiza - ML² 3D Portfolio</title>
 <link rel="icon" type="image/svg+xml" href="logo.svg"/>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -242,7 +243,7 @@ footer span{color:var(--blue2)}
       <circle cx="35" cy="36" r="3" fill="#10b981"/>
       <text x="42" y="14" font-family="monospace" font-size="10" font-weight="700" fill="#1d6fa4">2</text>
     </svg>
-    ML&#178;
+    ML&#178; <span style="font-size:0.65rem;opacity:0.6;margin-left:4px">3D</span>
   </div>
   <ul class="nav-links">
     <li><a href="#hero" class="active">Home</a></li>
@@ -251,7 +252,13 @@ footer span{color:var(--blue2)}
     <li><a href="#pubs-section">Research</a></li>
     <li><a href="#contact-section">Contact</a></li>
   </ul>
-  <a href="Marco_Loaiza_CV.pdf" download class="btn-ghost" style="padding:0.45rem 1rem;font-size:0.78rem">&#8595; CV</a>
+  <div style="display:flex;gap:0.5rem;align-items:center">
+    <a href="index.html" class="btn-ghost" style="padding:0.4rem 0.9rem;font-size:0.72rem;display:inline-flex;align-items:center;gap:5px">
+      <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+      2D
+    </a>
+    <a href="Marco_Loaiza_CV.pdf" download class="btn-ghost" style="padding:0.45rem 1rem;font-size:0.78rem">&#8595; CV</a>
+  </div>
 </nav>
 
 <!-- HERO -->
@@ -334,21 +341,34 @@ footer span{color:var(--blue2)}
       <div class="proj-icon-wrap" id="globe-wrap" style="position:relative;cursor:grab">
         <canvas id="c-p3" style="width:100%;height:100%;display:block"></canvas>
         <!-- Globe UI -->
-        <div style="position:absolute;top:8px;left:10px;font-family:'Segoe UI',sans-serif;font-size:0.68rem;color:rgba(56,189,248,0.85);letter-spacing:0.06em;pointer-events:none;text-shadow:0 0 8px rgba(56,189,248,0.6)">MLSysOps · EU Region</div>
+        <div style="position:absolute;top:8px;left:10px;font-family:'Segoe UI',sans-serif;font-size:0.68rem;color:rgba(56,189,248,0.85);letter-spacing:0.06em;pointer-events:none;text-shadow:0 0 8px rgba(56,189,248,0.6)">MLSysOps &middot; EU Region</div>
         <div style="position:absolute;bottom:8px;left:50%;transform:translateX(-50%);font-family:'Segoe UI',sans-serif;font-size:0.62rem;color:rgba(180,210,240,0.55);pointer-events:none;white-space:nowrap">Arrastra para rotar</div>
         <div style="position:absolute;top:8px;right:8px;display:flex;gap:4px;z-index:10">
           <button id="globe-autorotate" onclick="globeToggleAuto()" style="font-family:'Segoe UI',sans-serif;font-size:0.6rem;padding:3px 7px;border-radius:6px;border:1px solid rgba(56,189,248,0.4);background:rgba(6,10,20,0.75);color:rgba(56,189,248,0.9);cursor:pointer;backdrop-filter:blur(4px)">Auto &#9654;</button>
           <button onclick="globeReset()" style="font-family:'Segoe UI',sans-serif;font-size:0.6rem;padding:3px 7px;border-radius:6px;border:1px solid rgba(56,189,248,0.3);background:rgba(6,10,20,0.75);color:rgba(180,210,240,0.7);cursor:pointer;backdrop-filter:blur(4px)">Reset</button>
         </div>
         <div class="proj-overlay">
-          <a href="https://github.com/marcolo-30" target="_blank" class="btn-primary" style="padding:0.4rem 0.9rem;font-size:0.75rem">GitHub &rarr;</a>
+          <a href="https://mlsysops.eu/" target="_blank" class="btn-primary" style="padding:0.4rem 0.9rem;font-size:0.75rem">Project &rarr;</a>
+          <a href="https://github.com/mlsysops-eu" target="_blank" class="btn-ghost" style="padding:0.4rem 0.9rem;font-size:0.75rem;border-color:rgba(56,189,248,0.5)">GitHub &rarr;</a>
         </div>
       </div>
       <div class="proj-body">
         <p class="proj-meta">EU Horizon Europe &middot; 2023&ndash;2026</p>
         <p class="proj-name">MLSysOps &mdash; PhD Research</p>
         <p class="proj-desc">ML-IoT platform orchestrated with Kubernetes for the computing continuum. Multi-agent SPADE, full observability stack. 3 peer-reviewed publications.</p>
-        <div class="proj-tags"><span class="ptag">Kubernetes</span><span class="ptag">SPADE</span><span class="ptag">Prometheus</span><span class="ptag">IEEE</span></div>
+        <div class="proj-tags">
+          <span class="ptag">Kubernetes</span><span class="ptag">SPADE</span><span class="ptag">Prometheus</span><span class="ptag">IEEE</span>
+        </div>
+        <div style="display:flex;gap:0.5rem;margin-top:0.75rem">
+          <a href="https://mlsysops.eu/" target="_blank" class="c-link" style="font-size:0.72rem;padding:0.35rem 0.8rem;flex:1;justify-content:center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            mlsysops.eu
+          </a>
+          <a href="https://github.com/mlsysops-eu" target="_blank" class="c-link" style="font-size:0.72rem;padding:0.35rem 0.8rem;flex:1;justify-content:center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+            mlsysops-eu
+          </a>
+        </div>
       </div>
     </div>
 
@@ -520,7 +540,7 @@ footer span{color:var(--blue2)}
 
 <footer>
   <p>Built by <span>Marco Alfredo Loaiza Carrillo</span> &middot; PhD ICT &middot; Rende, Calabria &#127470;&#127481; &middot; 2026</p>
-  <p style="margin-top:0.4rem;font-size:0.68rem"><a href="index.html" style="color:var(--blue2);text-decoration:none">&larr; Standard version</a></p>
+  <p style="margin-top:0.4rem;font-size:0.68rem"><a href="index.html" style="color:var(--blue2);text-decoration:none">&larr; 2D Version</a></p>
 </footer>
 </div>
 
@@ -532,6 +552,8 @@ footer span{color:var(--blue2)}
   <a href="#about-section" class="di" data-s="about-section"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>About</a>
   <a href="#pubs-section" class="di" data-s="pubs-section"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>Papers</a>
   <a href="#contact-section" class="di" data-s="contact-section"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>Contact</a>
+  <div class="dsep"></div>
+  <a href="index.html" class="di" style="color:#38bdf8;border-color:rgba(56,189,248,0.3)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>2D</a>
   <div class="dsep"></div>
   <a href="Marco_Loaiza_CV.pdf" download class="di"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>CV</a>
 </nav>
@@ -552,7 +574,6 @@ function makeScene(canvas, w, h) {
 }
 
 // =============================================
-// =============================================
 // HERO: ML² Labs — Professional Badge Logo
 // =============================================
 (function(){
@@ -570,130 +591,62 @@ function makeScene(canvas, w, h) {
   camera.position.set(0, 0.2, 5.8);
   camera.lookAt(0,0,0);
 
-  // ── Master group (upright — no PI/2 pre-rotation) ──
   var group = new THREE.Group();
   scene.add(group);
 
-  // ── Hexagonal badge face (CylinderGeometry rotated so flat face = front) ──
   var hexGeo = new THREE.CylinderGeometry(2.05, 2.05, 0.26, 6);
-  var hexMat = new THREE.MeshPhongMaterial({
-    color:0x0b1c30, emissive:0x040c1a,
-    specular:0x38bdf8, shininess:80
-  });
+  var hexMat = new THREE.MeshPhongMaterial({color:0x0b1c30, emissive:0x040c1a, specular:0x38bdf8, shininess:80});
   var hexBadge = new THREE.Mesh(hexGeo, hexMat);
-  hexBadge.rotation.x = Math.PI/2;   // flat face now points toward camera
+  hexBadge.rotation.x = Math.PI/2;
   group.add(hexBadge);
 
-  // Badge inner bevel ring (hex-shaped, thin)
-  var rimInner = new THREE.Mesh(
-    new THREE.TorusGeometry(1.90, 0.014, 8, 6),
-    new THREE.MeshBasicMaterial({color:0x10b981, transparent:true, opacity:0.5})
-  );
+  var rimInner = new THREE.Mesh(new THREE.TorusGeometry(1.90, 0.014, 8, 6), new THREE.MeshBasicMaterial({color:0x10b981, transparent:true, opacity:0.5}));
   group.add(rimInner);
 
-  // Badge outer rim (hex-shaped glow edge)
-  var rimOuter = new THREE.Mesh(
-    new THREE.TorusGeometry(2.06, 0.030, 8, 6),
-    new THREE.MeshBasicMaterial({color:0x38bdf8, transparent:true, opacity:0.75})
-  );
+  var rimOuter = new THREE.Mesh(new THREE.TorusGeometry(2.06, 0.030, 8, 6), new THREE.MeshBasicMaterial({color:0x38bdf8, transparent:true, opacity:0.75}));
   group.add(rimOuter);
 
-  // ── Canvas texture: ML² LABS professional wordmark ──
   var tc = document.createElement('canvas');
   tc.width=1024; tc.height=512;
   var ctx = tc.getContext('2d');
   ctx.clearRect(0,0,1024,512);
-
-  // Gradient: blue → teal
   var grd = ctx.createLinearGradient(100,50,924,460);
-  grd.addColorStop(0,'#38bdf8');
-  grd.addColorStop(0.45,'#1d6fa4');
-  grd.addColorStop(1,'#10b981');
-
-  // "ML" — centered, large, bold
-  ctx.save();
-  ctx.font = 'bold 320px "Arial Black", Arial, sans-serif';
-  ctx.fillStyle = grd;
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  ctx.fillText('ML', 440, 270);
-  ctx.restore();
-
-  // "²" — superscript tight against ML
-  ctx.save();
-  ctx.font = 'bold 130px "Arial Black", Arial, sans-serif';
-  ctx.fillStyle = '#10b981';
-  ctx.textAlign = 'left';
-  ctx.textBaseline = 'alphabetic';
-  ctx.fillText('²', 712, 148);
-  ctx.restore();
+  grd.addColorStop(0,'#38bdf8'); grd.addColorStop(0.45,'#1d6fa4'); grd.addColorStop(1,'#10b981');
+  ctx.save(); ctx.font='bold 320px "Arial Black", Arial, sans-serif'; ctx.fillStyle=grd; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText('ML',440,270); ctx.restore();
+  ctx.save(); ctx.font='bold 130px "Arial Black", Arial, sans-serif'; ctx.fillStyle='#10b981'; ctx.textAlign='left'; ctx.textBaseline='alphabetic'; ctx.fillText('²',712,148); ctx.restore();
 
   var textTex = new THREE.CanvasTexture(tc);
   textTex.needsUpdate = true;
-
-  // Text plane — sits in front of the badge
-  var textPlane = new THREE.Mesh(
-    new THREE.PlaneGeometry(3.2, 1.6),
-    new THREE.MeshBasicMaterial({map:textTex, transparent:true, depthWrite:false})
-  );
+  var textPlane = new THREE.Mesh(new THREE.PlaneGeometry(3.2, 1.6), new THREE.MeshBasicMaterial({map:textTex, transparent:true, depthWrite:false}));
   textPlane.position.set(0, 0, 0.16);
   group.add(textPlane);
 
-  // ── Orbit ring (scene space, tilted — data-flow symbol) ──
-  var orbitRing = new THREE.Mesh(
-    new THREE.TorusGeometry(2.7, 0.016, 8, 100),
-    new THREE.MeshBasicMaterial({color:0x1d6fa4, transparent:true, opacity:0.38})
-  );
+  var orbitRing = new THREE.Mesh(new THREE.TorusGeometry(2.7, 0.016, 8, 100), new THREE.MeshBasicMaterial({color:0x1d6fa4, transparent:true, opacity:0.38}));
   orbitRing.rotation.x = Math.PI/5;
   scene.add(orbitRing);
 
-  // Orbit sphere (glowing node on ring)
   var orbGeo = new THREE.SphereGeometry(0.068, 14, 14);
   var orbMat = new THREE.MeshBasicMaterial({color:0x10b981});
   var orbSphere = new THREE.Mesh(orbGeo, orbMat);
   scene.add(orbSphere);
 
-  // ── Particles: low density, blue + green ──
   var particles = [];
   var pColors = [0x38bdf8, 0x10b981, 0x1d6fa4];
   for(var i=0;i<22;i++){
-    var pm = new THREE.Mesh(
-      new THREE.SphereGeometry(0.022+Math.random()*0.018, 6,6),
-      new THREE.MeshBasicMaterial({
-        color:pColors[i%3], transparent:true, opacity:0.6
-      })
-    );
-    pm.userData = {
-      angle  : Math.random()*Math.PI*2,
-      radius : 2.4+Math.random()*1.6,
-      height : (Math.random()-0.5)*2.8,
-      speed  : 0.18+Math.random()*0.3,
-      yspeed : 0.25+Math.random()*0.35
-    };
-    particles.push(pm);
-    scene.add(pm);
+    var pm = new THREE.Mesh(new THREE.SphereGeometry(0.022+Math.random()*0.018, 6,6), new THREE.MeshBasicMaterial({color:pColors[i%3], transparent:true, opacity:0.6}));
+    pm.userData = {angle:Math.random()*Math.PI*2, radius:2.4+Math.random()*1.6, height:(Math.random()-0.5)*2.8, speed:0.18+Math.random()*0.3, yspeed:0.25+Math.random()*0.35};
+    particles.push(pm); scene.add(pm);
   }
 
-  // ── Lighting ──
   scene.add(new THREE.AmbientLight(0x0a1628,1.8));
-  // Blue key
-  var blueKey = new THREE.PointLight(0x38bdf8,5,14);
-  blueKey.position.set(3,2,5);
-  scene.add(blueKey);
-  // Green accent
-  var greenAcc = new THREE.PointLight(0x10b981,3,10);
-  greenAcc.position.set(-3,-1.5,4);
-  scene.add(greenAcc);
-  // Front rim
-  var frontFill = new THREE.DirectionalLight(0x1a3a5c,1.2);
-  frontFill.position.set(0,0,6);
-  scene.add(frontFill);
+  var blueKey = new THREE.PointLight(0x38bdf8,5,14); blueKey.position.set(3,2,5); scene.add(blueKey);
+  var greenAcc = new THREE.PointLight(0x10b981,3,10); greenAcc.position.set(-3,-1.5,4); scene.add(greenAcc);
+  var frontFill = new THREE.DirectionalLight(0x1a3a5c,1.2); frontFill.position.set(0,0,6); scene.add(frontFill);
 
-  // ── Mouse (smooth lerp) ──
   var mouse={x:0,y:0}, tgt={x:0,y:0};
   (canvas.parentElement||document).addEventListener('mousemove',function(e){
     var el=canvas.getBoundingClientRect();
-    tgt.x=((e.clientX-el.left)/el.width -0.5)*2;
+    tgt.x=((e.clientX-el.left)/el.width-0.5)*2;
     tgt.y=-((e.clientY-el.top)/el.height-0.5)*2;
   });
 
@@ -701,34 +654,13 @@ function makeScene(canvas, w, h) {
   (function loop(){
     requestAnimationFrame(loop);
     var t = clk.getElapsedTime();
-
-    // Smooth mouse
-    mouse.x += (tgt.x-mouse.x)*0.04;
-    mouse.y += (tgt.y-mouse.y)*0.04;
-
-    // Logo: upright, only mouse micro-rotation
-    group.rotation.y = mouse.x*0.28;
-    group.rotation.x = mouse.y*0.11;
-
-    // Badge subtle breathe
-    var pulse = 1+Math.sin(t*1.4)*0.007;
-    hexBadge.scale.set(pulse,1,pulse);
-
-    // Orbit ring slow spin
-    orbitRing.rotation.y = t*0.22;
-    orbitRing.rotation.x = Math.PI/5+Math.sin(t*0.35)*0.04;
-
-    // Orbit sphere follows ring path
-    var oa = t*0.75;
-    var rx=Math.PI/5;
-    orbSphere.position.set(
-      Math.cos(oa)*2.7,
-      Math.sin(oa)*2.7*Math.sin(rx),
-      Math.sin(oa)*2.7*Math.cos(rx)
-    );
+    mouse.x += (tgt.x-mouse.x)*0.04; mouse.y += (tgt.y-mouse.y)*0.04;
+    group.rotation.y = mouse.x*0.28; group.rotation.x = mouse.y*0.11;
+    var pulse = 1+Math.sin(t*1.4)*0.007; hexBadge.scale.set(pulse,1,pulse);
+    orbitRing.rotation.y = t*0.22; orbitRing.rotation.x = Math.PI/5+Math.sin(t*0.35)*0.04;
+    var oa=t*0.75, rx=Math.PI/5;
+    orbSphere.position.set(Math.cos(oa)*2.7, Math.sin(oa)*2.7*Math.sin(rx), Math.sin(oa)*2.7*Math.cos(rx));
     orbMat.color.setHSL(0.43,0.9,0.45+Math.sin(t*2)*0.08);
-
-    // Particles
     particles.forEach(function(p){
       p.userData.angle+=0.004*p.userData.speed;
       p.position.x=Math.cos(p.userData.angle)*p.userData.radius;
@@ -736,24 +668,16 @@ function makeScene(canvas, w, h) {
       p.position.z=Math.sin(p.userData.angle)*p.userData.radius*0.38;
       p.material.opacity=0.25+Math.abs(Math.sin(t*0.5+p.userData.angle))*0.5;
     });
-
-    // Rim glow pulse
     rimOuter.material.opacity=0.55+Math.sin(t*1.8)*0.22;
     rimInner.material.opacity=0.35+Math.cos(t*1.3)*0.18;
-
-    // Lights
-    blueKey.intensity  = 4.5+Math.sin(t*2.1)*0.9;
-    greenAcc.intensity = 2.5+Math.cos(t*1.7)*0.7;
-
+    blueKey.intensity=4.5+Math.sin(t*2.1)*0.9;
+    greenAcc.intensity=2.5+Math.cos(t*1.7)*0.7;
     renderer.render(scene,camera);
   })();
 
   window.addEventListener('resize',function(){
-    var nw=canvas.parentElement.offsetWidth||380;
-    var nh=canvas.parentElement.offsetHeight||380;
-    camera.aspect=nw/nh;
-    camera.updateProjectionMatrix();
-    renderer.setSize(nw,nh);
+    var nw=canvas.parentElement.offsetWidth||380, nh=canvas.parentElement.offsetHeight||380;
+    camera.aspect=nw/nh; camera.updateProjectionMatrix(); renderer.setSize(nw,nh);
   });
 })();
 
@@ -783,212 +707,161 @@ function makeProjectScene(id, H, shapeFn) {
   });
 }
 
-// P1: Kubernetes Logo (helm wheel) - animated
-makeProjectScene('c-p1', 220, function(sc){
-  var objs=[];
-  var k8sBlue=new THREE.MeshPhongMaterial({color:0x326ce5,emissive:0x0a1840,shininess:140,specular:0x6699ff});
-  var k8sWhite=new THREE.MeshPhongMaterial({color:0xdde6f0,emissive:0x1a2a40,shininess:100});
-  var wireMat=new THREE.MeshBasicMaterial({color:0x38bdf8,wireframe:true,transparent:true,opacity:0.2});
-
-  // ── Wheel group (spins) ──
-  var wheel=new THREE.Group();
-  sc.add(wheel);
-
-  // Outer ring (thick torus)
-  var outerRing=new THREE.Mesh(new THREE.TorusGeometry(1.35,0.12,16,64),k8sBlue);
-  wheel.add(outerRing);
-
-  // Outer ring glow wire
-  wheel.add(new THREE.Mesh(new THREE.TorusGeometry(1.38,0.14,8,32),wireMat));
-
-  // Inner ring
-  var innerRing=new THREE.Mesh(new THREE.TorusGeometry(0.38,0.09,12,32),k8sBlue);
-  wheel.add(innerRing);
-
-  // Center disc
-  var centerDisc=new THREE.Mesh(new THREE.CylinderGeometry(0.28,0.28,0.18,6),k8sWhite);
-  centerDisc.rotation.y=Math.PI/6;
-  wheel.add(centerDisc);
-
-  // K8s logo: 7 spokes (like the actual helm logo)
+// P1: Premium K8s-inspired 3D Helm Wheel
+(function(){
+  var canvas=document.getElementById('c-p1');
+  if(!canvas) return;
+  var W=canvas.parentElement.offsetWidth||400, H=canvas.parentElement.offsetHeight||220;
+  canvas.width=W; canvas.height=H;
+  var renderer=new THREE.WebGLRenderer({canvas:canvas,alpha:true,antialias:true});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+  renderer.setSize(W,H);
+  renderer.shadowMap.enabled=true;
+  renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+  renderer.toneMapping=THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure=1.15;
+  renderer.physicallyCorrectLights=true;
+  var scene=new THREE.Scene();
+  var camera=new THREE.PerspectiveCamera(42,W/H,0.1,100);
+  camera.position.set(0,1.4,5.2); camera.lookAt(0,0,0);
+  scene.add(new THREE.AmbientLight(0x0d1a35,8));
+  var keyLight=new THREE.DirectionalLight(0x4a90e2,6); keyLight.position.set(4,6,5); keyLight.castShadow=true; keyLight.shadow.mapSize.width=1024; keyLight.shadow.mapSize.height=1024; keyLight.shadow.camera.near=0.1; keyLight.shadow.camera.far=20; scene.add(keyLight);
+  var fillLight=new THREE.DirectionalLight(0x1a3a6a,3); fillLight.position.set(-4,2,3); scene.add(fillLight);
+  var rimLight=new THREE.DirectionalLight(0x6ab0ff,4); rimLight.position.set(0,-3,-4); scene.add(rimLight);
+  var topLight=new THREE.PointLight(0x326ce5,8,12); topLight.position.set(0,4,2); scene.add(topLight);
+  var glowLight=new THREE.PointLight(0x38bdf8,5,8); glowLight.position.set(0,0,3); scene.add(glowLight);
+  var matBody=new THREE.MeshStandardMaterial({color:0x2258c8,metalness:0.75,roughness:0.28,emissive:0x091830,emissiveIntensity:0.6});
+  var matRim=new THREE.MeshStandardMaterial({color:0x4a90e2,metalness:0.9,roughness:0.15,emissive:0x1a4080,emissiveIntensity:1.2});
+  var matHub=new THREE.MeshStandardMaterial({color:0xd0e8ff,metalness:0.85,roughness:0.12,emissive:0x2255aa,emissiveIntensity:0.9});
+  var matSpoke=new THREE.MeshStandardMaterial({color:0x3070d0,metalness:0.8,roughness:0.22,emissive:0x0d2860,emissiveIntensity:0.5});
+  var matGear=new THREE.MeshStandardMaterial({color:0x1a4a9a,metalness:0.88,roughness:0.18,emissive:0x081830,emissiveIntensity:0.4});
+  var wheel=new THREE.Group(); scene.add(wheel);
+  var outerR=1.32,outerTube=0.11;
+  var outerRing=new THREE.Mesh(new THREE.TorusGeometry(outerR,outerTube,20,80),matBody); outerRing.castShadow=true; wheel.add(outerRing);
+  var bevel1=new THREE.Mesh(new THREE.TorusGeometry(outerR,outerTube*0.55,12,80),matRim); bevel1.position.z=outerTube*0.6; wheel.add(bevel1);
+  var bevel2=new THREE.Mesh(new THREE.TorusGeometry(outerR,outerTube*0.55,12,80),matRim); bevel2.position.z=-outerTube*0.6; wheel.add(bevel2);
   for(var i=0;i<7;i++){
-    var angle=(i/7)*Math.PI*2;
-    // Main spoke (cylinder from inner to outer ring)
-    var spokeGeo=new THREE.CylinderGeometry(0.055,0.055,0.97,8);
-    var spoke=new THREE.Mesh(spokeGeo,k8sBlue);
-    spoke.rotation.z=Math.PI/2;
-    spoke.rotation.x=angle;
-    // Position at midpoint between inner(0.38) and outer(1.35) radii
-    var midR=0.86;
-    spoke.position.set(Math.cos(angle)*midR,0,Math.sin(angle)*midR);
-    spoke.rotation.set(0,0,Math.PI/2);
-    // Re-orient spoke to point outward
-    var spokeGroup=new THREE.Group();
-    spokeGroup.rotation.y=angle;
-    var spokeInner=new THREE.Mesh(new THREE.CylinderGeometry(0.055,0.055,0.97,8),k8sBlue);
-    spokeInner.rotation.z=Math.PI/2;
-    spokeInner.position.x=midR;
-    spokeGroup.add(spokeInner);
-    wheel.add(spokeGroup);
+    var a=(i/7)*Math.PI*2+Math.PI/14*0.5;
+    var tg=new THREE.Group(); tg.rotation.z=a;
+    var tooth=new THREE.Mesh(new THREE.BoxGeometry(0.13,0.22,0.20),matGear); tooth.position.x=outerR+outerTube*0.7; tooth.castShadow=true; tg.add(tooth);
+    var toothEdge=new THREE.Mesh(new THREE.BoxGeometry(0.06,0.22,0.04),matRim); toothEdge.position.x=outerR+outerTube*0.7; toothEdge.position.z=0.09; tg.add(toothEdge);
+    wheel.add(tg);
   }
-
-  // Outer gear teeth (7 bumps on outer ring)
+  var innerR=0.40,spokeMidR=(innerR+outerR)*0.5,spokeLen=outerR-innerR-0.08;
   for(var i=0;i<7;i++){
-    var a=(i/7)*Math.PI*2+Math.PI/14;
-    var tooth=new THREE.Mesh(new THREE.BoxGeometry(0.14,0.18,0.14),k8sBlue);
-    tooth.position.set(Math.cos(a)*1.48,0,Math.sin(a)*1.48);
-    tooth.rotation.y=a;
-    wheel.add(tooth);
+    var a=(i/7)*Math.PI*2;
+    var sg=new THREE.Group(); sg.rotation.z=a;
+    var shaft=new THREE.Mesh(new THREE.CylinderGeometry(0.052,0.065,spokeLen,8),matSpoke); shaft.rotation.z=Math.PI/2; shaft.position.x=spokeMidR; shaft.castShadow=true; sg.add(shaft);
+    var flange=new THREE.Mesh(new THREE.BoxGeometry(spokeLen,0.028,0.15),matRim); flange.position.x=spokeMidR; flange.position.z=0.06; sg.add(flange);
+    var flangeB=new THREE.Mesh(new THREE.BoxGeometry(spokeLen,0.028,0.15),matRim); flangeB.position.x=spokeMidR; flangeB.position.z=-0.06; sg.add(flangeB);
+    wheel.add(sg);
   }
-
-  // K letter cutout (white "K" on center using planes)
-  // Left vertical bar of K
-  var kv=new THREE.Mesh(new THREE.BoxGeometry(0.05,0.28,0.08),k8sWhite);
-  kv.position.set(-0.06,0,0.1);
-  wheel.add(kv);
-  // Upper diagonal of K
-  var ku=new THREE.Mesh(new THREE.BoxGeometry(0.22,0.05,0.08),k8sWhite);
-  ku.rotation.z=Math.PI/4; ku.position.set(0.04,0.09,0.1);
-  wheel.add(ku);
-  // Lower diagonal of K
-  var kl=new THREE.Mesh(new THREE.BoxGeometry(0.22,0.05,0.08),k8sWhite);
-  kl.rotation.z=-Math.PI/4; kl.position.set(0.04,-0.09,0.1);
-  wheel.add(kl);
-
-  // Animate: spin the whole wheel
-  wheel.userData={animate:function(t){
-    wheel.rotation.y=t*0.5;
-    wheel.rotation.x=Math.sin(t*0.3)*0.2;
-  }};
-  objs.push(wheel);
-
-  // Floating particles around
-  var pMat=new THREE.MeshBasicMaterial({color:0x326ce5,transparent:true,opacity:0.7});
-  for(var i=0;i<12;i++){
-    var p=new THREE.Mesh(new THREE.SphereGeometry(0.035,6,6),pMat.clone());
-    var a=(i/12)*Math.PI*2, r=1.8+Math.random()*0.4;
-    p.userData={a:a,r:r,sp:0.3+Math.random()*0.4,ht:(Math.random()-0.5)*1.2};
-    p.userData.animate=function(t){
-      this.userData.a+=0.006*this.userData.sp;
-      this.position.set(Math.cos(this.userData.a)*this.userData.r,this.userData.ht+Math.sin(t+this.userData.a)*0.25,Math.sin(this.userData.a)*this.userData.r);
-      this.material.opacity=0.3+Math.abs(Math.sin(t+this.userData.a))*0.6;
-    }.bind(p);
-    sc.add(p);objs.push(p);
+  var hubRing=new THREE.Mesh(new THREE.TorusGeometry(innerR,0.085,16,48),matBody); hubRing.castShadow=true; wheel.add(hubRing);
+  wheel.add(new THREE.Mesh(new THREE.TorusGeometry(innerR,0.04,10,48),matRim));
+  var hubBack=new THREE.Mesh(new THREE.CylinderGeometry(0.29,0.29,0.06,24),matBody); hubBack.rotation.x=Math.PI/2; hubBack.position.z=-0.04; wheel.add(hubBack);
+  var hubMain=new THREE.Mesh(new THREE.CylinderGeometry(0.24,0.26,0.12,24),matHub); hubMain.rotation.x=Math.PI/2; hubMain.castShadow=true; wheel.add(hubMain);
+  var hubCap=new THREE.Mesh(new THREE.CylinderGeometry(0.13,0.18,0.10,24),matHub); hubCap.rotation.x=Math.PI/2; hubCap.position.z=0.08; wheel.add(hubCap);
+  var jewel=new THREE.Mesh(new THREE.SphereGeometry(0.07,16,16),new THREE.MeshStandardMaterial({color:0x80c8ff,metalness:1,roughness:0.05,emissive:0x3399ff,emissiveIntensity:2})); jewel.position.z=0.14; wheel.add(jewel);
+  var halo=new THREE.Mesh(new THREE.TorusGeometry(outerR*1.06,0.025,8,80),new THREE.MeshBasicMaterial({color:0x2266dd,transparent:true,opacity:0.35})); halo.position.z=-0.18; wheel.add(halo);
+  var particles=[];
+  var orbitColors=[0x38bdf8,0x326ce5,0x6ab0ff,0x1d6fa4];
+  for(var i=0;i<14;i++){
+    var pm=new THREE.Mesh(new THREE.SphereGeometry(0.022+Math.random()*0.015,6,6),new THREE.MeshStandardMaterial({color:orbitColors[i%4],metalness:0.7,roughness:0.2,emissive:orbitColors[i%4],emissiveIntensity:1.5,transparent:true,opacity:0.85}));
+    var pr=1.7+Math.random()*0.5,pa=(i/14)*Math.PI*2+Math.random()*0.4,pspd=0.15+Math.random()*0.25,phi=(Math.random()-0.5)*0.6;
+    pm.userData={r:pr,a:pa,spd:pspd,phi:phi,idx:i};
+    scene.add(pm); particles.push(pm);
   }
-  return objs;
-});
+  var clk=new THREE.Clock();
+  (function loop(){
+    requestAnimationFrame(loop);
+    var t=clk.getElapsedTime();
+    wheel.rotation.y=t*0.38; wheel.rotation.x=0.22+Math.sin(t*0.55)*0.06; wheel.position.y=Math.sin(t*0.7)*0.08;
+    jewel.material.emissiveIntensity=1.6+Math.sin(t*2.2)*0.8;
+    topLight.intensity=7+Math.sin(t*1.3)*2;
+    glowLight.position.x=Math.sin(t*0.8)*1.5; glowLight.position.y=Math.cos(t*0.6)*1.0;
+    particles.forEach(function(p){
+      p.userData.a+=0.004*p.userData.spd;
+      var a=p.userData.a,r=p.userData.r,phi=p.userData.phi;
+      p.position.set(Math.cos(a)*r*Math.cos(phi),Math.sin(phi)*r+Math.sin(t*0.4+p.userData.idx)*0.18,Math.sin(a)*r*Math.cos(phi));
+      p.material.opacity=0.4+Math.abs(Math.sin(t*0.6+p.userData.idx*0.8))*0.55;
+    });
+    renderer.render(scene,camera);
+  })();
+  window.addEventListener('resize',function(){var nw=canvas.parentElement.offsetWidth||400,nh=canvas.parentElement.offsetHeight||220;camera.aspect=nw/nh;camera.updateProjectionMatrix();renderer.setSize(nw,nh);});
+})();
 
 // P2: Health - DNA double helix
 makeProjectScene('c-p2', 200, function(sc){
   var objs=[];
   var mat1=new THREE.MeshPhongMaterial({color:0x10b981,emissive:0x041810,shininess:120,specular:0x34d399});
   var mat2=new THREE.MeshPhongMaterial({color:0x38bdf8,emissive:0x0a2840,shininess:120,specular:0x38bdf8});
-  var helixPts1=[],helixPts2=[],rungs=[];
   for(var i=0;i<40;i++){
     var t=i/40,angle=t*Math.PI*4,y=(t-0.5)*3;
     var s1=new THREE.Mesh(new THREE.SphereGeometry(0.08,8,8),mat1.clone());
     var s2=new THREE.Mesh(new THREE.SphereGeometry(0.08,8,8),mat2.clone());
     s1.userData={t:t,baseAngle:angle,y:y,idx:i};
     s2.userData={t:t,baseAngle:angle+Math.PI,y:y,idx:i};
-    s1.userData.animate=function(time){
-      var a=this.userData.baseAngle+time*0.5;
-      this.position.set(Math.cos(a)*0.7,this.userData.y,Math.sin(a)*0.7);
-      this.material.opacity=0.5+Math.abs(Math.sin(time+this.userData.idx*0.3))*0.5;
-    }.bind(s1);
-    s2.userData.animate=function(time){
-      var a=this.userData.baseAngle+time*0.5;
-      this.position.set(Math.cos(a)*0.7,this.userData.y,Math.sin(a)*0.7);
-    }.bind(s2);
-    s1.material.transparent=true;
-    sc.add(s1);sc.add(s2);
-    helixPts1.push(s1);helixPts2.push(s2);objs.push(s1,s2);
+    s1.userData.animate=function(time){var a=this.userData.baseAngle+time*0.5;this.position.set(Math.cos(a)*0.7,this.userData.y,Math.sin(a)*0.7);this.material.opacity=0.5+Math.abs(Math.sin(time+this.userData.idx*0.3))*0.5;}.bind(s1);
+    s2.userData.animate=function(time){var a=this.userData.baseAngle+time*0.5;this.position.set(Math.cos(a)*0.7,this.userData.y,Math.sin(a)*0.7);}.bind(s2);
+    s1.material.transparent=true; sc.add(s1);sc.add(s2); objs.push(s1,s2);
     if(i%4===0){
-      var rg=new THREE.Mesh(new THREE.CylinderGeometry(0.03,0.03,1.4,6),
-        new THREE.MeshBasicMaterial({color:0x1a3050,transparent:true,opacity:0.4}));
+      var rg=new THREE.Mesh(new THREE.CylinderGeometry(0.03,0.03,1.4,6),new THREE.MeshBasicMaterial({color:0x1a3050,transparent:true,opacity:0.4}));
       rg.userData={s1:s1,s2:s2};
-      rg.userData.animate=function(){
-        var a=this.userData.s1.position,b=this.userData.s2.position;
-        this.position.set((a.x+b.x)/2,(a.y+b.y)/2,(a.z+b.z)/2);
-        this.lookAt(b);this.rotateX(Math.PI/2);
-      }.bind(rg);
+      rg.userData.animate=function(){var a=this.userData.s1.position,b=this.userData.s2.position;this.position.set((a.x+b.x)/2,(a.y+b.y)/2,(a.z+b.z)/2);this.lookAt(b);this.rotateX(Math.PI/2);}.bind(rg);
       sc.add(rg);objs.push(rg);
     }
   }
-  // Pulsing center glow
-  var glow=new THREE.Mesh(new THREE.SphereGeometry(0.15,12,12),
-    new THREE.MeshBasicMaterial({color:0x10b981,transparent:true,opacity:0.6}));
-  glow.userData.animate=function(t){var s=0.8+Math.sin(t*3)*0.4;glow.scale.set(s,s,s);};
-  sc.add(glow);objs.push(glow);
+  var glow=new THREE.Mesh(new THREE.SphereGeometry(0.15,12,12),new THREE.MeshBasicMaterial({color:0x10b981,transparent:true,opacity:0.6}));
+  glow.userData.animate=function(t){var s=0.8+Math.sin(t*3)*0.4;glow.scale.set(s,s,s);}; sc.add(glow);objs.push(glow);
   return objs;
 });
 
 // P3: Interactive Earth Globe (MLSysOps - EU Region)
 (function(){
-  var canvas = document.getElementById('c-p3');
+  var canvas=document.getElementById('c-p3');
   if(!canvas) return;
-  var wrap = document.getElementById('globe-wrap');
-  var W = wrap.offsetWidth || 400;
-  var H = wrap.offsetHeight || 200;
-  canvas.width = W; canvas.height = H;
-  var renderer = new THREE.WebGLRenderer({canvas:canvas, alpha:false, antialias:true});
+  var wrap=document.getElementById('globe-wrap');
+  var W=wrap.offsetWidth||400, H=wrap.offsetHeight||200;
+  canvas.width=W; canvas.height=H;
+  var renderer=new THREE.WebGLRenderer({canvas:canvas,alpha:false,antialias:true});
   renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
-  renderer.setSize(W, H);
-  renderer.setClearColor(0x060a14, 1);
-  var scene = new THREE.Scene();
-  var camera = new THREE.PerspectiveCamera(45, W/H, 0.1, 100);
-  camera.position.z = 6;
-  (function(){
-    var pos = new Float32Array(2000*3);
-    for(var i=0;i<2000*3;i++) pos[i]=(Math.random()-0.5)*200;
-    var sg = new THREE.BufferGeometry();
-    sg.setAttribute('position', new THREE.BufferAttribute(pos,3));
-    scene.add(new THREE.Points(sg, new THREE.PointsMaterial({color:0xffffff,size:0.2,transparent:true,opacity:0.6})));
-  })();
-  scene.add(new THREE.AmbientLight(0xffffff, 1.1));
-  var dl = new THREE.DirectionalLight(0xffeedd, 0.8); dl.position.set(5,3,5); scene.add(dl);
-  var dl2 = new THREE.DirectionalLight(0xaaccff, 0.5); dl2.position.set(-4,-2,4); scene.add(dl2);
-  var globeGroup = new THREE.Group(); scene.add(globeGroup);
-  var earthGeo = new THREE.SphereGeometry(2, 64, 32);
-  var earthMat = new THREE.MeshPhongMaterial({color:0x1a5c8a, shininess:25, specular:0x112233});
-  globeGroup.add(new THREE.Mesh(earthGeo, earthMat));
-  new THREE.TextureLoader().load(
-    'https://raw.githubusercontent.com/mrdoob/three.js/r128/examples/textures/planets/earth_atmos_2048.jpg',
-    function(tex){ earthMat.map=tex; earthMat.needsUpdate=true; }, undefined, function(){}
-  );
-  globeGroup.add(new THREE.Mesh(
-    new THREE.SphereGeometry(2*1.025,32,16),
-    new THREE.MeshPhongMaterial({color:0x1a5a9a,transparent:true,opacity:0.10,side:THREE.BackSide})
-  ));
-  // Europe marker: green ping at lat=50°N lon=10°E
-  // THREE.js SphereGeometry vertex formula: phi=2PI*(lon+180)/360, theta=PI*(90-lat)/180
-  // x=-R*cos(phi)*sin(theta), y=R*cos(theta), z=R*sin(phi)*sin(theta)
+  renderer.setSize(W,H);
+  renderer.setClearColor(0x060a14,1);
+  var scene=new THREE.Scene();
+  var camera=new THREE.PerspectiveCamera(45,W/H,0.1,100);
+  camera.position.z=6;
+  (function(){var pos=new Float32Array(2000*3);for(var i=0;i<2000*3;i++)pos[i]=(Math.random()-0.5)*200;var sg=new THREE.BufferGeometry();sg.setAttribute('position',new THREE.BufferAttribute(pos,3));scene.add(new THREE.Points(sg,new THREE.PointsMaterial({color:0xffffff,size:0.2,transparent:true,opacity:0.6})));})();
+  scene.add(new THREE.AmbientLight(0xffffff,1.1));
+  var dl=new THREE.DirectionalLight(0xffeedd,0.8);dl.position.set(5,3,5);scene.add(dl);
+  var dl2=new THREE.DirectionalLight(0xaaccff,0.5);dl2.position.set(-4,-2,4);scene.add(dl2);
+  var globeGroup=new THREE.Group();scene.add(globeGroup);
+  var earthGeo=new THREE.SphereGeometry(2,64,32);
+  var earthMat=new THREE.MeshPhongMaterial({color:0x1a5c8a,shininess:25,specular:0x112233});
+  globeGroup.add(new THREE.Mesh(earthGeo,earthMat));
+  new THREE.TextureLoader().load('https://raw.githubusercontent.com/mrdoob/three.js/r128/examples/textures/planets/earth_atmos_2048.jpg',function(tex){earthMat.map=tex;earthMat.needsUpdate=true;},undefined,function(){});
+  globeGroup.add(new THREE.Mesh(new THREE.SphereGeometry(2*1.025,32,16),new THREE.MeshPhongMaterial({color:0x1a5a9a,transparent:true,opacity:0.10,side:THREE.BackSide})));
   var euroMesh;
   (function(){
     var R=2.04;
-    var phi=2*Math.PI*(10+180)/360;   // lon=10E
-    var theta=Math.PI*(90-50)/180;    // lat=50N
+    var phi=2*Math.PI*(12.5+180)/360;
+    var theta=Math.PI*(90-41.9)/180;
     var x=-R*Math.cos(phi)*Math.sin(theta);
-    var y= R*Math.cos(theta);
-    var z= R*Math.sin(phi)*Math.sin(theta);
-    // Tiny green core dot
+    var y=R*Math.cos(theta);
+    var z=R*Math.sin(phi)*Math.sin(theta);
     var dotMat=new THREE.MeshBasicMaterial({color:0x00ff88,transparent:true,opacity:1.0});
     var dot=new THREE.Mesh(new THREE.SphereGeometry(0.045,10,10),dotMat);
-    dot.position.set(x,y,z); globeGroup.add(dot);
-    // Static thin ring (location pin outline)
+    dot.position.set(x,y,z);globeGroup.add(dot);
     var ringMat=new THREE.MeshBasicMaterial({color:0x00ff88,transparent:true,opacity:0.85});
     var ring=new THREE.Mesh(new THREE.TorusGeometry(0.10,0.010,8,32),ringMat);
-    ring.position.set(x,y,z); ring.lookAt(0,0,0); globeGroup.add(ring);
-    // Pulsing expanding ring (signal wave)
+    ring.position.set(x,y,z);ring.lookAt(0,0,0);globeGroup.add(ring);
     var pMat=new THREE.MeshBasicMaterial({color:0x00ff88,transparent:true,opacity:0.5});
     var pulse=new THREE.Mesh(new THREE.TorusGeometry(0.10,0.007,8,32),pMat);
-    pulse.position.set(x,y,z); pulse.lookAt(0,0,0); globeGroup.add(pulse);
+    pulse.position.set(x,y,z);pulse.lookAt(0,0,0);globeGroup.add(pulse);
     euroMesh={dot:dot,ring:ring,pulse:pulse,pMat:pMat,dotMat:dotMat};
   })();
-
-  // rotY=-1.748 places lon=10°E (Europe) facing the camera
-  var autoR=true,isDrag=false,prevM={x:0,y:0},rotX=0.52,rotY=-1.748,velX=0,velY=0,zoom=5.0;
+  var autoR=true,isDrag=false,prevM={x:0,y:0},rotX=0.78,rotY=-1.818,velX=0,velY=0,zoom=5.0;
   window.globeToggleAuto=function(){autoR=!autoR;var b=document.getElementById('globe-autorotate');if(b)b.textContent=autoR?'Auto ▶':'Auto ⏸';};
-  window.globeReset=function(){rotX=0.52;rotY=-1.748;velX=0;velY=0;zoom=5.0;camera.position.z=5.0;};
+  window.globeReset=function(){rotX=0.78;rotY=-1.818;velX=0;velY=0;zoom=5.0;camera.position.z=5.0;};
   canvas.addEventListener('mousedown',function(e){isDrag=true;prevM.x=e.clientX;prevM.y=e.clientY;velX=0;velY=0;wrap.style.cursor='grabbing';e.preventDefault();});
   window.addEventListener('mousemove',function(e){if(!isDrag)return;velY=(e.clientX-prevM.x)*0.008;velX=(e.clientY-prevM.y)*0.008;rotY+=velY;rotX+=velX;rotX=Math.max(-Math.PI/2,Math.min(Math.PI/2,rotX));prevM.x=e.clientX;prevM.y=e.clientY;});
   window.addEventListener('mouseup',function(){isDrag=false;wrap.style.cursor='grab';});
@@ -1002,339 +875,96 @@ makeProjectScene('c-p2', 200, function(sc){
     requestAnimationFrame(loop);
     var t=clk3.getElapsedTime();
     if(!isDrag){
-      if(autoR){
-        // Gentle swing ±0.38 rad around Europe center — Atlantic to just past Italy
-        rotY = -1.748 + Math.sin(t*0.22)*0.38;
-      }
-      velX*=0.9; velY*=0.9;
-      rotX+=velX; rotY+=velY;
+      if(autoR){rotY=-1.818+Math.sin(t*0.22)*0.38;}
+      velX*=0.9;velY*=0.9;rotX+=velX;rotY+=velY;
       rotX=Math.max(-Math.PI/2,Math.min(Math.PI/2,rotX));
     }
-    globeGroup.rotation.x=rotX; globeGroup.rotation.y=rotY;
+    globeGroup.rotation.x=rotX;globeGroup.rotation.y=rotY;
     camera.position.z+=(zoom-camera.position.z)*0.1;
-    // Green ping pulse: expanding ring scale + fade
-    if(euroMesh){
-      var ps=(t*0.8)%1; // 0→1 loop
-      euroMesh.pulse.scale.set(1+ps*2.2,1+ps*2.2,1+ps*2.2);
-      euroMesh.pMat.opacity=(1-ps)*0.55;
-      euroMesh.dotMat.opacity=0.85+Math.sin(t*3)*0.15;
-    }
+    if(euroMesh){var ps=(t*0.8)%1;euroMesh.pulse.scale.set(1+ps*2.2,1+ps*2.2,1+ps*2.2);euroMesh.pMat.opacity=(1-ps)*0.55;euroMesh.dotMat.opacity=0.85+Math.sin(t*3)*0.15;}
     renderer.render(scene,camera);
   })();
   window.addEventListener('resize',function(){var nw=wrap.offsetWidth||400,nh=wrap.offsetHeight||200;camera.aspect=nw/nh;camera.updateProjectionMatrix();renderer.setSize(nw,nh);});
 })();
-/*
-  var mc=document.createElement('canvas');
-  mc.width=1024;mc.height=512;
-  var cx=mc.getContext('2d');
-
-  // Deep ocean
-  var oceanGrd=cx.createLinearGradient(0,0,0,512);
-  oceanGrd.addColorStop(0,'#060d1a');
-  oceanGrd.addColorStop(1,'#09152a');
-  cx.fillStyle=oceanGrd;cx.fillRect(0,0,1024,512);
-
-  // Helper: lon/lat to x/y
-  function px(lon){return(lon+180)/360*1024;}
-  function py(lat){return(90-lat)/180*512;}
-
-  // Draw a land polygon
-  function land(pts,col){
-    cx.beginPath();
-    cx.moveTo(px(pts[0][0]),py(pts[0][1]));
-    for(var i=1;i<pts.length;i++)cx.lineTo(px(pts[i][0]),py(pts[i][1]));
-    cx.closePath();cx.fillStyle=col;cx.fill();
-  }
-
-  var col0='#0d2235'; // base land
-  var col1='#0f2d45'; // slightly brighter
-  var colEU='#163a55'; // EU highlight
-  var colEUb='#1d5070'; // EU bright
-
-  // North America
-  land([[-168,72],[-50,72],[-50,25],[-80,10],[-120,15],[-168,55]],col0);
-  // South America
-  land([[-82,12],[-34,8],[-34,-58],[-72,-55],[-82,12]],col0);
-  // Africa
-  land([[-18,38],[42,38],[52,12],[42,-36],[16,-36],[-18,20]],col0);
-  // Asia (rough)
-  land([[25,72],[180,72],[180,0],[100,0],[60,20],[25,38]],col0);
-  // Australia
-  land([[114,-22],[154,-22],[154,-44],[130,-44],[114,-30]],col0);
-
-  // Europe - more detailed
-  land([
-    [-10,36],[4,36],[14,38],[20,38],[28,42],[30,36],[36,42],[42,44],[42,50],
-    [38,56],[28,62],[22,65],[15,68],[5,62],[-2,56],[-8,44],[-10,36]
-  ],col1);
-
-  // EU core highlight (western europe)
-  land([
-    [-5,44],[2,44],[8,44],[14,44],[16,50],[14,54],[8,56],[2,54],[-2,50],[-5,44]
-  ],colEU);
-
-  // Italy boot shape
-  land([[8,44],[12,44],[16,40],[16,38],[14,36],[10,38],[8,40],[8,44]],colEU);
-  // Iberian peninsula
-  land([[-10,36],[-2,36],[-2,44],[-8,44],[-10,42]],colEU);
-  // Scandinavia
-  land([[4,56],[8,58],[14,58],[18,70],[5,70],[5,58]],col1);
-
-  // Grid lines
-  cx.strokeStyle='rgba(29,111,164,0.08)';cx.lineWidth=0.8;
-  for(var ln=-180;ln<=180;ln+=30){cx.beginPath();cx.moveTo(px(ln),0);cx.lineTo(px(ln),512);cx.stroke();}
-  for(var la=-90;la<=90;la+=30){cx.beginPath();cx.moveTo(0,py(la));cx.lineTo(1024,py(la));cx.stroke();}
-
-  // Atmosphere rim on EU coast
-  cx.strokeStyle='rgba(56,189,248,0.12)';cx.lineWidth=1.5;
-  cx.beginPath();
-  cx.moveTo(px(-5),py(44));cx.lineTo(px(2),py(44));cx.lineTo(px(8),py(44));
-  cx.lineTo(px(16),py(50));cx.lineTo(px(14),py(54));cx.lineTo(px(8),py(56));
-  cx.lineTo(px(2),py(54));cx.lineTo(px(-2),py(50));cx.lineTo(px(-5),py(44));
-  cx.stroke();
-
-  // Brussels glow (EU HQ)
-  var bGrd=cx.createRadialGradient(px(4.4),py(50.8),1,px(4.4),py(50.8),22);
-  bGrd.addColorStop(0,'rgba(56,189,248,0.95)');bGrd.addColorStop(1,'rgba(56,189,248,0)');
-  cx.fillStyle=bGrd;cx.beginPath();cx.arc(px(4.4),py(50.8),22,0,Math.PI*2);cx.fill();
-
-  // Key EU city dots
-  var cities=[[2.35,48.85],[13.4,52.5],[12.5,41.9],[-3.7,40.4],[2.17,41.4],[4.9,52.4]];
-  cities.forEach(function(c){
-    cx.fillStyle='rgba(52,211,153,0.8)';cx.beginPath();cx.arc(px(c[0]),py(c[1]),2.5,0,Math.PI*2);cx.fill();
-  });
-
-  var tex=new THREE.CanvasTexture(mc);
-  var globe=new THREE.Mesh(new THREE.SphereGeometry(1.1,48,24),
-    new THREE.MeshPhongMaterial({map:tex,shininess:20,specular:0x0a1828}));
-  globe.userData.animate=function(t){globe.rotation.y=-0.3+t*0.18;};
-  sc.add(globe);objs.push(globe);
-
-  // Atmosphere
-  sc.add(new THREE.Mesh(new THREE.SphereGeometry(1.17,24,12),
-    new THREE.MeshBasicMaterial({color:0x1d6fa4,transparent:true,opacity:0.06,side:THREE.BackSide})));
-
-  // EU stars (12 gold stars in a circle over Europe)
-  var starMat=new THREE.MeshBasicMaterial({color:0xfbbf24,transparent:true,opacity:0.9});
-  for(var i=0;i<12;i++){
-    var a=(i/12)*Math.PI*2;
-    var star=new THREE.Mesh(new THREE.SphereGeometry(0.022,5,5),starMat.clone());
-    star.userData={a:a,idx:i};
-    star.userData.animate=function(t){
-      // Orbit in Europe region (lat~52, lon~10)
-      var lng=(10+Math.cos(this.userData.a)*9+globe.rotation.y*180/Math.PI)*Math.PI/180;
-      var lat=(52+Math.sin(this.userData.a)*7)*Math.PI/180;
-      var r=1.15;
-      this.position.set(r*Math.cos(lat)*Math.cos(lng),r*Math.sin(lat),r*Math.cos(lat)*Math.sin(lng));
-      this.material.opacity=0.6+Math.sin(t*1.5+this.userData.idx)*0.4;
-    }.bind(star);
-    sc.add(star);objs.push(star);
-  }
-
-  // Orbiting consortium nodes
-  var nodeMat=new THREE.MeshBasicMaterial({color:0x38bdf8,transparent:true,opacity:0.8});
-  for(var i=0;i<3;i++){
-    var nd=new THREE.Mesh(new THREE.SphereGeometry(0.06,8,8),nodeMat.clone());
-    nd.userData={a:(i/3)*Math.PI*2,idx:i};
-    nd.userData.animate=function(t){
-      this.userData.a+=0.007;
-      this.position.set(Math.cos(this.userData.a)*1.55,Math.sin(t*0.4+this.userData.idx*2)*0.4,Math.sin(this.userData.a)*1.55);
-      this.material.opacity=0.35+Math.abs(Math.sin(t+this.userData.idx))*0.65;
-*/
 
 // P4: IoT Fleet - Cargo Truck 3D + upward WiFi signal transmission
 makeProjectScene('c-p4', 200, function(sc){
   var objs=[];
-
-  // ── Draw detailed cargo truck side-view on canvas ──
-  var cc=document.createElement('canvas');
-  cc.width=512;cc.height=200;
-  var ctx=cc.getContext('2d');
-  ctx.clearRect(0,0,512,200);
-
-  // ── Cargo truck: cab + trailer ──
-  // Dimensions (canvas 512×200, ground at y=160)
-  var G=155; // ground y
-
-  // --- TRAILER ---
-  var trailerGrd=ctx.createLinearGradient(0,55,0,G);
-  trailerGrd.addColorStop(0,'#1e3a5f');trailerGrd.addColorStop(0.5,'#162d4a');trailerGrd.addColorStop(1,'#0e1e33');
-  ctx.fillStyle=trailerGrd;
-  ctx.beginPath();
-  ctx.moveTo(50,G);ctx.lineTo(50,58);ctx.lineTo(360,58);ctx.lineTo(360,G);ctx.closePath();
-  ctx.fill();
-  // Trailer top highlight
-  ctx.fillStyle='rgba(56,189,248,0.12)';
-  ctx.fillRect(50,58,310,8);
-  // Trailer panel lines (vertical ribs)
+  var cc=document.createElement('canvas');cc.width=512;cc.height=200;
+  var ctx=cc.getContext('2d');ctx.clearRect(0,0,512,200);
+  var G=155;
+  var trailerGrd=ctx.createLinearGradient(0,55,0,G);trailerGrd.addColorStop(0,'#1e3a5f');trailerGrd.addColorStop(0.5,'#162d4a');trailerGrd.addColorStop(1,'#0e1e33');
+  ctx.fillStyle=trailerGrd;ctx.beginPath();ctx.moveTo(50,G);ctx.lineTo(50,58);ctx.lineTo(360,58);ctx.lineTo(360,G);ctx.closePath();ctx.fill();
+  ctx.fillStyle='rgba(56,189,248,0.12)';ctx.fillRect(50,58,310,8);
   ctx.strokeStyle='rgba(255,255,255,0.07)';ctx.lineWidth=1;
   for(var rib=80;rib<360;rib+=30){ctx.beginPath();ctx.moveTo(rib,60);ctx.lineTo(rib,G);ctx.stroke();}
-  // Trailer horizontal center stripe
-  var stripeGrd=ctx.createLinearGradient(50,100,360,100);
-  stripeGrd.addColorStop(0,'rgba(56,189,248,0)');stripeGrd.addColorStop(0.2,'rgba(56,189,248,0.18)');stripeGrd.addColorStop(0.8,'rgba(56,189,248,0.18)');stripeGrd.addColorStop(1,'rgba(56,189,248,0)');
+  var stripeGrd=ctx.createLinearGradient(50,100,360,100);stripeGrd.addColorStop(0,'rgba(56,189,248,0)');stripeGrd.addColorStop(0.2,'rgba(56,189,248,0.18)');stripeGrd.addColorStop(0.8,'rgba(56,189,248,0.18)');stripeGrd.addColorStop(1,'rgba(56,189,248,0)');
   ctx.fillStyle=stripeGrd;ctx.fillRect(50,102,310,6);
-  // Trailer rear door lines
-  ctx.strokeStyle='rgba(56,189,248,0.35)';ctx.lineWidth=1.5;
-  ctx.strokeRect(53,61,18,G-63);
-  // Trailer border
-  ctx.strokeStyle='rgba(56,189,248,0.5)';ctx.lineWidth=2;
-  ctx.strokeRect(50,58,310,G-58);
-
-  // --- CAB ---
-  // Cab body
-  var cabGrd=ctx.createLinearGradient(360,50,360,G);
-  cabGrd.addColorStop(0,'#2a5f8a');cabGrd.addColorStop(0.4,'#1d4f78');cabGrd.addColorStop(1,'#112a45');
-  ctx.fillStyle=cabGrd;
-  ctx.beginPath();
-  ctx.moveTo(360,G);
-  ctx.lineTo(360,60);
-  ctx.lineTo(390,60);
-  ctx.lineTo(425,42);
-  ctx.lineTo(470,38);
-  ctx.lineTo(490,48);
-  ctx.lineTo(490,G);
-  ctx.closePath();
-  ctx.fill();
-  // Cab top highlight
-  var cabTopGrd=ctx.createLinearGradient(360,38,490,38);
-  cabTopGrd.addColorStop(0,'rgba(56,189,248,0.15)');cabTopGrd.addColorStop(1,'rgba(56,189,248,0.04)');
-  ctx.fillStyle=cabTopGrd;
-  ctx.beginPath();ctx.moveTo(360,60);ctx.lineTo(390,60);ctx.lineTo(425,42);ctx.lineTo(470,38);ctx.lineTo(490,48);ctx.lineTo(490,52);ctx.lineTo(470,42);ctx.lineTo(425,46);ctx.lineTo(390,64);ctx.lineTo(360,64);ctx.closePath();ctx.fill();
-  // Cab border
-  ctx.strokeStyle='rgba(56,189,248,0.65)';ctx.lineWidth=2;
-  ctx.beginPath();ctx.moveTo(360,G);ctx.lineTo(360,60);ctx.lineTo(390,60);ctx.lineTo(425,42);ctx.lineTo(470,38);ctx.lineTo(490,48);ctx.lineTo(490,G);ctx.stroke();
-  // Windshield
-  ctx.fillStyle='rgba(160,220,255,0.30)';
-  ctx.beginPath();ctx.moveTo(392,62);ctx.lineTo(424,44);ctx.lineTo(465,40);ctx.lineTo(486,50);ctx.lineTo(486,68);ctx.lineTo(392,68);ctx.closePath();ctx.fill();
-  ctx.strokeStyle='rgba(56,189,248,0.6)';ctx.lineWidth=1.2;
-  ctx.beginPath();ctx.moveTo(392,62);ctx.lineTo(424,44);ctx.lineTo(465,40);ctx.lineTo(486,50);ctx.lineTo(486,68);ctx.lineTo(392,68);ctx.closePath();ctx.stroke();
-  // Windshield glare
-  ctx.fillStyle='rgba(255,255,255,0.10)';
-  ctx.beginPath();ctx.moveTo(398,62);ctx.lineTo(418,46);ctx.lineTo(430,44);ctx.lineTo(430,62);ctx.closePath();ctx.fill();
-  // Side cab window
-  ctx.fillStyle='rgba(120,200,255,0.22)';
-  ctx.beginPath();ctx.moveTo(362,63);ctx.lineTo(362,85);ctx.lineTo(388,85);ctx.lineTo(388,63);ctx.closePath();ctx.fill();
-  ctx.strokeStyle='rgba(56,189,248,0.5)';ctx.lineWidth=1;
-  ctx.strokeRect(362,63,26,22);
-  // Door line
-  ctx.strokeStyle='rgba(56,189,248,0.3)';ctx.lineWidth=1;
-  ctx.beginPath();ctx.moveTo(388,63);ctx.lineTo(388,G);ctx.stroke();
-  // Step
-  ctx.fillStyle='rgba(29,111,164,0.6)';ctx.fillRect(460,G-4,28,4);
-  ctx.fillStyle='rgba(56,189,248,0.4)';ctx.fillRect(460,G-4,28,2);
-  // Headlights
-  var hl1=ctx.createRadialGradient(488,G-18,1,488,G-18,14);
-  hl1.addColorStop(0,'rgba(255,250,210,1)');hl1.addColorStop(0.4,'rgba(255,240,150,0.7)');hl1.addColorStop(1,'rgba(255,240,150,0)');
+  ctx.strokeStyle='rgba(56,189,248,0.35)';ctx.lineWidth=1.5;ctx.strokeRect(53,61,18,G-63);
+  ctx.strokeStyle='rgba(56,189,248,0.5)';ctx.lineWidth=2;ctx.strokeRect(50,58,310,G-58);
+  var cabGrd=ctx.createLinearGradient(360,50,360,G);cabGrd.addColorStop(0,'#2a5f8a');cabGrd.addColorStop(0.4,'#1d4f78');cabGrd.addColorStop(1,'#112a45');
+  ctx.fillStyle=cabGrd;ctx.beginPath();ctx.moveTo(360,G);ctx.lineTo(360,60);ctx.lineTo(390,60);ctx.lineTo(425,42);ctx.lineTo(470,38);ctx.lineTo(490,48);ctx.lineTo(490,G);ctx.closePath();ctx.fill();
+  var cabTopGrd=ctx.createLinearGradient(360,38,490,38);cabTopGrd.addColorStop(0,'rgba(56,189,248,0.15)');cabTopGrd.addColorStop(1,'rgba(56,189,248,0.04)');
+  ctx.fillStyle=cabTopGrd;ctx.beginPath();ctx.moveTo(360,60);ctx.lineTo(390,60);ctx.lineTo(425,42);ctx.lineTo(470,38);ctx.lineTo(490,48);ctx.lineTo(490,52);ctx.lineTo(470,42);ctx.lineTo(425,46);ctx.lineTo(390,64);ctx.lineTo(360,64);ctx.closePath();ctx.fill();
+  ctx.strokeStyle='rgba(56,189,248,0.65)';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(360,G);ctx.lineTo(360,60);ctx.lineTo(390,60);ctx.lineTo(425,42);ctx.lineTo(470,38);ctx.lineTo(490,48);ctx.lineTo(490,G);ctx.stroke();
+  ctx.fillStyle='rgba(160,220,255,0.30)';ctx.beginPath();ctx.moveTo(392,62);ctx.lineTo(424,44);ctx.lineTo(465,40);ctx.lineTo(486,50);ctx.lineTo(486,68);ctx.lineTo(392,68);ctx.closePath();ctx.fill();
+  ctx.strokeStyle='rgba(56,189,248,0.6)';ctx.lineWidth=1.2;ctx.beginPath();ctx.moveTo(392,62);ctx.lineTo(424,44);ctx.lineTo(465,40);ctx.lineTo(486,50);ctx.lineTo(486,68);ctx.lineTo(392,68);ctx.closePath();ctx.stroke();
+  ctx.fillStyle='rgba(255,255,255,0.10)';ctx.beginPath();ctx.moveTo(398,62);ctx.lineTo(418,46);ctx.lineTo(430,44);ctx.lineTo(430,62);ctx.closePath();ctx.fill();
+  ctx.fillStyle='rgba(120,200,255,0.22)';ctx.beginPath();ctx.moveTo(362,63);ctx.lineTo(362,85);ctx.lineTo(388,85);ctx.lineTo(388,63);ctx.closePath();ctx.fill();
+  ctx.strokeStyle='rgba(56,189,248,0.5)';ctx.lineWidth=1;ctx.strokeRect(362,63,26,22);
+  ctx.strokeStyle='rgba(56,189,248,0.3)';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(388,63);ctx.lineTo(388,G);ctx.stroke();
+  ctx.fillStyle='rgba(29,111,164,0.6)';ctx.fillRect(460,G-4,28,4);ctx.fillStyle='rgba(56,189,248,0.4)';ctx.fillRect(460,G-4,28,2);
+  var hl1=ctx.createRadialGradient(488,G-18,1,488,G-18,14);hl1.addColorStop(0,'rgba(255,250,210,1)');hl1.addColorStop(0.4,'rgba(255,240,150,0.7)');hl1.addColorStop(1,'rgba(255,240,150,0)');
   ctx.fillStyle=hl1;ctx.beginPath();ctx.ellipse(488,G-18,14,8,0,0,Math.PI*2);ctx.fill();
-  var hl2=ctx.createRadialGradient(488,G-35,1,488,G-35,8);
-  hl2.addColorStop(0,'rgba(180,220,255,1)');hl2.addColorStop(1,'rgba(180,220,255,0)');
+  var hl2=ctx.createRadialGradient(488,G-35,1,488,G-35,8);hl2.addColorStop(0,'rgba(180,220,255,1)');hl2.addColorStop(1,'rgba(180,220,255,0)');
   ctx.fillStyle=hl2;ctx.beginPath();ctx.ellipse(488,G-35,8,5,0,0,Math.PI*2);ctx.fill();
-  // Exhaust stack on cab roof
-  ctx.fillStyle='rgba(80,100,120,0.8)';ctx.fillRect(370,28,8,32);
-  ctx.fillStyle='rgba(56,189,248,0.3)';ctx.fillRect(370,28,8,4);
-
-  // --- WHEELS ---
+  ctx.fillStyle='rgba(80,100,120,0.8)';ctx.fillRect(370,28,8,32);ctx.fillStyle='rgba(56,189,248,0.3)';ctx.fillRect(370,28,8,4);
   function drawWheel(cx2,wy,R,r){
-    // Shadow
-    var shGrd=ctx.createRadialGradient(cx2+4,wy+4,2,cx2+4,wy+4,R+4);
-    shGrd.addColorStop(0,'rgba(0,0,0,0.35)');shGrd.addColorStop(1,'rgba(0,0,0,0)');
-    ctx.fillStyle=shGrd;ctx.beginPath();ctx.arc(cx2+4,wy+4,R+4,0,Math.PI*2);ctx.fill();
-    // Tire
-    var tireGrd=ctx.createRadialGradient(cx2-4,wy-4,2,cx2,wy,R);
-    tireGrd.addColorStop(0,'#2a2a35');tireGrd.addColorStop(1,'#060a12');
-    ctx.fillStyle=tireGrd;ctx.beginPath();ctx.arc(cx2,wy,R,0,Math.PI*2);ctx.fill();
-    ctx.strokeStyle='rgba(56,189,248,0.2)';ctx.lineWidth=2;
-    ctx.beginPath();ctx.arc(cx2,wy,R,0,Math.PI*2);ctx.stroke();
-    // Rim outer ring
-    var rimGrd=ctx.createRadialGradient(cx2-3,wy-3,1,cx2,wy,r);
-    rimGrd.addColorStop(0,'#6ab0d4');rimGrd.addColorStop(0.5,'#2a6fa0');rimGrd.addColorStop(1,'#0e2a40');
-    ctx.fillStyle=rimGrd;ctx.beginPath();ctx.arc(cx2,wy,r,0,Math.PI*2);ctx.fill();
-    // Spokes
+    var shGrd=ctx.createRadialGradient(cx2+4,wy+4,2,cx2+4,wy+4,R+4);shGrd.addColorStop(0,'rgba(0,0,0,0.35)');shGrd.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=shGrd;ctx.beginPath();ctx.arc(cx2+4,wy+4,R+4,0,Math.PI*2);ctx.fill();
+    var tireGrd=ctx.createRadialGradient(cx2-4,wy-4,2,cx2,wy,R);tireGrd.addColorStop(0,'#2a2a35');tireGrd.addColorStop(1,'#060a12');ctx.fillStyle=tireGrd;ctx.beginPath();ctx.arc(cx2,wy,R,0,Math.PI*2);ctx.fill();
+    ctx.strokeStyle='rgba(56,189,248,0.2)';ctx.lineWidth=2;ctx.beginPath();ctx.arc(cx2,wy,R,0,Math.PI*2);ctx.stroke();
+    var rimGrd=ctx.createRadialGradient(cx2-3,wy-3,1,cx2,wy,r);rimGrd.addColorStop(0,'#6ab0d4');rimGrd.addColorStop(0.5,'#2a6fa0');rimGrd.addColorStop(1,'#0e2a40');ctx.fillStyle=rimGrd;ctx.beginPath();ctx.arc(cx2,wy,r,0,Math.PI*2);ctx.fill();
     ctx.strokeStyle='rgba(56,189,248,0.75)';ctx.lineWidth=2;
-    for(var s=0;s<6;s++){
-      var sa=s/6*Math.PI*2;
-      ctx.beginPath();ctx.moveTo(cx2+Math.cos(sa)*4,wy+Math.sin(sa)*4);
-      ctx.lineTo(cx2+Math.cos(sa)*(r-3),wy+Math.sin(sa)*(r-3));ctx.stroke();
-    }
-    // Hub cap
+    for(var s=0;s<6;s++){var sa=s/6*Math.PI*2;ctx.beginPath();ctx.moveTo(cx2+Math.cos(sa)*4,wy+Math.sin(sa)*4);ctx.lineTo(cx2+Math.cos(sa)*(r-3),wy+Math.sin(sa)*(r-3));ctx.stroke();}
     ctx.fillStyle='#1d6fa4';ctx.beginPath();ctx.arc(cx2,wy,5,0,Math.PI*2);ctx.fill();
     ctx.fillStyle='rgba(56,189,248,0.9)';ctx.beginPath();ctx.arc(cx2,wy,2,0,Math.PI*2);ctx.fill();
-    // Lug nuts
     for(var n=0;n<6;n++){var na=n/6*Math.PI*2;ctx.fillStyle='rgba(56,189,248,0.5)';ctx.beginPath();ctx.arc(cx2+Math.cos(na)*9,wy+Math.sin(na)*9,1.5,0,Math.PI*2);ctx.fill();}
   }
-  drawWheel(100,G,26,17); // trailer rear wheel
-  drawWheel(155,G,26,17); // trailer rear wheel 2
-  drawWheel(415,G,28,18); // cab front wheel
-  drawWheel(462,G,26,17); // cab rear wheel
-
-  // --- ROAD SURFACE UNDER TRUCK ---
-  ctx.fillStyle='rgba(20,40,60,0.5)';ctx.fillRect(0,G,512,200-G);
-  ctx.fillStyle='rgba(56,189,248,0.12)';ctx.fillRect(0,G,512,2);
-
+  drawWheel(100,G,26,17);drawWheel(155,G,26,17);drawWheel(415,G,28,18);drawWheel(462,G,26,17);
+  ctx.fillStyle='rgba(20,40,60,0.5)';ctx.fillRect(0,G,512,200-G);ctx.fillStyle='rgba(56,189,248,0.12)';ctx.fillRect(0,G,512,2);
   var carTex=new THREE.CanvasTexture(cc);
   var carMat=new THREE.MeshBasicMaterial({map:carTex,transparent:true,side:THREE.DoubleSide});
-  var carPlane=new THREE.Mesh(new THREE.PlaneGeometry(4.2,1.65),carMat);
-  carPlane.position.set(0,-0.15,0);
-  sc.add(carPlane);
-
-  // ── Road ──
+  var carPlane=new THREE.Mesh(new THREE.PlaneGeometry(4.2,1.65),carMat);carPlane.position.set(0,-0.15,0);sc.add(carPlane);
   var rdC=document.createElement('canvas');rdC.width=512;rdC.height=32;
-  var rdX=rdC.getContext('2d');
-  var rdG=rdX.createLinearGradient(0,0,0,32);
-  rdG.addColorStop(0,'#0e1e30');rdG.addColorStop(1,'#060d18');
-  rdX.fillStyle=rdG;rdX.fillRect(0,0,512,32);
-  // Road markings
-  rdX.fillStyle='rgba(56,189,248,0.15)';rdX.fillRect(0,14,512,3);
-  for(var m=0;m<512;m+=40){rdX.fillStyle='rgba(255,255,255,0.12)';rdX.fillRect(m,14,20,3);}
-  var road=new THREE.Mesh(new THREE.PlaneGeometry(10,0.35),
-    new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(rdC),transparent:true}));
-  road.position.y=-1.0;sc.add(road);
-
-  // ── WiFi signals: 3 arcs stacked upward from truck roof, bottom=small, top=large ──
-  // Each arc is a half-torus, oriented so it opens upward
-  var wifiGroup=new THREE.Group();
-  sc.add(wifiGroup);
-  var wifiArcs=[];
-  var wifiColors=[0x10b981,0x38bdf8,0x1d6fa4];
-  wifiColors.forEach(function(col,i){
-    var radius=0.18+i*0.22; // grows upward
-    var arc=new THREE.Mesh(
-      new THREE.TorusGeometry(radius,0.018,8,32,Math.PI),
-      new THREE.MeshBasicMaterial({color:col,transparent:true,opacity:0.9,side:THREE.DoubleSide})
-    );
-    // Rotate so the arc opens upward (flat end at bottom)
-    arc.rotation.z=Math.PI; // flip: gap faces down, arc curves up
-    arc.position.y=0.28+i*0.30; // stack upward
-    arc.userData={idx:i,phase:i*0.55};
-    wifiGroup.add(arc);
-    wifiArcs.push(arc);
+  var rdX=rdC.getContext('2d');var rdG=rdX.createLinearGradient(0,0,0,32);rdG.addColorStop(0,'#0e1e30');rdG.addColorStop(1,'#060d18');rdX.fillStyle=rdG;rdX.fillRect(0,0,512,32);
+  rdX.fillStyle='rgba(56,189,248,0.12)';rdX.fillRect(0,14,512,2);
+  for(var m=0;m<512;m+=60){rdX.fillStyle='rgba(255,255,255,0.22)';rdX.fillRect(m,14,32,2);}
+  var rdTex=new THREE.CanvasTexture(rdC);rdTex.wrapS=THREE.RepeatWrapping;rdTex.repeat.x=2;
+  var road=new THREE.Mesh(new THREE.PlaneGeometry(10,0.35),new THREE.MeshBasicMaterial({map:rdTex,transparent:true}));road.position.y=-1.0;sc.add(road);
+  var pW=4.2/512,pH=1.65/200;
+  function makeWheel(cx2,cy,R,spokes){
+    var wg=new THREE.Group();
+    wg.add(new THREE.Mesh(new THREE.TorusGeometry(R,R*0.22,8,24),new THREE.MeshPhongMaterial({color:0x0a0e1a,emissive:0x111820})));
+    wg.add(new THREE.Mesh(new THREE.CylinderGeometry(R*0.62,R*0.62,0.04,16),new THREE.MeshPhongMaterial({color:0x1d5070,emissive:0x0a2030,shininess:80,specular:0x38bdf8})));
+    for(var s=0;s<spokes;s++){var sa=s/spokes*Math.PI*2;var spoke=new THREE.Mesh(new THREE.CylinderGeometry(0.012,0.012,R*0.55,4),new THREE.MeshBasicMaterial({color:0x38bdf8,transparent:true,opacity:0.8}));spoke.rotation.z=sa+Math.PI/2;wg.add(spoke);}
+    wg.add(new THREE.Mesh(new THREE.CylinderGeometry(R*0.14,R*0.14,0.06,12),new THREE.MeshBasicMaterial({color:0x38bdf8})));
+    wg.rotation.x=Math.PI/2;wg.position.set((cx2-256)*pW,-0.15+(100-cy)*pH,0.04);sc.add(wg);return wg;
+  }
+  var wheels=[makeWheel(100,155,0.215,5),makeWheel(155,155,0.215,5),makeWheel(415,155,0.23,6),makeWheel(462,155,0.215,5)];
+  var wifiGroup=new THREE.Group();sc.add(wifiGroup);var wifiArcs=[];
+  [0x10b981,0x38bdf8,0x1d6fa4].forEach(function(col,i){
+    var arc=new THREE.Mesh(new THREE.TorusGeometry(0.18+i*0.22,0.018,8,32,Math.PI),new THREE.MeshBasicMaterial({color:col,transparent:true,opacity:0.9,side:THREE.DoubleSide}));
+    arc.rotation.z=Math.PI;arc.position.y=0.28+i*0.30;arc.userData={idx:i};wifiGroup.add(arc);wifiArcs.push(arc);
   });
-  // Center dot (signal origin on roof)
-  var sigDot=new THREE.Mesh(new THREE.SphereGeometry(0.04,8,8),
-    new THREE.MeshBasicMaterial({color:0x10b981,transparent:true,opacity:1}));
-  sigDot.position.y=0.10;
-  wifiGroup.add(sigDot);
-
+  var sigDot=new THREE.Mesh(new THREE.SphereGeometry(0.04,8,8),new THREE.MeshBasicMaterial({color:0x10b981,transparent:true,opacity:1}));sigDot.position.y=0.10;wifiGroup.add(sigDot);
   var wifiMover={userData:{animate:function(t){
-    // Truck stays still, signals pulse sequentially bottom→top
-    wifiArcs.forEach(function(arc,i){
-      var phase=(t*1.2 - i*0.4);
-      var fade=((phase%1+1)%1); // 0→1
-      arc.material.opacity=Math.max(0,(1-fade)*0.9);
-      var sc2=0.85+fade*0.3;
-      arc.scale.set(sc2,sc2,sc2);
-    });
+    wifiArcs.forEach(function(arc,i){var phase=(t*1.2-i*0.4);var fade=((phase%1+1)%1);arc.material.opacity=Math.max(0,(1-fade)*0.9);var s=0.85+fade*0.3;arc.scale.set(s,s,s);});
     sigDot.material.opacity=0.5+Math.abs(Math.sin(t*3))*0.5;
-  }}};
-  objs.push(wifiMover);
-
-  // Slight truck bob
+  }}};objs.push(wifiMover);
   var truckBob={userData:{animate:function(t){
-    carPlane.position.y=-0.15+Math.sin(t*1.8)*0.012;
-    wifiGroup.position.y=carPlane.position.y+0.83;
-  }}};
-  objs.push(truckBob);
-
+    var bob=Math.sin(t*1.8)*0.012;carPlane.position.y=-0.15+bob;wifiGroup.position.y=carPlane.position.y+0.83;
+    wheels.forEach(function(w){w.rotation.y=-t*3.5;});rdTex.offset.x=t*0.18;
+  }}};objs.push(truckBob);
   return objs;
 });
 
@@ -1342,57 +972,32 @@ makeProjectScene('c-p4', 200, function(sc){
 // BACKGROUND: Neural network particles
 // =============================================
 (function(){
-  var canvas = document.getElementById('bg-canvas');
-  var R = new THREE.WebGLRenderer({canvas:canvas,alpha:true,antialias:false});
-  R.setPixelRatio(1);
-  R.setSize(window.innerWidth,window.innerHeight);
-  var S = new THREE.Scene(), C = new THREE.PerspectiveCamera(60,window.innerWidth/window.innerHeight,0.1,1000);
+  var canvas=document.getElementById('bg-canvas');
+  var R=new THREE.WebGLRenderer({canvas:canvas,alpha:true,antialias:false});
+  R.setPixelRatio(1);R.setSize(window.innerWidth,window.innerHeight);
+  var S=new THREE.Scene(),C=new THREE.PerspectiveCamera(60,window.innerWidth/window.innerHeight,0.1,1000);
   C.position.z=80;
-  var N=100, pos=[], vel=[];
-  for(var i=0;i<N;i++){
-    pos.push((Math.random()-0.5)*200,(Math.random()-0.5)*120,(Math.random()-0.5)*50);
-    vel.push((Math.random()-0.5)*0.05,(Math.random()-0.5)*0.05,(Math.random()-0.5)*0.02);
-  }
-  var pGeo=new THREE.BufferGeometry();
-  var pArr=new Float32Array(pos);
-  pGeo.setAttribute('position',new THREE.BufferAttribute(pArr,3));
+  var N=100,pos=[],vel=[];
+  for(var i=0;i<N;i++){pos.push((Math.random()-0.5)*200,(Math.random()-0.5)*120,(Math.random()-0.5)*50);vel.push((Math.random()-0.5)*0.05,(Math.random()-0.5)*0.05,(Math.random()-0.5)*0.02);}
+  var pGeo=new THREE.BufferGeometry();var pArr=new Float32Array(pos);pGeo.setAttribute('position',new THREE.BufferAttribute(pArr,3));
   S.add(new THREE.Points(pGeo,new THREE.PointsMaterial({color:0x1d6fa4,size:1.1,transparent:true,opacity:0.6})));
-  var lGeo=new THREE.BufferGeometry();
-  var lArr=new Float32Array(N*N*6);
-  lGeo.setAttribute('position',new THREE.BufferAttribute(lArr,3));
+  var lGeo=new THREE.BufferGeometry();var lArr=new Float32Array(N*N*6);lGeo.setAttribute('position',new THREE.BufferAttribute(lArr,3));
   S.add(new THREE.LineSegments(lGeo,new THREE.LineBasicMaterial({color:0x1a3050,transparent:true,opacity:0.35})));
   var mouse={x:0,y:0};
   document.addEventListener('mousemove',function(e){mouse.x=(e.clientX/window.innerWidth-0.5)*2;mouse.y=-(e.clientY/window.innerHeight-0.5)*2;});
-  var sc=0;
-  window.addEventListener('scroll',function(){sc=window.scrollY;});
+  var sc=0;window.addEventListener('scroll',function(){sc=window.scrollY;});
   window.addEventListener('resize',function(){C.aspect=window.innerWidth/window.innerHeight;C.updateProjectionMatrix();R.setSize(window.innerWidth,window.innerHeight);});
   var clk=new THREE.Clock();
   (function loop(){
     requestAnimationFrame(loop);
     var pa=pGeo.attributes.position.array;
-    for(var i=0;i<N;i++){
-      pa[i*3]+=vel[i*3]; pa[i*3+1]+=vel[i*3+1]; pa[i*3+2]+=vel[i*3+2];
-      if(Math.abs(pa[i*3])>100)vel[i*3]*=-1;
-      if(Math.abs(pa[i*3+1])>60)vel[i*3+1]*=-1;
-      if(Math.abs(pa[i*3+2])>25)vel[i*3+2]*=-1;
-    }
+    for(var i=0;i<N;i++){pa[i*3]+=vel[i*3];pa[i*3+1]+=vel[i*3+1];pa[i*3+2]+=vel[i*3+2];if(Math.abs(pa[i*3])>100)vel[i*3]*=-1;if(Math.abs(pa[i*3+1])>60)vel[i*3+1]*=-1;if(Math.abs(pa[i*3+2])>25)vel[i*3+2]*=-1;}
     pGeo.attributes.position.needsUpdate=true;
-    var la=lGeo.attributes.position.array, li=0;
-    for(var a=0;a<N;a++) for(var b=a+1;b<N;b++){
-      var dx=pa[a*3]-pa[b*3],dy=pa[a*3+1]-pa[b*3+1],dz=pa[a*3+2]-pa[b*3+2];
-      if(Math.sqrt(dx*dx+dy*dy+dz*dz)<28&&li<lArr.length-6){
-        la[li++]=pa[a*3];la[li++]=pa[a*3+1];la[li++]=pa[a*3+2];
-        la[li++]=pa[b*3];la[li++]=pa[b*3+1];la[li++]=pa[b*3+2];
-      }
-    }
+    var la=lGeo.attributes.position.array,li=0;
+    for(var a=0;a<N;a++)for(var b=a+1;b<N;b++){var dx=pa[a*3]-pa[b*3],dy=pa[a*3+1]-pa[b*3+1],dz=pa[a*3+2]-pa[b*3+2];if(Math.sqrt(dx*dx+dy*dy+dz*dz)<28&&li<lArr.length-6){la[li++]=pa[a*3];la[li++]=pa[a*3+1];la[li++]=pa[a*3+2];la[li++]=pa[b*3];la[li++]=pa[b*3+1];la[li++]=pa[b*3+2];}}
     for(var k=li;k<lArr.length;k++)la[k]=0;
-    lGeo.attributes.position.needsUpdate=true;
-    lGeo.setDrawRange(0,li/3);
-    C.position.x+=(mouse.x*6-C.position.x)*0.02;
-    C.position.y+=(mouse.y*3-C.position.y)*0.02;
-    C.position.z=80-sc*0.035;
-    C.lookAt(0,0,0);
-    R.render(S,C);
+    lGeo.attributes.position.needsUpdate=true;lGeo.setDrawRange(0,li/3);
+    C.position.x+=(mouse.x*6-C.position.x)*0.02;C.position.y+=(mouse.y*3-C.position.y)*0.02;C.position.z=80-sc*0.035;C.lookAt(0,0,0);R.render(S,C);
   })();
 })();
 
@@ -1400,21 +1005,11 @@ makeProjectScene('c-p4', 200, function(sc){
 // PHOTO 3D tilt on mouse
 // =============================================
 (function(){
-  var wrap = document.getElementById('photo-wrap');
-  var photo = document.getElementById('photo-3d');
-  if (!wrap||!photo) return;
-  wrap.addEventListener('mousemove',function(e){
-    var r=wrap.getBoundingClientRect();
-    var x=((e.clientX-r.left)/r.width-0.5)*2;
-    var y=-((e.clientY-r.top)/r.height-0.5)*2;
-    photo.style.animation='none';
-    photo.style.transform='perspective(800px) rotateY('+(x*18)+'deg) rotateX('+(y*18)+'deg) scale(1.04)';
-    photo.style.transition='transform 0.1s ease';
-  });
-  wrap.addEventListener('mouseleave',function(){
-    photo.style.animation='photo3dFloat 6s ease-in-out infinite';
-    photo.style.transform='';
-  });
+  var wrap=document.getElementById('photo-wrap');
+  var photo=document.getElementById('photo-3d');
+  if(!wrap||!photo) return;
+  wrap.addEventListener('mousemove',function(e){var r=wrap.getBoundingClientRect();var x=((e.clientX-r.left)/r.width-0.5)*2;var y=-((e.clientY-r.top)/r.height-0.5)*2;photo.style.animation='none';photo.style.transform='perspective(800px) rotateY('+(x*18)+'deg) rotateX('+(y*18)+'deg) scale(1.04)';photo.style.transition='transform 0.1s ease';});
+  wrap.addEventListener('mouseleave',function(){photo.style.animation='photo3dFloat 6s ease-in-out infinite';photo.style.transform='';});
 })();
 
 // =============================================
@@ -1428,17 +1023,11 @@ var so=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isInter
 document.querySelectorAll('.skill-fill').forEach(function(el){so.observe(el);});
 
 document.querySelectorAll('[data-tilt]').forEach(function(card){
-  card.addEventListener('mousemove',function(e){
-    var r=card.getBoundingClientRect(),x=(e.clientX-r.left-r.width/2)/(r.width/2),y=(e.clientY-r.top-r.height/2)/(r.height/2);
-    card.style.transform='perspective(800px) rotateY('+(x*7)+'deg) rotateX('+(-y*7)+'deg) scale(1.02)';
-    card.style.transition='transform 0.1s ease';
-  });
+  card.addEventListener('mousemove',function(e){var r=card.getBoundingClientRect(),x=(e.clientX-r.left-r.width/2)/(r.width/2),y=(e.clientY-r.top-r.height/2)/(r.height/2);card.style.transform='perspective(800px) rotateY('+(x*7)+'deg) rotateX('+(-y*7)+'deg) scale(1.02)';card.style.transition='transform 0.1s ease';});
   card.addEventListener('mouseleave',function(){card.style.transform='';card.style.transition='transform 0.5s ease';});
 });
 
-window.addEventListener('scroll',function(){
-  document.getElementById('nav').classList.toggle('scrolled',window.scrollY>50);
-});
+window.addEventListener('scroll',function(){document.getElementById('nav').classList.toggle('scrolled',window.scrollY>50);});
 
 var dis=document.querySelectorAll('.di[data-s]');
 var dockObs=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){dis.forEach(function(d){d.classList.remove('active');});var a=document.querySelector('.di[data-s="'+e.target.id+'"]');if(a)a.classList.add('active');}});},{threshold:0.35});
@@ -1446,9 +1035,7 @@ var dockObs=new IntersectionObserver(function(es){es.forEach(function(e){if(e.is
 
 var dAll=document.querySelectorAll('.di');
 dAll.forEach(function(item,i){
-  item.addEventListener('mouseenter',function(){
-    dAll.forEach(function(d,j){var dist=Math.abs(i-j);if(dist===0)d.style.transform='translateY(-5px) scale(1.2)';else if(dist===1)d.style.transform='translateY(-2px) scale(1.07)';else d.style.transform='';});
-  });
+  item.addEventListener('mouseenter',function(){dAll.forEach(function(d,j){var dist=Math.abs(i-j);if(dist===0)d.style.transform='translateY(-5px) scale(1.2)';else if(dist===1)d.style.transform='translateY(-2px) scale(1.07)';else d.style.transform='';});});
 });
 document.getElementById('dock').addEventListener('mouseleave',function(){dAll.forEach(function(d){d.style.transform='';});});
 </script>
