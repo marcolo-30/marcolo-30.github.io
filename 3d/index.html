@@ -272,9 +272,10 @@ footer span{color:var(--blue2)}
       <span class="hl">M</span>achine <span class="hl">L</span>earning
     </p>
     <p class="hero-title">
-      Distributed Systems &amp; Edge-Cloud Engineer &middot; Python Developer &middot; PhD ICT.<br>
-      7+ years building ML platforms, IoT systems and cloud infrastructure.<br>
-      EU Horizon Europe &middot; MLSysOps researcher.
+      Electronic Engineer &middot; MSc IoT &middot; PhD ICT &middot; 7+ years in distributed infrastructure, IoT systems and Edge-Cloud.<br>
+      Researching <strong style="color:#38bdf8">multi-agent systems for the autonomous deployment and orchestration of microservices across the computing continuum</strong> —
+      part of the <strong style="color:#34d399">MLSysOps</strong> consortium, funded by <strong style="color:#34d399">EU Horizon Europe</strong>.<br>
+      Passionate about <strong style="color:#38bdf8">Agentic AI</strong> and <strong style="color:#34d399">ML+IoT</strong>.
     </p>
     <div class="hero-ctas">
       <a href="#projects-section" class="btn-primary">
@@ -304,7 +305,43 @@ footer span{color:var(--blue2)}
   <h2 class="sec-title rev d1">Featured <span class="gt">Projects</span></h2>
   <div class="projects-grid">
 
+    <!-- MLSysOps FEATURED FIRST -->
     <div class="proj-card featured rev" data-tilt>
+      <div class="proj-icon-wrap featured-banner" id="globe-wrap" style="position:relative;cursor:grab">
+        <canvas id="c-p3" style="width:100%;height:100%;display:block"></canvas>
+        <div style="position:absolute;top:8px;left:10px;font-family:'Segoe UI',sans-serif;font-size:0.68rem;color:rgba(56,189,248,0.85);letter-spacing:0.06em;pointer-events:none;text-shadow:0 0 8px rgba(56,189,248,0.6)">MLSysOps &middot; EU Region</div>
+        <div style="position:absolute;bottom:8px;left:50%;transform:translateX(-50%);font-family:'Segoe UI',sans-serif;font-size:0.62rem;color:rgba(180,210,240,0.55);pointer-events:none;white-space:nowrap">Arrastra para rotar</div>
+        <div style="position:absolute;top:8px;right:8px;display:flex;gap:4px;z-index:10">
+          <button id="globe-autorotate" onclick="globeToggleAuto()" style="font-family:'Segoe UI',sans-serif;font-size:0.6rem;padding:3px 7px;border-radius:6px;border:1px solid rgba(56,189,248,0.4);background:rgba(6,10,20,0.75);color:rgba(56,189,248,0.9);cursor:pointer;backdrop-filter:blur(4px)">Auto &#9654;</button>
+          <button onclick="globeReset()" style="font-family:'Segoe UI',sans-serif;font-size:0.6rem;padding:3px 7px;border-radius:6px;border:1px solid rgba(56,189,248,0.3);background:rgba(6,10,20,0.75);color:rgba(180,210,240,0.7);cursor:pointer;backdrop-filter:blur(4px)">Reset</button>
+        </div>
+        <div class="proj-overlay">
+          <a href="https://mlsysops.eu/" target="_blank" class="btn-primary" style="padding:0.4rem 0.9rem;font-size:0.75rem">Project &rarr;</a>
+          <a href="https://github.com/mlsysops-eu" target="_blank" class="btn-ghost" style="padding:0.4rem 0.9rem;font-size:0.75rem;border-color:rgba(56,189,248,0.5)">GitHub &rarr;</a>
+        </div>
+      </div>
+      <div class="proj-body">
+        <p class="proj-meta">EU Horizon Europe &middot; 2023&ndash;2026 &nbsp;&middot;&nbsp; <span style="color:#34d399">&#128270; 3 peer-reviewed publications</span></p>
+        <p class="proj-name">MLSysOps &mdash; PhD Research</p>
+        <p class="proj-desc">ML-IoT platform orchestrated with Kubernetes for the computing continuum. Multi-agent SPADE, full observability stack (Prometheus + Grafana + OpenTelemetry). 3 peer-reviewed publications at IEEE, EWSN and WOA.</p>
+        <div class="proj-tags">
+          <span class="ptag">Kubernetes</span><span class="ptag">SPADE</span><span class="ptag">Prometheus</span><span class="ptag">IEEE</span><span class="ptag">EU Horizon</span>
+        </div>
+        <div style="display:flex;gap:0.5rem;margin-top:0.75rem">
+          <a href="https://mlsysops.eu/" target="_blank" class="c-link" style="font-size:0.72rem;padding:0.35rem 0.8rem;flex:1;justify-content:center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            mlsysops.eu
+          </a>
+          <a href="https://github.com/mlsysops-eu" target="_blank" class="c-link" style="font-size:0.72rem;padding:0.35rem 0.8rem;flex:1;justify-content:center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+            mlsysops-eu
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- K8s SECOND -->
+    <div class="proj-card rev d1" data-tilt>
       <div class="proj-icon-wrap featured-banner">
         <canvas id="c-p1"></canvas>
         <div class="proj-overlay">
@@ -322,7 +359,8 @@ footer span{color:var(--blue2)}
       </div>
     </div>
 
-    <div class="proj-card rev d1" data-tilt>
+    <!-- IoT Health THIRD -->
+    <div class="proj-card rev d2" data-tilt>
       <div class="proj-icon-wrap">
         <canvas id="c-p2"></canvas>
         <div class="proj-overlay">
@@ -337,41 +375,7 @@ footer span{color:var(--blue2)}
       </div>
     </div>
 
-    <div class="proj-card rev d2" data-tilt>
-      <div class="proj-icon-wrap" id="globe-wrap" style="position:relative;cursor:grab">
-        <canvas id="c-p3" style="width:100%;height:100%;display:block"></canvas>
-        <!-- Globe UI -->
-        <div style="position:absolute;top:8px;left:10px;font-family:'Segoe UI',sans-serif;font-size:0.68rem;color:rgba(56,189,248,0.85);letter-spacing:0.06em;pointer-events:none;text-shadow:0 0 8px rgba(56,189,248,0.6)">MLSysOps &middot; EU Region</div>
-        <div style="position:absolute;bottom:8px;left:50%;transform:translateX(-50%);font-family:'Segoe UI',sans-serif;font-size:0.62rem;color:rgba(180,210,240,0.55);pointer-events:none;white-space:nowrap">Arrastra para rotar</div>
-        <div style="position:absolute;top:8px;right:8px;display:flex;gap:4px;z-index:10">
-          <button id="globe-autorotate" onclick="globeToggleAuto()" style="font-family:'Segoe UI',sans-serif;font-size:0.6rem;padding:3px 7px;border-radius:6px;border:1px solid rgba(56,189,248,0.4);background:rgba(6,10,20,0.75);color:rgba(56,189,248,0.9);cursor:pointer;backdrop-filter:blur(4px)">Auto &#9654;</button>
-          <button onclick="globeReset()" style="font-family:'Segoe UI',sans-serif;font-size:0.6rem;padding:3px 7px;border-radius:6px;border:1px solid rgba(56,189,248,0.3);background:rgba(6,10,20,0.75);color:rgba(180,210,240,0.7);cursor:pointer;backdrop-filter:blur(4px)">Reset</button>
-        </div>
-        <div class="proj-overlay">
-          <a href="https://mlsysops.eu/" target="_blank" class="btn-primary" style="padding:0.4rem 0.9rem;font-size:0.75rem">Project &rarr;</a>
-          <a href="https://github.com/mlsysops-eu" target="_blank" class="btn-ghost" style="padding:0.4rem 0.9rem;font-size:0.75rem;border-color:rgba(56,189,248,0.5)">GitHub &rarr;</a>
-        </div>
-      </div>
-      <div class="proj-body">
-        <p class="proj-meta">EU Horizon Europe &middot; 2023&ndash;2026</p>
-        <p class="proj-name">MLSysOps &mdash; PhD Research</p>
-        <p class="proj-desc">ML-IoT platform orchestrated with Kubernetes for the computing continuum. Multi-agent SPADE, full observability stack. 3 peer-reviewed publications.</p>
-        <div class="proj-tags">
-          <span class="ptag">Kubernetes</span><span class="ptag">SPADE</span><span class="ptag">Prometheus</span><span class="ptag">IEEE</span>
-        </div>
-        <div style="display:flex;gap:0.5rem;margin-top:0.75rem">
-          <a href="https://mlsysops.eu/" target="_blank" class="c-link" style="font-size:0.72rem;padding:0.35rem 0.8rem;flex:1;justify-content:center">
-            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-            mlsysops.eu
-          </a>
-          <a href="https://github.com/mlsysops-eu" target="_blank" class="c-link" style="font-size:0.72rem;padding:0.35rem 0.8rem;flex:1;justify-content:center">
-            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
-            mlsysops-eu
-          </a>
-        </div>
-      </div>
-    </div>
-
+    <!-- IoT Fleet FOURTH -->
     <div class="proj-card rev d3" data-tilt>
       <div class="proj-icon-wrap">
         <canvas id="c-p4"></canvas>
@@ -659,7 +663,7 @@ function makeScene(canvas, w, h) {
       new THREE.PlaneGeometry(2.2,2.2),
       new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(c),transparent:true,opacity:0.92,depthWrite:false,side:THREE.DoubleSide})
     );
-    plane.position.set(0,0, front ? 1.5 : -1.5);
+    plane.position.set(0,0, front ? 1.0 : -1.0);
     if(!front) plane.scale.x=-1;
     return plane;
   }
@@ -938,10 +942,373 @@ makeProjectScene('c-p2', 200, function(sc){
   window.addEventListener('resize',function(){var nw=wrap.offsetWidth||400,nh=wrap.offsetHeight||200;camera.aspect=nw/nh;camera.updateProjectionMatrix();renderer.setSize(nw,nh);});
 })();
 
-// P4: IoT Fleet - Cargo Truck 3D + upward WiFi signal transmission
-makeProjectScene('c-p4', 200, function(sc){
-  var objs=[];
-  var cc=document.createElement('canvas');cc.width=512;cc.height=200;
+// P4: Realistic European Semi-Truck — standalone scene
+(function(){
+  var canvas=document.getElementById('c-p4');
+  if(!canvas) return;
+  var W=canvas.parentElement.offsetWidth||400, H=canvas.parentElement.offsetHeight||200;
+  canvas.width=W; canvas.height=H;
+
+  var renderer=new THREE.WebGLRenderer({canvas:canvas,antialias:true,alpha:false});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+  renderer.setSize(W,H);
+  renderer.shadowMap.enabled=true;
+  renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+  renderer.toneMapping=THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure=1.05;
+
+  var scene=new THREE.Scene();
+  scene.background=new THREE.Color(0x7aa8c8);
+  scene.fog=new THREE.FogExp2(0x8ab4cc,0.020);
+
+  var camera=new THREE.PerspectiveCamera(52,W/H,0.1,200);
+  camera.position.set(5.5,4.2,11.0);
+  camera.lookAt(-0.3,2.2,0);
+
+  // ── LIGHTING ──
+  scene.add(new THREE.AmbientLight(0xc8d8e8,0.65));
+  var sun=new THREE.DirectionalLight(0xfff8ee,2.2);
+  sun.position.set(8,18,12); sun.castShadow=true;
+  sun.shadow.mapSize.width=1024; sun.shadow.mapSize.height=1024;
+  sun.shadow.camera.near=0.5; sun.shadow.camera.far=80;
+  sun.shadow.camera.left=-18; sun.shadow.camera.right=18;
+  sun.shadow.camera.top=18; sun.shadow.camera.bottom=-18;
+  scene.add(sun);
+  var fill=new THREE.DirectionalLight(0xb8ccff,0.5);
+  fill.position.set(-10,6,-5); scene.add(fill);
+
+  // ── MATERIALS ──
+  var mPaint=new THREE.MeshStandardMaterial({color:0x1a3a6a,metalness:0.18,roughness:0.32});
+  var mChrome=new THREE.MeshStandardMaterial({color:0xc8d0da,metalness:0.92,roughness:0.08});
+  var mGlass=new THREE.MeshStandardMaterial({color:0x1a2a38,metalness:0.08,roughness:0.04,transparent:true,opacity:0.55});
+  var mRubber=new THREE.MeshStandardMaterial({color:0x111111,metalness:0,roughness:0.95});
+  var mRim=new THREE.MeshStandardMaterial({color:0x9090a8,metalness:0.88,roughness:0.12});
+  var mGrille=new THREE.MeshStandardMaterial({color:0x282828,metalness:0.65,roughness:0.35});
+  var mLight=new THREE.MeshStandardMaterial({color:0xfffff8,emissive:0xffffaa,emissiveIntensity:2.0,metalness:0.4,roughness:0.1});
+  var mTail=new THREE.MeshStandardMaterial({color:0xff1a00,emissive:0xff2200,emissiveIntensity:1.2,transparent:true,opacity:0.9});
+  var mFuel=new THREE.MeshStandardMaterial({color:0x808898,metalness:0.82,roughness:0.18});
+  var mExh=new THREE.MeshStandardMaterial({color:0x585858,metalness:0.7,roughness:0.4});
+  var mOrange=new THREE.MeshStandardMaterial({color:0xff8800,emissive:0xff6600,emissiveIntensity:1.0});
+
+  // ── GEOMETRY HELPERS ──
+  function bx(w,h,d,mat){var m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat);m.castShadow=true;m.receiveShadow=true;return m;}
+  function cy(rt,rb,h,seg,mat){var m=new THREE.Mesh(new THREE.CylinderGeometry(rt,rb,h,seg),mat);m.castShadow=true;m.receiveShadow=true;return m;}
+  function add(g,mesh,x,y,z,rx,ry,rz){mesh.position.set(x||0,y||0,z||0);if(rx)mesh.rotation.x=rx;if(ry)mesh.rotation.y=ry;if(rz)mesh.rotation.z=rz;g.add(mesh);return mesh;}
+
+  // ── TRUCK GROUP ──
+  var truck=new THREE.Group(); scene.add(truck);
+
+  // === CAB (cab-over European, Scania/Volvo style) ===
+  var cab=new THREE.Group(); truck.add(cab);
+
+  // Main cab body
+  add(cab, bx(2.42,2.30,2.05,mPaint), 0,2.35,0);
+  // Upper sleeper box (behind main cab)
+  add(cab, bx(2.40,2.10,0.65,mPaint), 0,2.25,-1.30);
+  // Roof aero fairing
+  add(cab, bx(2.30,0.32,1.85,mPaint), 0,3.58,-0.08);
+  // Roof fairing front slope
+  var rfSlope=bx(2.28,0.45,0.32,mPaint);
+  rfSlope.position.set(0,3.42,0.92); rfSlope.rotation.x=-0.45; cab.add(rfSlope);
+
+  // Front lower nose / spoiler
+  add(cab, bx(2.40,0.40,0.30,mPaint), 0,1.50,1.12);
+  add(cab, bx(2.40,0.18,0.28,mChrome), 0,1.25,1.16); // chrome bumper lip
+
+  // Main bumper
+  var bump=bx(2.44,0.55,0.22,mPaint);
+  add(cab, bump, 0,0.88,1.12);
+  // Bumper lower chrome strip
+  add(cab, bx(2.44,0.08,0.24,mChrome), 0,0.62,1.12);
+
+  // Grille (center)
+  add(cab, bx(1.30,0.72,0.06,mGrille), 0,1.86,1.11);
+  // Grille horizontal bars
+  for(var gi=0;gi<5;gi++){
+    var gBar=bx(1.28,0.04,0.04,mChrome);
+    add(cab, gBar, 0, 1.56+gi*0.15, 1.13);
+  }
+  // Grille surround
+  add(cab, bx(1.36,0.78,0.04,mChrome), 0,1.86,1.09);
+
+  // Headlights (LED-style, rectangular)
+  [-0.80,0.80].forEach(function(x){
+    add(cab, bx(0.42,0.18,0.07,mLight), x,1.85,1.12);
+    // DRL strip
+    var drl=bx(0.38,0.05,0.05,new THREE.MeshStandardMaterial({color:0xffffff,emissive:0xffffff,emissiveIntensity:2.5,metalness:0.3,roughness:0.1}));
+    add(cab,drl, x,2.02,1.12);
+    // Fog light
+    add(cab, bx(0.20,0.12,0.06,mLight), x,0.82,1.14);
+    // Indicator
+    add(cab, bx(0.18,0.10,0.06,mOrange), x*0.78,1.68,1.13);
+  });
+
+  // Windshield
+  var ws=bx(2.06,1.10,0.04,mGlass);
+  ws.rotation.x=-0.12; add(cab,ws,0,2.90,1.07);
+  // Windshield frame
+  add(cab, bx(2.12,1.18,0.03,mChrome), 0,2.90,1.05);
+
+  // Side windows
+  [-1.215,1.215].forEach(function(x){
+    add(cab, bx(0.04,0.82,0.88,mGlass), x,2.90,0.52);
+    add(cab, bx(0.04,0.70,0.62,mGlass), x,2.80,-0.28);
+  });
+
+  // Roof marker lights (5 orange)
+  for(var oi=-0.8;oi<=0.8;oi+=0.4){
+    add(cab, bx(0.09,0.09,0.07,mOrange), oi,3.74,0.82);
+  }
+
+  // Side mirrors
+  [-1.28,1.28].forEach(function(x){
+    var arm=cy(0.025,0.025,0.42,6,mChrome);
+    add(cab,arm,x,3.08,0.78,0,0,Math.PI/2);
+    var mh=bx(0.07,0.30,0.22,mChrome);
+    add(cab,mh,x+(x>0?0.10:-0.10),2.95,0.68);
+    add(cab,bx(0.04,0.26,0.18,mGlass),x+(x>0?0.14:-0.14),2.95,0.68);
+  });
+
+  // Door handles + lines
+  [-1.225,1.225].forEach(function(x){
+    add(cab,bx(0.03,0.06,0.22,mChrome),x,2.58,0.95);
+    // Door line
+    add(cab,bx(0.03,1.90,0.04,mChrome),x,2.20,0.00);
+  });
+
+  // Entry steps
+  [-1.20,1.20].forEach(function(x){
+    add(cab,bx(0.30,0.05,0.22,mChrome),x,1.25,0.95);
+    add(cab,bx(0.30,0.05,0.22,mChrome),x,0.92,0.95);
+  });
+
+  // Tail lights (rear)
+  [-0.90,0.90].forEach(function(x){
+    add(cab,bx(0.28,0.36,0.05,mTail),x,2.65,-1.60);
+    add(cab,bx(0.26,0.12,0.05,mOrange),x,2.35,-1.60);
+  });
+
+  // === CHASSIS FRAME ===
+  var chas=new THREE.Group(); truck.add(chas);
+  [-0.50,0.50].forEach(function(x){
+    add(chas,bx(0.16,0.26,3.80,mChrome),x,0.86,-1.22);
+  });
+  for(var cm=-0.40;cm>=-2.80;cm-=0.70){
+    add(chas,bx(1.12,0.14,0.12,mChrome),0,0.86,cm);
+  }
+
+  // Fuel tanks (cylindrical, both sides)
+  [-1.08,1.08].forEach(function(x){
+    var t=cy(0.27,0.27,1.30,20,mFuel);
+    add(chas,t,x,0.84,-0.68,0,0,Math.PI/2);
+    add(chas,cy(0.07,0.07,0.05,10,mChrome),x+(x>0?0.27:-0.27),1.10,-0.68,Math.PI/2,0);
+  });
+
+  // Exhaust stack
+  add(chas,cy(0.055,0.060,1.65,12,mExh),0.80,2.60,-0.95);
+  add(chas,cy(0.075,0.055,0.14,12,mChrome),0.80,3.43,-0.95);
+
+  // === WHEEL BUILDER ===
+  function makeWheel(isDual){
+    var wg=new THREE.Group();
+    var offsets=isDual?[-0.12,0.12]:[0];
+    offsets.forEach(function(oz){
+      var tireGroup=new THREE.Group();
+      tireGroup.position.z=oz;
+      // Tire torus (ring in YZ plane = facing X axis)
+      var tire=new THREE.Mesh(new THREE.TorusGeometry(0.46,0.155,18,36),mRubber);
+      tire.rotation.y=Math.PI/2; tireGroup.add(tire);
+      // Rim disc
+      var rim=cy(0.34,0.34,0.20,20,mRim);
+      rim.rotation.z=Math.PI/2; tireGroup.add(rim);
+      // Spokes (6)
+      for(var sp=0;sp<6;sp++){
+        var sa=sp/6*Math.PI*2;
+        var spk=cy(0.030,0.030,0.26,6,mRim);
+        spk.rotation.z=Math.PI/2;
+        spk.position.set(0,Math.cos(sa)*0.20,Math.sin(sa)*0.20);
+        tireGroup.add(spk);
+      }
+      // Hub + lug nuts
+      var hub=cy(0.068,0.068,0.24,14,mChrome);
+      hub.rotation.z=Math.PI/2; tireGroup.add(hub);
+      for(var ln=0;ln<8;ln++){
+        var la=ln/8*Math.PI*2;
+        var lug=cy(0.020,0.020,0.06,6,mChrome);
+        lug.rotation.z=Math.PI/2;
+        lug.position.set(0,Math.cos(la)*0.25,Math.sin(la)*0.25);
+        tireGroup.add(lug);
+      }
+      wg.add(tireGroup);
+    });
+    return wg;
+  }
+
+  // Front axle (steerable, 2 single wheels)
+  var frontAxle=new THREE.Group();
+  frontAxle.position.set(0,0.62,0.82);
+  truck.add(frontAxle);
+  var fw=[];
+  [-1.14,1.14].forEach(function(x){
+    var w=makeWheel(false); w.position.x=x; frontAxle.add(w); fw.push(w);
+  });
+
+  // Rear axles (dual wheels)
+  var rw=[];
+  [[-1.58],[-2.28]].forEach(function(zArr){
+    var axle=new THREE.Group(); axle.position.set(0,0.62,zArr[0]); truck.add(axle);
+    [-1.22,1.22].forEach(function(x){
+      var w=makeWheel(true); w.position.x=x; axle.add(w); rw.push(w);
+    });
+  });
+
+  // Wheel arches (paint-colored)
+  [-1.14,1.14].forEach(function(x){
+    add(truck,bx(0.30,0.35,0.70,mPaint),x,1.08,0.82);
+  });
+  [-1.22,1.22].forEach(function(x){
+    add(truck,bx(0.30,0.38,1.10,mPaint),x,1.08,-1.93);
+  });
+
+  // ── ROAD ──
+  var rdC=document.createElement('canvas');rdC.width=512;rdC.height=2048;
+  var rdX=rdC.getContext('2d');
+  rdX.fillStyle='#333338';rdX.fillRect(0,0,512,2048);
+  // Edge white lines
+  rdX.fillStyle='#ffffff';rdX.fillRect(14,0,14,2048);rdX.fillRect(484,0,14,2048);
+  // Yellow center line
+  rdX.fillStyle='#ffcc00';
+  for(var d=0;d<2048;d+=90){rdX.fillRect(249,d,14,55);}
+  // Lane markers
+  rdX.fillStyle='rgba(255,255,255,0.22)';
+  for(var d=0;d<2048;d+=90){rdX.fillRect(160,d,8,55);rdX.fillRect(344,d,8,55);}
+  // Subtle asphalt texture
+  for(var n=0;n<800;n++){
+    rdX.fillStyle='rgba(0,0,0,'+(0.02+Math.random()*0.05)+')';
+    rdX.fillRect(Math.random()*512,Math.random()*2048,Math.random()*6+1,1);
+  }
+  var rdTex=new THREE.CanvasTexture(rdC);
+  rdTex.wrapS=THREE.ClampToEdgeWrapping;rdTex.wrapT=THREE.RepeatWrapping;rdTex.repeat.set(1,6);
+
+  var road=new THREE.Mesh(new THREE.PlaneGeometry(14,300),
+    new THREE.MeshStandardMaterial({map:rdTex,roughness:0.88,metalness:0.04}));
+  road.rotation.x=-Math.PI/2; road.position.set(0,0,-120); road.receiveShadow=true;
+  scene.add(road);
+
+  // Shoulders / terrain
+  [-9.5,9.5].forEach(function(x){
+    var sh=new THREE.Mesh(new THREE.PlaneGeometry(6,300),
+      new THREE.MeshStandardMaterial({color:0x4a5e3a,roughness:0.96}));
+    sh.rotation.x=-Math.PI/2; sh.position.set(x,-0.01,-120); sh.receiveShadow=true;
+    scene.add(sh);
+  });
+
+  // Guard rails
+  [-6.4,6.4].forEach(function(x){
+    var rail=new THREE.Mesh(new THREE.BoxGeometry(0.10,0.14,300),
+      new THREE.MeshStandardMaterial({color:0xb0bcc8,metalness:0.82,roughness:0.18}));
+    rail.position.set(x,0.68,-120); scene.add(rail);
+    for(var pz=-80;pz<60;pz+=5){
+      var post=cy(0.038,0.038,0.92,6,mChrome);
+      post.position.set(x,0.46,pz); scene.add(post);
+    }
+  });
+
+  // Distant hills
+  for(var hi=0;hi<5;hi++){
+    var hill=new THREE.Mesh(new THREE.SphereGeometry(12+hi*4,12,8),
+      new THREE.MeshStandardMaterial({color:0x3d5228,roughness:1,metalness:0}));
+    hill.scale.y=0.28;
+    hill.position.set(-30+hi*12,-2.8,-80-hi*15); scene.add(hill);
+    var hill2=new THREE.Mesh(new THREE.SphereGeometry(10+hi*3,12,8),
+      new THREE.MeshStandardMaterial({color:0x485c30,roughness:1,metalness:0}));
+    hill2.scale.y=0.25;
+    hill2.position.set(25-hi*8,-2.5,-90-hi*12); scene.add(hill2);
+  }
+
+  // ── WIFI SIGNAL ARCS (from cab roof, curving upward) ──
+  var wifiGrp=new THREE.Group();
+  wifiGrp.position.set(0.0, 4.05, 0.10); // above cab roof center
+  wifiGrp.rotation.y=-0.38; // angle slightly toward camera
+  truck.add(wifiGrp);
+  var wArcs=[];
+  // Warm amber/orange — high contrast against sky blue
+  var wColors=[0xff9900, 0xffcc00, 0xff6600];
+  wColors.forEach(function(col,i){
+    var radius=0.55+i*0.60;
+    var arc=new THREE.Mesh(
+      new THREE.TorusGeometry(radius,0.095,12,40,Math.PI),
+      new THREE.MeshBasicMaterial({color:col,transparent:true,opacity:0.90,side:THREE.DoubleSide})
+    );
+    arc.rotation.z=0; // arch shape (∩) — closed top, open bottom
+    arc.position.y=i*0.06;
+    arc.userData={idx:i};
+    wifiGrp.add(arc);
+    wArcs.push(arc);
+  });
+  // Antenna dot — bright orange
+  var antDot=new THREE.Mesh(new THREE.SphereGeometry(0.09,10,10),
+    new THREE.MeshBasicMaterial({color:0xffaa00,transparent:true,opacity:1}));
+  wifiGrp.add(antDot);
+
+  // ── ANIMATION ──
+  var roadOffset=0, steerAngle=0, steerTarget=0, steerTimer=0;
+  var camX=5.5, camY=4.2;
+  var speed=14.0; // units/sec — faster truck
+  var clkT=new THREE.Clock();
+
+  (function loop(){
+    requestAnimationFrame(loop);
+    var dt=Math.min(clkT.getDelta(),0.05);
+    var t=clkT.getElapsedTime();
+
+    // Steer sway
+    steerTimer-=dt;
+    if(steerTimer<=0){steerTarget=(Math.random()-0.5)*0.10;steerTimer=2+Math.random()*3;}
+    steerAngle+=(steerTarget-steerAngle)*dt*1.8;
+    frontAxle.rotation.y=steerAngle;
+
+    // Wheel spin (around local X axis of wheel group)
+    var wSpin=speed*dt/0.46;
+    fw.forEach(function(w){w.children.forEach(function(t){t.rotation.x-=wSpin;});});
+    rw.forEach(function(w){w.children.forEach(function(t){t.rotation.x-=wSpin;});});
+
+    // Suspension bob
+    var bob=Math.sin(t*2.6)*0.018+Math.sin(t*7.1)*0.006;
+    truck.position.y=bob;
+    truck.rotation.z=Math.sin(t*2.6)*0.004;
+
+    // Road scrolls
+    roadOffset-=speed*dt/200; // lines flow near→far (truck drives forward)
+    rdTex.offset.y=roadOffset;
+
+    // Chase camera smooth follow
+    var tCamX=5.5+steerAngle*1.2;
+    var tCamY=4.2+bob*0.4;
+    camX+=(tCamX-camX)*dt*3;
+    camY+=(tCamY-camY)*dt*3;
+    camera.position.set(camX,camY,11.0);
+    camera.lookAt(-0.3+steerAngle*0.5, 2.2+bob, -0.5);
+
+    // WiFi arcs pulse: sequential bottom→top, expanding + fading
+    wArcs.forEach(function(arc,i){
+      var phase=((t*1.1 - i*0.38)%1 + 1)%1; // 0→1 loop per arc
+      var s=0.82+phase*0.55;
+      arc.scale.set(s,s,s);
+      arc.position.y=i*0.06 + phase*1.2; // rises upward as it expands
+      arc.material.opacity=(1-phase)*0.90;
+    });
+    antDot.material.opacity=0.5+Math.abs(Math.sin(t*4))*0.5;
+
+    renderer.render(scene,camera);
+  })();
+
+  window.addEventListener('resize',function(){
+    var nw=canvas.parentElement.offsetWidth||400,nh=canvas.parentElement.offsetHeight||200;
+    camera.aspect=nw/nh;camera.updateProjectionMatrix();renderer.setSize(nw,nh);
+  });
+})(); // end P4 truck IIFE
+/*_OLD_TRUCK_START_
   var ctx=cc.getContext('2d');ctx.clearRect(0,0,512,200);
   var G=155;
   var trailerGrd=ctx.createLinearGradient(0,55,0,G);trailerGrd.addColorStop(0,'#1e3a5f');trailerGrd.addColorStop(0.5,'#162d4a');trailerGrd.addColorStop(1,'#0e1e33');
@@ -1016,8 +1383,7 @@ makeProjectScene('c-p4', 200, function(sc){
     var bob=Math.sin(t*1.8)*0.012;carPlane.position.y=-0.15+bob;wifiGroup.position.y=carPlane.position.y+0.83;
     wheels.forEach(function(w){w.rotation.y=-t*3.5;});rdTex.offset.x=t*0.18;
   }}};objs.push(truckBob);
-  return objs;
-});
+_OLD_TRUCK_END_*/
 
 // =============================================
 // BACKGROUND: Neural network particles
