@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Marco Loiza — Iron Lab</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#000;overflow:hidden;font-family:'Courier New',monospace}
+canvas{display:block}
+#hud{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:10}
+#hud-top{position:absolute;top:18px;left:50%;transform:translateX(-50%);color:var(--ac);font-size:11px;letter-spacing:4px;text-transform:uppercase;text-shadow:0 0 10px var(--ac);opacity:.75}
+#c-tl,#c-tr,#c-bl,#c-br{position:absolute;width:34px;height:34px;border-color:var(--ac-d);border-style:solid}
+#c-tl{top:10px;left:10px;border-width:2px 0 0 2px}
+#c-tr{top:10px;right:10px;border-width:2px 2px 0 0}
+#c-bl{bottom:10px;left:10px;border-width:0 0 2px 2px}
+#c-br{bottom:10px;right:10px;border-width:0 2px 2px 0}
+#scanline{position:absolute;top:0;left:0;width:100%;height:3px;background:linear-gradient(transparent,var(--ac-d),transparent);animation:scan 5s linear infinite}
+@keyframes scan{from{top:0}to{top:100%}}
+:root{--ac:#00d4ff;--ac-d:#00d4ff33;--pbg:rgba(0,8,18,.93);--pb:#00d4ff33;--tx:#88ccee;--tt:#00d4ff}
+body.light{--ac:#0066cc;--ac-d:#0066cc44;--pbg:rgba(240,235,225,.96);--pb:#0066cc44;--tx:#334455;--tt:#003366}
+#mode-btn{position:fixed;top:14px;right:58px;background:transparent;border:1px solid var(--ac-d);color:var(--ac);font-family:'Courier New',monospace;font-size:10px;letter-spacing:2px;padding:5px 13px;cursor:pointer;pointer-events:all;z-index:30;text-transform:uppercase}
+#info-panel{position:fixed;right:-440px;top:50%;transform:translateY(-50%);width:400px;background:var(--pbg);border:1px solid var(--pb);border-right:none;padding:28px;color:var(--tt);transition:right .5s;z-index:20;pointer-events:all;backdrop-filter:blur(14px)}
+#info-panel.open{right:0}
+#info-panel h2{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#ffd700;margin-bottom:4px}
+#info-panel h3{font-size:19px;letter-spacing:2px;margin-bottom:15px}
+#info-panel p{font-size:12px;line-height:1.9;color:var(--tx);margin-bottom:8px}
+.tag{display:inline-block;background:#00d4ff0f;border:1px solid #00d4ff33;padding:3px 10px;font-size:10px;margin:3px 3px 3px 0;color:var(--ac)}
+.section-label{font-size:9px;letter-spacing:3px;color:#ffd70099;text-transform:uppercase;margin:14px 0 5px;display:block}
+#close-btn{position:absolute;top:14px;right:14px;cursor:pointer;color:var(--ac);font-size:18px;pointer-events:all;opacity:.6}
+#tooltip{position:fixed;bottom:36px;left:50%;transform:translateX(-50%);color:var(--ac);font-size:11px;letter-spacing:3px;text-transform:uppercase;animation:pulse 2.5s ease-in-out infinite;pointer-events:none}
+@keyframes pulse{0%,100%{opacity:.2}50%{opacity:.8}}
+#controls-hint{position:fixed;bottom:10px;right:16px;color:var(--ac-d);font-size:9px;letter-spacing:2px;pointer-events:none}
+#loading{position:fixed;inset:0;background:#000;display:flex;align-items:center;justify-content:center;flex-direction:column;z-index:100;transition:opacity 1s}
+#loading h1{color:#ffd700;font-size:13px;letter-spacing:6px;text-transform:uppercase;text-shadow:0 0 20px #ffd700;margin-bottom:20px}
+#loading-bar-wrap{width:220px;height:2px;background:#111}
+#loading-bar{height:100%;width:0%;background:#00d4ff;box-shadow:0 0 10px #00d4ff;transition:width .3s}
+#loading p{color:#00d4ff55;font-size:10px;letter-spacing:3px;margin-top:12px}
+</style>
+</head>
+<body>
+<div id="loading"><h1>INITIALIZING LAB</h1><div id="loading-bar-wrap"><div id="loading-bar"></div></div><p id="loading-text">LOADING...</p></div>
+<button id="mode-btn">&#9728; LIGHT</button>
+<div id="hud"><div id="hud-top">STARK INDUSTRIES &mdash; PERSONAL LAB v3.0</div><div id="c-tl"></div><div id="c-tr"></div><div id="c-bl"></div><div id="c-br"></div><div id="scanline"></div></div>
+<div id="info-panel"><span id="close-btn">&#x2715;</span><h2 id="p-label">UNIT</h2><h3 id="p-title">&mdash;</h3><div id="p-body"></div></div>
+<div id="tooltip">[ CLICK ON ANY OBJECT TO INTERACT ]</div>
+<div id="controls-hint">DRAG &middot; SCROLL &middot; CLICK</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+var CV={
+  personal:{label:"IDENTITY FILE",title:"Marco A. Loiza",body:'<span class="section-label">About</span><p>PhD candidate & AI researcher at UNICAL. Multi-agent systems, intelligent automation, IoT.</p><span class="section-label">Contact</span><p>marcoa.loizacarrillo@dimes.unical.it &mdash; DIMES, UNICAL, Cosenza, Italy</p><span class="section-label">Skills</span><span class="tag">Python</span><span class="tag">AI/ML</span><span class="tag">Multi-Agent</span><span class="tag">LLMs</span><span class="tag">FastAPI</span><span class="tag">IoT</span><span class="tag">Embedded</span><span class="tag">Three.js</span>'},
+  projects:{label:"ACTIVE PROJECTS",title:"Research & Dev",body:'<span class="section-label">UNICAL Agents Platform</span><p>Multi-agent orchestration leveraging LLMs for academic workflow automation.</p><span class="section-label">AI Lab Automation</span><p>Claude API pipelines for document processing and scheduling.</p><span class="section-label">IoT Research Node</span><p>ESP32 distributed sensor mesh for real-time data and edge AI inference.</p>'},
+  experience:{label:"MISSION LOGS",title:"Experience",body:'<span class="section-label">PhD Researcher &mdash; UNICAL</span><p>Distributed intelligent systems, agent coordination, LLM integration.</p><span class="section-label">Embedded & IoT</span><p>ESP32, Raspberry Pi, Arduino. MQTT, REST, edge inference.</p><span class="section-label">Full-Stack AI</span><p>FastAPI, React, vector DBs, RAG architectures.</p>'},
+  education:{label:"SYSTEM SPECS",title:"Education",body:'<span class="section-label">PhD &mdash; Computer Engineering</span><p>Universita della Calabria (UNICAL) &mdash; ongoing</p><span class="section-label">Focus Areas</span><p>AI &middot; Multi-Agent Systems &middot; Machine Learning &middot; IoT</p>'},
+  bench:{label:"WORKBENCH",title:"Electronics Lab",body:'<span class="section-label">Equipment</span><p>Full embedded dev station: RPi 4, ESP32, Arduino Mega, oscilloscope, Fluke multimeter, networking.</p><span class="section-label">Stack</span><span class="tag">RPi 4</span><span class="tag">ESP32</span><span class="tag">Arduino</span><span class="tag">MQTT</span><span class="tag">MicroPython</span><span class="tag">C/C++</span><span class="tag">Docker</span>'},
+  staples:{label:"WALL ART",title:"Staples Center Court",body:'<span class="section-label">Crypto.com Arena</span><p>Home of the Los Angeles Lakers. Iconic hardwood court painting.</p><span class="section-label">The Lakers</span><p>Purple & Gold &mdash; 17x NBA Champions</p>'},
+  beach:{label:"WALL ART",title:"Beach & Music",body:'<span class="section-label">The Beach</span><p>Tropical beach &mdash; the warmth of home.</p><span class="section-label">Acoustic Guitars</span><p>Music is always in the room.</p><span class="section-label">Diatonic Accordion</span><p>Norteno style &mdash; the sound of roots.</p>'}
+};
+var DIPLOMA_DATA=[
+  {label:"BACHELOR DEGREE",title:"B.Sc. Add Title",body:'<span class="section-label">Institution</span><p>Add your university here</p><span class="section-label">Field</span><p>Systems Engineering / CS</p><span class="section-label">Year</span><p>20XX &mdash; Add grade</p>'},
+  {label:"MASTER DEGREE",title:"M.Sc. Computer Engineering",body:'<span class="section-label">Institution</span><p>Add your university here</p><span class="section-label">Field</span><p>Computer Engineering / AI</p><span class="section-label">Year</span><p>20XX &mdash; Add grade</p>'},
+  {label:"PHD CANDIDATE",title:"PhD Computer Engineering",body:'<span class="section-label">Institution</span><p>Universita della Calabria &mdash; DIMES</p><span class="section-label">Research</span><p>Multi-Agent Systems, LLMs, Automation</p><span class="section-label">Status</span><p>Ongoing &mdash; 2025/2026</p>'}
+];
+// renderer
+var renderer=new THREE.WebGLRenderer({antialias:true});
+renderer.setSize(window.innerWidth,window.innerHeight);
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+document.body.appendChild(renderer.domElement);
+var scene=new THREE.Scene();
+scene.fog=new THREE.FogExp2(0x000814,0.038);
+scene.background=new THREE.Color(0x000814);
+var camera=new THREE.PerspectiveCamera(58,window.innerWidth/window.innerHeight,0.1,100);
+camera.position.set(0,5,11); camera.lookAt(0,2.5,0);
+// lights
+var ambLight=new THREE.AmbientLight(0x001830,0.6); scene.add(ambLight);
+var keyLight=new THREE.PointLight(0x00aaff,2.5,20); keyLight.position.set(0,8,0); scene.add(keyLight);
+var goldFill=new THREE.PointLight(0xffa500,1.0,18); goldFill.position.set(-5,5,-2); scene.add(goldFill);
+var benchLight=new THREE.PointLight(0xffffff,1.4,10); benchLight.position.set(0,4,4); scene.add(benchLight);
+var sunLight=new THREE.DirectionalLight(0xffeedd,0); sunLight.position.set(3,8,6); scene.add(sunLight);
+var DARK={bg:0x000814,fog:0.038,ambC:0x001830,ambI:0.6,floorC:0x000e18,wallC:0x0a1628,gridA:0x003355,gridB:0x001a2e,keyI:2.5};
+var LIGHT={bg:0xe8e2d8,fog:0.01,ambC:0xfff5e8,ambI:1.2,floorC:0xb8966a,wallC:0x1a3050,gridA:0xa07848,gridB:0x8a6038,keyI:1.2};
+var darkMode=true;
+</script>
+<script>var RW=14,RD=20,RH=9,BACK=-10,LEFT=-7,RIGHT=7;</script>
+<script src="scene.js"></script>
+<script>
+function setDarkMode(dark){
+  darkMode=dark;
+  var P=dark?DARK:LIGHT;
+  document.body.classList.toggle('light',!dark);
+  document.getElementById('mode-btn').textContent=dark?'☀ LIGHT':'☾ DARK';
+  scene.background=new THREE.Color(P.bg);
+  scene.fog=new THREE.FogExp2(P.bg,P.fog);
+  ambLight.color.set(P.ambC); ambLight.intensity=P.ambI;
+  sunLight.intensity=dark?0:1.5;
+  keyLight.color.set(dark?0x00aaff:0x88bbff); keyLight.intensity=P.keyI;
+  goldFill.intensity=dark?1.0:0.4; benchLight.intensity=dark?1.4:2.2;
+  particleMat.opacity=dark?0.4:0.1;
+  var rm=window.ROOM_MATS;
+  if(rm){rm.floorMat.color.set(P.floorC);rm.walls.forEach(function(m){m.color.set(P.wallC);});rm.grid.material[0].color.set(P.gridA);rm.grid.material[1].color.set(P.gridB);}
+}
+document.getElementById('mode-btn').addEventListener('click',function(){setDarkMode(!darkMode);});
+// camera
+var isDragging=false,_hasDragged=false,prevMouse={x:0,y:0};
+var sph={theta:0,phi:0.32,r:14},tgt={theta:0,phi:0.32,r:14};
+renderer.domElement.addEventListener('mousedown',function(e){if(e.button===0){isDragging=true;_hasDragged=false;prevMouse={x:e.clientX,y:e.clientY};}});
+window.addEventListener('mouseup',function(){isDragging=false;});
+window.addEventListener('mousemove',function(e){
+  if(!isDragging)return;
+  var dx=e.clientX-prevMouse.x, dy=e.clientY-prevMouse.y;
+  if(Math.abs(dx)>3||Math.abs(dy)>3) _hasDragged=true;
+  tgt.theta-=dx*0.007;
+  tgt.phi=Math.max(0.05,Math.min(Math.PI/2.2,tgt.phi+dy*0.006));
+  prevMouse={x:e.clientX,y:e.clientY};
+});
+window.addEventListener('wheel',function(e){tgt.r=Math.max(3.5,Math.min(18,tgt.r+e.deltaY*0.014));});
+var lastTouch=null;
+renderer.domElement.addEventListener('touchstart',function(e){lastTouch={x:e.touches[0].clientX,y:e.touches[0].clientY};},{passive:true});
+renderer.domElement.addEventListener('touchmove',function(e){
+  if(!lastTouch)return;
+  tgt.theta-=(e.touches[0].clientX-lastTouch.x)*0.007;
+  tgt.phi=Math.max(0.05,Math.min(Math.PI/2.2,tgt.phi+(e.touches[0].clientY-lastTouch.y)*0.006));
+  lastTouch={x:e.touches[0].clientX,y:e.touches[0].clientY};
+},{passive:true});
+// ── AUDIO ENGINE ────────────────────────────────────────────────────
+var _AC=null;
+function _getAC(){
+  if(!_AC) _AC=new(window.AudioContext||window.webkitAudioContext)();
+  return _AC;
+}
+function _withAC(fn){
+  try{
+    var ac=_getAC();
+    if(ac.state==='suspended'){ac.resume().then(function(){fn(ac);});}
+    else{fn(ac);}
+  }catch(e){console.warn('Audio error:',e);}
+}
+
+// Karplus-Strong helper — plucked string
+function _ks(ac,freq,amp,when){
+  var sr=ac.sampleRate, p=Math.round(sr/freq), len=sr*2;
+  var buf=ac.createBuffer(1,len,sr), d=buf.getChannelData(0);
+  for(var j=0;j<p;j++) d[j]=(Math.random()*2-1)*amp;
+  for(var j=p;j<len;j++) d[j]=0.499*(d[j-p]+d[j-p+1]);
+  var src=ac.createBufferSource(); src.buffer=buf;
+  src.connect(ac.destination);
+  src.start(when||0);
+}
+
+window._playGuitar=function(){
+  _withAC(function(ac){
+    var notes=[82.4,110,146.8,196,246.9,329.6];
+    var now=ac.currentTime;
+    notes.forEach(function(f,i){ _ks(ac,f,0.65-i*0.04,now+i*0.048); });
+  });
+};
+
+window._playAccordion=function(){
+  _withAC(function(ac){
+    var chords=[[196,246.9,293.7,392],[261.6,329.6,392,523.3]];
+    var chord=chords[Math.floor(Math.random()*2)];
+    var now=ac.currentTime;
+    chord.forEach(function(freq){
+      var osc=ac.createOscillator(),lfo=ac.createOscillator();
+      var lfoG=ac.createGain(),envG=ac.createGain();
+      osc.type='sawtooth'; osc.frequency.value=freq;
+      lfo.type='sine'; lfo.frequency.value=5.8; lfoG.gain.value=6;
+      lfo.connect(lfoG); lfoG.connect(osc.frequency);
+      envG.gain.setValueAtTime(0,now);
+      envG.gain.linearRampToValueAtTime(0.1,now+0.08);
+      envG.gain.setValueAtTime(0.1,now+1.0);
+      envG.gain.exponentialRampToValueAtTime(0.0001,now+2.5);
+      osc.connect(envG); envG.connect(ac.destination);
+      lfo.start(now); osc.start(now);
+      lfo.stop(now+2.5); osc.stop(now+2.5);
+    });
+  });
+};
+
+window._playSwish=function(){
+  _withAC(function(ac){
+    var now=ac.currentTime;
+    // launch thud
+    var o=ac.createOscillator(),g=ac.createGain();
+    o.type='sine'; o.frequency.setValueAtTime(130,now); o.frequency.exponentialRampToValueAtTime(45,now+0.15);
+    g.gain.setValueAtTime(0.6,now); g.gain.exponentialRampToValueAtTime(0.001,now+0.2);
+    o.connect(g); g.connect(ac.destination); o.start(now); o.stop(now+0.2);
+    // net swish after ball travels
+    setTimeout(function(){
+      _withAC(function(ac2){
+        var sr=ac2.sampleRate, len=Math.round(sr*0.4);
+        var buf=ac2.createBuffer(1,len,sr), d=buf.getChannelData(0);
+        for(var i=0;i<len;i++) d[i]=(Math.random()*2-1)*Math.pow(1-i/len,1.5);
+        var src=ac2.createBufferSource(); src.buffer=buf;
+        var bpf=ac2.createBiquadFilter(); bpf.type='bandpass'; bpf.frequency.value=3500; bpf.Q.value=0.8;
+        var sg=ac2.createGain(); sg.gain.value=0.3;
+        src.connect(bpf); bpf.connect(sg); sg.connect(ac2.destination); src.start();
+      });
+    },1800); // longer delay — ball now travels further
+  });
+};
+
+window._playBounce=function(){
+  _withAC(function(ac){
+    var now=ac.currentTime;
+    var o=ac.createOscillator(),g=ac.createGain();
+    o.type='sine'; o.frequency.setValueAtTime(160,now); o.frequency.exponentialRampToValueAtTime(50,now+0.14);
+    g.gain.setValueAtTime(0.5,now); g.gain.exponentialRampToValueAtTime(0.001,now+0.2);
+    o.connect(g); g.connect(ac.destination); o.start(now); o.stop(now+0.2);
+  });
+};
+
+// ── CLICK / RAYCAST ─────────────────────────────────────────────────
+var raycaster=new THREE.Raycaster(),mouse=new THREE.Vector2();
+var panel=document.getElementById('info-panel');
+renderer.domElement.addEventListener('click',function(e){
+  if(_hasDragged) return; // was a drag, not a click
+  mouse.x=(e.clientX/window.innerWidth)*2-1;
+  mouse.y=-(e.clientY/window.innerHeight)*2+1;
+  raycaster.setFromCamera(mouse,camera);
+  var hit=null;
+  for(var i=0;i<clickables.length;i++){
+    if(raycaster.intersectObject(clickables[i],true).length){hit=clickables[i];break;}
+  }
+  if(!hit) return;
+  if(hit.userData.onClickFn) hit.userData.onClickFn();
+  if(hit.userData.cvData){
+    var d=hit.userData.cvData;
+    document.getElementById('p-label').textContent=d.label;
+    document.getElementById('p-title').textContent=d.title;
+    document.getElementById('p-body').innerHTML=d.body;
+    panel.classList.add('open');
+    document.getElementById('tooltip').style.display='none';
+  }
+});
+document.getElementById('close-btn').addEventListener('click',function(){panel.classList.remove('open');});
+// build
+function setLoad(p,t){document.getElementById('loading-bar').style.width=p+'%';document.getElementById('loading-text').textContent=t;}
+function buildScene(){
+  try{setLoad(10,'BUILDING ROOM...');makeParticles();}catch(e){console.warn(e);}
+  var arcRing=new THREE.Mesh(new THREE.RingGeometry(1.8,1.95,64),new THREE.MeshBasicMaterial({color:0x00d4ff,transparent:true,opacity:0.12,blending:THREE.AdditiveBlending,side:THREE.DoubleSide,depthWrite:false}));
+  arcRing.rotation.x=-Math.PI/2; arcRing.position.y=0.03; scene.add(arcRing); window._arcRing=arcRing;
+  try{setLoad(25,'PAINTING WALLS...');makeStaplesMural();}catch(e){console.warn('Staples:',e);}
+  try{makeBeachMural();}catch(e){console.warn('Beach:',e);}
+  try{
+    setLoad(40,'HANGING INSTRUMENTS...');
+    // instruments on beach side (front half of left wall, z 2–8)
+    makeGuitar(LEFT+0.14,5.8,2.5,Math.PI/2,-0.08);
+    makeGuitar(LEFT+0.14,5.8,4.5,Math.PI/2,0.06);
+    makeAccordion(LEFT+0.16,4.5,7.0,Math.PI/2);
+  }catch(e){console.warn('Instruments:',e);}
+  try{setLoad(55,'ASSEMBLING BENCH...');makeWorkbench(0,4.5,CV.bench);}catch(e){console.warn('Bench:',e);}
+  try{makeMacBook(0,2.06,4.5,0);}catch(e){console.warn('MacBook:',e);} // centered on bench
+  try{
+    setLoad(65,'PLACING DEVICES...');
+    // ── BACK ROW (z≈3.8) — dev boards lined up ──
+    makeRPi(   -2.9, 3.82,  0.0);   // RPi #1
+    makeRPi(   -2.0, 3.82,  0.0);   // RPi #2
+    makeArduino(-0.7, 3.82,  0.0);  // Arduino centred
+
+    // ── MIDDLE ROW (z≈4.55) — ESP32s + breadboard ──
+    makeESP32( -2.8, 4.55,  0.0);
+    makeESP32( -2.1, 4.55,  0.0);
+    makeESP32( -1.4, 4.55,  0.0);
+    makeBreadboard(0.2, 4.50);
+
+    // ── TEST EQUIPMENT — right cluster ──
+    makeOscilloscope( 2.0, 3.90);   // scope at back-right
+    makeMultimeter(   3.0, 4.00,  0.0); // meter beside scope
+
+    // ── TOOLS — front right ──
+    makeSolderingIron(2.7, 5.20, 0.0);
+
+    // ── NETWORKING — back-left ──
+    makeRouter(-2.9, 4.55, Math.PI);
+
+    // ── SERVER on shelf (y offset handled inside function via TY) ──
+    makeServer( 0.4, 5.10);
+  }catch(e){console.warn('Devices:',e);}
+  try{
+    setLoad(75,'DRAWING THE CHALKBOARD...');
+    makeChalkboard();
+  }catch(e){console.warn('Chalkboard:',e);}
+  try{
+    setLoad(78,'HANGING DIPLOMAS...');
+    // diplomas flanking chalkboard on right wall
+    makeDiploma(RIGHT-0.07,6.2,-7.5,-Math.PI/2,DIPLOMA_DATA[0],0xd4a017);
+    makeDiploma(RIGHT-0.07,6.2, 7.5,-Math.PI/2,DIPLOMA_DATA[2],0x00d4ff);
+    [-7.5,7.5].forEach(function(dz,i){
+      var spot=new THREE.SpotLight([0xffd060,0x00aaff][i],1.0,7,Math.PI/9,0.45);
+      spot.position.set(RIGHT-3,RH-0.5,dz);spot.target.position.set(RIGHT-0.1,6.2,dz);
+      scene.add(spot);scene.add(spot.target);
+    });
+  }catch(e){console.warn('Diplomas:',e);}
+  try{
+    setLoad(80,'BOUNCING THE BALL...');
+    makeBasketball(4.2,0.35,5.8);   // right side of desk, a bit away
+    makeMiniHoop(LEFT,  -8.0);      // back-corner of basketball court
+  }catch(e){console.warn('Basketball:',e);}
+  try{setLoad(85,'OPENING WINDOW TO VALENCIA...');makeValenciaWindow();}catch(e){console.warn('ValenciaWindow:',e);}
+  try{
+    setLoad(90,'POSITIONING HERO OBJECTS...');
+    // two Iron Man suits flanking the Valencia window on back wall
+    window._suit1=makeIronManSuit(-4.2, BACK+1.2, 1, CV.personal);
+    window._suit2=makeIronManSuit( 4.2, BACK+1.2,-1, CV.personal);
+    window._globe=makeGlobe(0,4.5,-4,CV.projects);
+    makeHoloScreen(4.5,3.2,-1.5,-0.35,CV.experience);
+    makeHoloScreen(-4.5,3.2,-1.5,0.35,CV.education);
+  }catch(e){console.warn('Hero:',e);}
+  setLoad(100,'READY');
+}
+buildScene();
+// animate
+var t=0;
+function animate(){
+  requestAnimationFrame(animate);t+=0.01;
+  sph.theta+=(tgt.theta-sph.theta)*0.06;sph.phi+=(tgt.phi-sph.phi)*0.06;sph.r+=(tgt.r-sph.r)*0.06;
+  camera.position.x=sph.r*Math.sin(sph.theta)*Math.cos(sph.phi);
+  camera.position.y=sph.r*Math.sin(sph.phi)+2.5;
+  camera.position.z=sph.r*Math.cos(sph.theta)*Math.cos(sph.phi);
+  camera.lookAt(0,3,0);
+  var h=window._suit1,h2=window._suit2,g=window._globe,ar=window._arcRing;
+  if(h){h.position.y=Math.sin(t*0.5)*0.06;}
+  if(h2){h2.position.y=Math.sin(t*0.5+Math.PI)*0.06;}
+  if(g){
+    g.rotation.y+=0.003;
+    g.userData.orbitAngle=(g.userData.orbitAngle||0)+0.018;
+    var a=g.userData.orbitAngle;
+    if(g.userData.orbitDot)g.userData.orbitDot.position.set(Math.cos(a)*1.9*Math.cos(Math.PI/4),Math.sin(a)*1.9*Math.sin(Math.PI/4),Math.sin(a)*1.9*Math.cos(Math.PI/4));
+  }
+  if(ar)ar.material.opacity=0.08+Math.sin(t*1.8)*0.04;
+  var vw=window._valWin;
+  if(vw){vw.shaftMat.opacity=0.035+Math.sin(t*0.4)*0.015; vw.winPt.intensity=1.6+Math.sin(t*0.6)*0.3;}
+  // basketball — bounce idle or shoot animation
+  var bb=window._bball, ss=window._shootState;
+  if(bb){
+    if(ss){
+      ss.t+=0.018;
+      var u=Math.min(ss.t,1);
+      if(ss.phase==='up'){
+        // parabolic arc to hoop
+        var px=ss.start.x+(ss.target.x-ss.start.x)*u;
+        var py=ss.start.y+(ss.target.y-ss.start.y)*u+5*u*(1-u)*2.2;
+        var pz=ss.start.z+(ss.target.z-ss.start.z)*u;
+        bb.position.set(px,py,pz); bb.rotation.z+=0.14;
+        if(ss.t>=1){ ss.phase='down'; ss.t=0; }
+      } else {
+        // fall back to origin
+        var op=bb.userData.origPos;
+        var px2=ss.target.x+(op.x-ss.target.x)*u;
+        var py2=ss.target.y+(op.y-ss.target.y)*u - 1.5*u*(1-u)*1.5;
+        var pz2=ss.target.z+(op.z-ss.target.z)*u;
+        bb.position.set(px2,py2,pz2); bb.rotation.z+=0.08;
+        if(ss.t>=0.85&&ss.t-0.018<0.85) window._playBounce&&window._playBounce();
+        if(ss.t>=1){ bb.position.set(op.x,op.y,op.z); window._shootState=null; }
+      }
+    } else {
+      var by=Math.abs(Math.sin(t*2.2))*1.0; bb.position.y=0.35+by; bb.rotation.z+=0.025;
+    }
+  }
+  keyLight.intensity=(darkMode?2.5:1.2)+Math.sin(t*2.3)*0.12;
+  renderer.render(scene,camera);
+}
+setTimeout(function(){
+  var L=document.getElementById('loading');
+  L.style.opacity='0';
+  setTimeout(function(){L.style.display='none';animate();},900);
+},400);
+window.addEventListener('resize',function(){
+  camera.aspect=window.innerWidth/window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth,window.innerHeight);
+});
+</script>
+</body>
+</html>

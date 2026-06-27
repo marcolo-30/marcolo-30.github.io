@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 80" width="120" height="80">
+  <defs>
+    <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6d5ef7"/>
+      <stop offset="100%" style="stop-color:#2dd4bf"/>
+    </linearGradient>
+    <linearGradient id="g2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6d5ef7;stop-opacity:0.18"/>
+      <stop offset="100%" style="stop-color:#2dd4bf;stop-opacity:0.18"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="1.5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Hexagon background -->
+  <polygon points="40,4 68,20 68,52 40,68 12,52 12,20"
+    fill="url(#g2)" stroke="url(#g1)" stroke-width="1.5" filter="url(#glow)"/>
+
+  <!-- M strokes -->
+  <polyline points="19,50 19,28 30,42 40,28" fill="none" stroke="url(#g1)"
+    stroke-width="3.8" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)"/>
+  <!-- L strokes -->
+  <polyline points="40,28 40,50 55,50" fill="none" stroke="url(#g1)"
+    stroke-width="3.8" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)"/>
+  <!-- Accent dot -->
+  <circle cx="55" cy="50" r="4" fill="#2dd4bf" filter="url(#glow)"/>
+
+  <!-- Superscript 2 -->
+  <text x="67" y="24" font-family="JetBrains Mono, monospace" font-size="13"
+    font-weight="700" fill="#6d5ef7" filter="url(#glow)">2</text>
+
+  <!-- Tagline under hex -->
+  <text x="40" y="78" text-anchor="middle" font-family="JetBrains Mono, monospace"
+    font-size="6.2" letter-spacing="1.5" fill="#6b7280">MARCO LOAIZA</text>
+</svg>
