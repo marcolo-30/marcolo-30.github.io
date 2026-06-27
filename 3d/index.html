@@ -641,13 +641,14 @@ footer span{color:var(--blue2)}
       <canvas id="db-metrics" style="width:100%;height:280px;display:block"></canvas>
     </div>
 
-    <!-- Network topology -->
+    <!-- Continuum migration -->
     <div style="grid-column:span 2;background:var(--navy3);border:1px solid var(--border);border-radius:18px;overflow:hidden;position:relative">
       <div style="padding:16px 20px 0;display:flex;justify-content:space-between;align-items:center">
-        <span style="font-family:'JetBrains Mono',monospace;font-size:.72rem;color:#6d5ef7;letter-spacing:.1em">EDGE_CLOUD_TOPOLOGY.live</span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:.72rem;color:#a78bfa;letter-spacing:.1em">CONTINUUM_MIGRATION.live</span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:.55rem;color:#4d7fa0">🔴 overload→↑ &nbsp;🟢 free→↓ &nbsp;🟡 intra &nbsp;◆ metrics &nbsp;▼ ML decision</span>
         <span style="font-family:'JetBrains Mono',monospace;font-size:.62rem;color:#1d6fa4">● STREAMING</span>
       </div>
-      <canvas id="db-topo" style="width:100%;height:220px;display:block"></canvas>
+      <canvas id="db-topo" style="width:100%;height:320px;display:block"></canvas>
     </div>
 
   </div>
@@ -1810,66 +1811,197 @@ window.addEventListener('load',function(){
   }
 
   // ── EDGE-CLOUD TOPOLOGY 3D ──
+  // ── CONTINUUM MIGRATION 3D ──
   var db3=initCanvas('db-topo');
   if(db3){
-    db3.cam.position.set(0,5,18);db3.cam.lookAt(0,0,0);
-    var nodes3=[
-      {id:'Cloud',  pos:[-6,0,0],  col:0x38bdf8,size:0.55},
-      {id:'Edge-1', pos:[-2,0, 3], col:0x10b981,size:0.4},
-      {id:'Edge-2', pos:[-2,0,-3], col:0x10b981,size:0.4},
-      {id:'IoT-A',  pos:[ 2,0, 5], col:0xfbbf24,size:0.25},
-      {id:'IoT-B',  pos:[ 2,0, 1], col:0xfbbf24,size:0.25},
-      {id:'IoT-C',  pos:[ 2,0,-1], col:0xfbbf24,size:0.25},
-      {id:'IoT-D',  pos:[ 2,0,-5], col:0xfbbf24,size:0.25},
-      {id:'K8s',    pos:[-4,0, 0], col:0x6d5ef7,size:0.35},
+    db3.cam.position.set(1,2.5,14);db3.cam.lookAt(0,0,0);
+
+    // Pressure simulation
+    var simPhase=0;
+    var sim={node:{cpu:89,mem:82},cluster:{cpu:71,mem:68},cloud:{cpu:38,mem:55}};
+    function pressure(k){return Math.max(sim[k].cpu/100,sim[k].mem/100);}
+    function freeSpace(k){return 1-pressure(k);}
+    function updateSim(){
+      simPhase+=0.35;
+      sim.node.cpu   =Math.round(30+Math.abs(Math.sin(simPhase*0.28))*65);
+      sim.node.mem   =Math.round(25+Math.abs(Math.sin(simPhase*0.22+1))*65);
+      sim.cluster.cpu=Math.round(40+Math.abs(Math.sin(simPhase*0.21+0.8))*50);
+      sim.cluster.mem=Math.round(35+Math.abs(Math.sin(simPhase*0.18+2))*45);
+      sim.cloud.cpu  =Math.round(22+Math.random()*28);
+      sim.cloud.mem  =Math.round(38+Math.random()*24);
+    }
+
+    // Layer definitions: y positions stacked vertically
+    var LAYERS=[
+      {key:'cloud',  y:3.8, col:0x38bdf8, label:'CLOUD',   infraCols:[0x38bdf8,0x10b981,0x38bdf8,0xfbbf24]},
+      {key:'cluster',y:0,   col:0xa78bfa, label:'CLUSTER',  infraCols:[0xa78bfa,0xa78bfa,0x38bdf8,0x10b981]},
+      {key:'node',   y:-3.8,col:0x10b981, label:'NODE',     infraCols:[0x10b981,0x38bdf8,0xfbbf24,0x10b981]},
     ];
-    var edges3=[[0,7],[7,1],[7,2],[1,3],[1,4],[2,5],[2,6],[0,1],[0,2]];
-    var nmeshes=[];
-    nodes3.forEach(function(nd){
-      var m=new THREE.Mesh(new THREE.SphereGeometry(nd.size,16,16),new THREE.MeshStandardMaterial({color:nd.col,emissive:nd.col,emissiveIntensity:0.4,metalness:0.7,roughness:0.2}));
-      m.position.set(nd.pos[0],nd.pos[1],nd.pos[2]);
-      db3.sc.add(m);nmeshes.push(m);
-      // pulse ring
-      var pr=new THREE.Mesh(new THREE.TorusGeometry(nd.size+0.1,0.015,8,40),new THREE.MeshBasicMaterial({color:nd.col,transparent:true,opacity:0.5}));
-      pr.position.copy(m.position);pr.rotation.x=Math.PI/2;db3.sc.add(pr);
+
+    LAYERS.forEach(function(L){
+      // Platform slab
+      var platGeo=new THREE.BoxGeometry(13,0.14,2.6);
+      var platMat=new THREE.MeshStandardMaterial({color:L.col,transparent:true,opacity:0.18,metalness:0.85,roughness:0.15,emissive:L.col,emissiveIntensity:0.06});
+      var plat=new THREE.Mesh(platGeo,platMat);
+      plat.position.set(0,L.y,0);
+      db3.sc.add(plat);
+      L.platMat=platMat;
+
+      // Wireframe edges
+      var edges=new THREE.LineSegments(new THREE.EdgesGeometry(platGeo),new THREE.LineBasicMaterial({color:L.col,transparent:true,opacity:0.35}));
+      edges.position.copy(plat.position);
+      db3.sc.add(edges);
+
+      // Agent sphere (left side)
+      var agMat=new THREE.MeshStandardMaterial({color:L.col,emissive:L.col,emissiveIntensity:0.55,metalness:0.6,roughness:0.2});
+      var ag=new THREE.Mesh(new THREE.SphereGeometry(0.3,20,20),agMat);
+      ag.position.set(-5.8,L.y+0.25,0);
+      db3.sc.add(ag);
+      L.agent=ag;
+
+      // Pulse rings around agent
+      L.rings=[];
+      for(var ri=0;ri<2;ri++){
+        var rm=new THREE.Mesh(new THREE.TorusGeometry(0.46,0.018,8,48),new THREE.MeshBasicMaterial({color:L.col,transparent:true,opacity:0.6}));
+        rm.position.copy(ag.position);rm.rotation.x=Math.PI/2;
+        db3.sc.add(rm);L.rings.push({mesh:rm,phase:ri*Math.PI});
+      }
+
+      // Infra nodes (right side)
+      L.infra=[];
+      var nxs=[-0.5,1.3,2.8,4.3];
+      nxs.forEach(function(nx,i){
+        var nm=new THREE.Mesh(new THREE.BoxGeometry(0.42,0.32,0.42),
+          new THREE.MeshStandardMaterial({color:L.infraCols[i],emissive:L.infraCols[i],emissiveIntensity:0.18,metalness:0.72,roughness:0.22}));
+        nm.position.set(nx,L.y+0.23,0);
+        db3.sc.add(nm);L.infra.push(nm);
+      });
+
+      // Agent → infra dashed connector line
+      var cpts=[new THREE.Vector3(-5.5,L.y+0.22,0),new THREE.Vector3(-0.8,L.y+0.22,0)];
+      db3.sc.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(cpts),new THREE.LineBasicMaterial({color:L.col,transparent:true,opacity:0.18})));
+
+      // Vertical migration pipe stubs between layers
+      if(L.key!=='cloud'){
+        var pipeY=L.y+(LAYERS[LAYERS.indexOf(L)-1]?LAYERS[LAYERS.indexOf(L)-1].y-L.y:0);
+        // left pipe (up: overload)
+        var lp=[new THREE.Vector3(-0.4,L.y,0),new THREE.Vector3(-0.4,L.y+3.4,0)];
+        db3.sc.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(lp),new THREE.LineBasicMaterial({color:0xf87171,transparent:true,opacity:0.2})));
+        // right pipe (down: free)
+        var rp=[new THREE.Vector3(0.4,L.y,0),new THREE.Vector3(0.4,L.y+3.4,0)];
+        db3.sc.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(rp),new THREE.LineBasicMaterial({color:0x34d399,transparent:true,opacity:0.2})));
+      }
     });
-    // Static edges as line segments
-    var lpts=[];
-    edges3.forEach(function(e){
-      var a=nodes3[e[0]].pos,b=nodes3[e[1]].pos;
-      lpts.push(new THREE.Vector3(a[0],a[1],a[2]),new THREE.Vector3(b[0],b[1],b[2]));
-    });
-    var lGeo=new THREE.BufferGeometry().setFromPoints(lpts);
-    db3.sc.add(new THREE.LineSegments(lGeo,new THREE.LineBasicMaterial({color:0x1a3a5c,transparent:true,opacity:0.6})));
-    // Animated data packets
-    var packets=edges3.map(function(e){
-      var pm=new THREE.Mesh(new THREE.SphereGeometry(0.09,8,8),new THREE.MeshBasicMaterial({color:0x38bdf8}));
-      db3.sc.add(pm);
-      return{mesh:pm,a:nodes3[e[0]].pos,b:nodes3[e[1]].pos,t:Math.random(),spd:0.004+Math.random()*0.006};
-    });
-    db3.sc.add(new THREE.GridHelper(20,20,0x1a3050,0x0a1220));
-    db3.sc.children[db3.sc.children.length-1].position.y=-0.8;
+
+    // Pod pool
+    var podPool=[];
+
+    function Pod(fromY,toY,col,isMetric,isDecision,isIntra,intraY){
+      this.fromY=fromY;this.toY=toY;this.col=col;
+      this.isMetric=isMetric;this.isDecision=isDecision;
+      this.isIntra=isIntra;this.intraY=intraY||0;
+      this.t=0;this.alive=true;this.life=0;
+      this.spd=isIntra?0:(0.007+Math.random()*0.005);
+      this.intraT=Math.random();this.intraDir=Math.random()>0.5?1:-1;
+      this.intraSpd=0.008+Math.random()*0.005;
+      // lane: left lane=up (offload), right=down (return), center=metrics/decisions
+      var up=toY>fromY;
+      this.laneX=isMetric?1.8:isDecision?2.4:(up?-0.4:0.4);
+      this.laneX+=(Math.random()-0.5)*0.35;
+      var sz=isMetric||isDecision?0.10:0.15;
+      this.mesh=new THREE.Mesh(
+        isMetric?new THREE.OctahedronGeometry(sz,0):isDecision?new THREE.TetrahedronGeometry(sz,0):new THREE.BoxGeometry(sz,sz,sz),
+        new THREE.MeshBasicMaterial({color:col,transparent:true,opacity:0.9})
+      );
+      db3.sc.add(this.mesh);
+    }
+    Pod.prototype.update=function(){
+      this.life++;
+      if(this.isIntra){
+        this.intraT+=this.intraSpd*this.intraDir;
+        if(this.intraT>1||this.intraT<0)this.intraDir*=-1;
+        this.mesh.position.set(-2+this.intraT*6.5,this.intraY+0.38,Math.sin(this.intraT*Math.PI*2)*0.3);
+        this.mesh.rotation.y+=0.06;
+        if(this.life>200){this.alive=false;db3.sc.remove(this.mesh);}
+        return;
+      }
+      this.t+=this.spd;
+      if(this.t>=1){this.alive=false;db3.sc.remove(this.mesh);return;}
+      var arc=Math.sin(this.t*Math.PI)*0.6;
+      this.mesh.position.set(this.laneX+arc*0.4,this.fromY+(this.toY-this.fromY)*this.t,arc*0.5);
+      this.mesh.rotation.y+=0.09;this.mesh.rotation.x+=0.05;
+      var e=0.1,a=this.t<e?this.t/e:this.t>1-e?(1-this.t)/e:1;
+      this.mesh.material.opacity=a*0.92;
+    };
+
+    function spawnPods(){
+      var lyY={cloud:LAYERS[0].y,cluster:LAYERS[1].y,node:LAYERS[2].y};
+      var nc=pressure('node'),pc=pressure('cluster'),cc=pressure('cloud');
+      var nf=freeSpace('node'),pf=freeSpace('cluster');
+      // ↑ Offload up (overload)
+      if(nc>0.68&&Math.random()<0.38) podPool.push(new Pod(lyY.node,lyY.cluster,0xf87171,false,false,false));
+      if(pc>0.72&&Math.random()<0.30) podPool.push(new Pod(lyY.cluster,lyY.cloud,0xfbbf24,false,false,false));
+      // ↓ Pull back down (resources free)
+      if(nf>0.45&&pc>0.35&&Math.random()<0.28) podPool.push(new Pod(lyY.cluster,lyY.node,0x34d399,false,false,false));
+      if(pf>0.45&&cc>0.32&&Math.random()<0.22) podPool.push(new Pod(lyY.cloud,lyY.cluster,0x34d399,false,false,false));
+      // ◆ Metrics up
+      if(Math.random()<0.18) podPool.push(new Pod(lyY.node,lyY.cluster,0x10b981,true,false,false));
+      if(Math.random()<0.14) podPool.push(new Pod(lyY.cluster,lyY.cloud,0x10b981,true,false,false));
+      // ▼ ML decision down
+      if(Math.random()<0.12) podPool.push(new Pod(lyY.cloud,lyY.node,0xa78bfa,false,true,false));
+      // ↔ Intra-layer rescheduling
+      if(nc>0.5&&Math.random()<0.13) podPool.push(new Pod(0,0,0xfbbf24,false,false,true,lyY.node));
+      if(pc>0.45&&Math.random()<0.10) podPool.push(new Pod(0,0,0xfbbf24,false,false,true,lyY.cluster));
+      // cap
+      if(podPool.length>28){var rm=podPool.splice(0,podPool.length-28);rm.forEach(function(p){db3.sc.remove(p.mesh);});}
+    }
+
+    // Lights
     db3.sc.add(new THREE.AmbientLight(0x1a3050,2.5));
-    db3.sc.add(new THREE.PointLight(0x38bdf8,5,25)).position.set(0,8,5);
-    db3.sc.add(new THREE.PointLight(0x10b981,4,20)).position.set(-8,4,-4);
-    var t3=0;
+    var lp1=new THREE.PointLight(0x38bdf8,5,22);lp1.position.set(-5,6,7);db3.sc.add(lp1);
+    var lp2=new THREE.PointLight(0x10b981,4,22);lp2.position.set(5,-5,5);db3.sc.add(lp2);
+    var lp3=new THREE.PointLight(0xa78bfa,3,18);lp3.position.set(0,0,9);db3.sc.add(lp3);
+
+    var t3=0,st3=0;
     (function loop(){
-      requestAnimationFrame(loop);t3+=0.016;
-      // pulse rings
-      nmeshes.forEach(function(m,i){
-        var pr=db3.sc.children[nmeshes.length+i];
-        if(pr&&pr.material){pr.material.opacity=0.3+0.3*Math.abs(Math.sin(t3*1.5+i*0.7));}
+      requestAnimationFrame(loop);
+      t3+=0.016;st3++;
+
+      if(st3%16===0) spawnPods();
+      if(st3%130===0) updateSim();
+
+      // Update layers
+      LAYERS.forEach(function(L){
+        var p=pressure(L.key);
+        // Platform color shifts red under pressure
+        L.platMat.emissiveIntensity=0.04+p*0.14;
+        var r=p>0.85?0xf87171:p>0.65?0xfbbf24:L.col;
+        L.platMat.emissive.setHex(r);
+
+        // Agent pulse
+        L.agent.rotation.y=t3*0.6;
+        L.rings.forEach(function(rg,i){
+          var ph=(t3*0.9+rg.phase)%(Math.PI*2);
+          var s=1+Math.abs(Math.sin(ph))*0.3;
+          rg.mesh.scale.setScalar(s);
+          rg.mesh.material.opacity=0.3+0.35*Math.abs(Math.sin(ph));
+          // Expanding ping ring
+          var s2=1+((t3*0.5+rg.phase*0.5)%1)*1.8;
+          rg.mesh.scale.setScalar(i===1?s:s2);
+          if(i===1) rg.mesh.material.opacity=Math.max(0,0.55-((t3*0.5+rg.phase*0.5)%1)*0.55);
+        });
+
+        // Infra nodes gentle rotation
+        L.infra.forEach(function(nd,i){nd.rotation.y=t3*(0.25+i*0.08);nd.rotation.x=t3*0.1;});
       });
-      // move packets
-      packets.forEach(function(pk){
-        pk.t+=pk.spd;if(pk.t>1)pk.t=0;
-        pk.mesh.position.set(
-          pk.a[0]+(pk.b[0]-pk.a[0])*pk.t,
-          pk.a[1]+(pk.b[1]-pk.a[1])*pk.t,
-          pk.a[2]+(pk.b[2]-pk.a[2])*pk.t
-        );
-      });
-      db3.cam.position.x=Math.sin(t3*0.12)*3;
+
+      // Update pods
+      podPool=podPool.filter(function(p){return p.alive;});
+      podPool.forEach(function(p){p.update();});
+
+      // Gentle camera orbit
+      db3.cam.position.x=Math.sin(t3*0.07)*2.5;
+      db3.cam.position.y=2.5+Math.cos(t3*0.05)*0.8;
       db3.cam.lookAt(0,0,0);
       db3.r.render(db3.sc,db3.cam);
     })();
