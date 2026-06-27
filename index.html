@@ -1076,27 +1076,19 @@
 
   <div class="grid md:grid-cols-2 gap-8 mb-16">
 
-    <!-- Form -->
-    <div class="bc p-8 rev">
-      <h3 class="font-mono text-sm text-muted mb-6 tracking-wider uppercase" data-i18n="form.title">Envíame un mensaje</h3>
-      <form class="flex flex-col gap-4" onsubmit="handleSubmit(event)">
-        <div class="flex flex-col gap-1.5">
-          <label class="font-mono text-xs text-muted tracking-widest" data-i18n="form.name.label">NOMBRE</label>
-          <input type="text" placeholder="Tu nombre" data-i18n-ph="form.name.ph" required class="finput" />
-        </div>
-        <div class="flex flex-col gap-1.5">
-          <label class="font-mono text-xs text-muted tracking-widest" data-i18n="form.email.label">EMAIL</label>
-          <input type="email" placeholder="tu@email.com" data-i18n-ph="form.email.ph" required class="finput" />
-        </div>
-        <div class="flex flex-col gap-1.5">
-          <label class="font-mono text-xs text-muted tracking-widest" data-i18n="form.msg.label">MENSAJE</label>
-          <textarea placeholder="Cuéntame tu idea..." data-i18n-ph="form.msg.ph" required class="finput"></textarea>
-        </div>
-        <button type="submit" id="submit-btn" class="btn-p justify-center mt-1">
-          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-          <span data-i18n="form.btn">Enviar mensaje</span>
-        </button>
-      </form>
+    <!-- Embedded Terminal -->
+    <div class="bc rev overflow-hidden flex flex-col" style="min-height:340px">
+      <div class="term-hdr">
+        <div class="tdot" style="background:#ef4444"></div>
+        <div class="tdot" style="background:#fbbf24"></div>
+        <div class="tdot" style="background:#10b981"></div>
+        <span class="term-title">marco@ml2:~$ — contáctame o explora</span>
+      </div>
+      <div class="term-body flex-1" id="contact-term-body" onclick="document.getElementById('contact-term-input').focus()"></div>
+      <div class="term-irow">
+        <span class="tl-prompt">marco@ml2:~$</span>
+        <input id="contact-term-input" type="text" placeholder="escribe 'help' para ver comandos..." autocomplete="off" spellcheck="false" />
+      </div>
     </div>
 
     <!-- Info -->
@@ -1643,15 +1635,74 @@ function toggleTerm(){
   }
 }
 
-document.addEventListener('DOMContentLoaded',function(){
-  var inp=document.getElementById('term-input');
+function initTermInput(inputId, bodyId, histRef, onEsc){
+  var inp=document.getElementById(inputId);
   if(!inp)return;
   inp.addEventListener('keydown',function(e){
-    if(e.key==='Enter'){var v=this.value;this.value='';termRun(v);}
-    else if(e.key==='ArrowUp'){e.preventDefault();if(termHistIdx>0){termHistIdx--;this.value=termHistory[termHistIdx]||'';}}
-    else if(e.key==='ArrowDown'){e.preventDefault();termHistIdx++;this.value=termHistory[termHistIdx]||'';if(termHistIdx>=termHistory.length)termHistIdx=termHistory.length;}
-    else if(e.key==='Escape'){toggleTerm();}
+    if(e.key==='Enter'){
+      var v=this.value;this.value='';
+      termRunIn(v,bodyId,histRef);
+    } else if(e.key==='ArrowUp'){
+      e.preventDefault();
+      if(histRef.idx>0){histRef.idx--;this.value=histRef.cmds[histRef.idx]||'';}
+    } else if(e.key==='ArrowDown'){
+      e.preventDefault();
+      histRef.idx++;
+      this.value=histRef.cmds[histRef.idx]||'';
+      if(histRef.idx>=histRef.cmds.length)histRef.idx=histRef.cmds.length;
+    } else if(e.key==='Escape' && onEsc){
+      onEsc();
+    }
   });
+}
+
+function termRunIn(cmd, bodyId, histRef){
+  var body=document.getElementById(bodyId);
+  if(!body)return;
+  cmd=(cmd||'').trim().toLowerCase();
+  var promptEl=document.createElement('div');
+  promptEl.innerHTML='<span class="tl-prompt">marco@ml2:~$</span> '+escHtml(cmd);
+  body.appendChild(promptEl);
+  if(!cmd){body.scrollTop=body.scrollHeight;return;}
+  if(!histRef.cmds.length||histRef.cmds[histRef.cmds.length-1]!==cmd)histRef.cmds.push(cmd);
+  histRef.idx=histRef.cmds.length;
+  var fn=TCMDS[cmd];
+  if(fn){
+    var out=fn();
+    if(!out){body.innerHTML='';return;}
+    out.forEach(function(l){
+      var d=document.createElement('div');
+      d.className='tl-out'+(l.c?' '+l.c:'');
+      d.textContent=l.v;
+      body.appendChild(d);
+    });
+  } else {
+    var err=document.createElement('div');
+    err.className='tl-out e';
+    err.textContent='bash: '+cmd+': command not found. Escribe "help".';
+    body.appendChild(err);
+  }
+  body.scrollTop=body.scrollHeight;
+}
+
+document.addEventListener('DOMContentLoaded',function(){
+  // Floating terminal
+  var floatHist={cmds:[],idx:0};
+  initTermInput('term-input','term-body',floatHist,toggleTerm);
+
+  // Contact section terminal — boot message
+  var contactHist={cmds:[],idx:0};
+  initTermInput('contact-term-input','contact-term-body',contactHist,null);
+  var cb=document.getElementById('contact-term-body');
+  if(cb){
+    [{c:'s',v:'Hola 👋 — Terminal de contacto de Marco Loaiza'},
+     {c:'i',v:'Escribe "help" para ver todos los comandos.'},
+     {c:'',v:'Puedes explorar proyectos, skills, publicaciones y más.'},
+     {c:'',v:''},
+    ].forEach(function(l){
+      var d=document.createElement('div');d.className='tl-out'+(l.c?' '+l.c:'');d.textContent=l.v;cb.appendChild(d);
+    });
+  }
 });
 
 // ── VISIT COUNTER ──
