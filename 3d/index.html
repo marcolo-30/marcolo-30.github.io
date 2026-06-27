@@ -189,6 +189,85 @@ section{padding:6rem 2rem;max-width:1200px;margin:0 auto}
 .c-link:hover{border-color:rgba(29,111,164,0.5);color:var(--blue2);
   background:rgba(29,111,164,0.08);transform:translateY(-2px)}
 
+/* SCROLL PROGRESS */
+#scroll-progress{position:fixed;top:0;left:0;height:3px;z-index:9998;width:0%;
+  background:linear-gradient(90deg,#1d6fa4,#38bdf8,#10b981);
+  transition:width .08s linear;box-shadow:0 0 8px rgba(56,189,248,.4)}
+
+/* PRELOADER */
+#preloader{position:fixed;inset:0;z-index:99999;background:#060d18;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.4rem;
+  transition:opacity .8s ease,visibility .8s ease}
+#preloader.hidden{opacity:0;visibility:hidden}
+.pre-ring-wrap{position:relative;width:110px;height:110px;display:flex;align-items:center;justify-content:center}
+.pre-ring{position:absolute;inset:0;animation:preRingSpin 2s linear infinite}
+.pre-ring circle.track{stroke:#1a3050;fill:none;stroke-width:3}
+.pre-ring circle.fill{fill:none;stroke-width:3;stroke-linecap:round;
+  stroke-dasharray:282;stroke-dashoffset:282;
+  animation:preRingFill 2.5s cubic-bezier(.4,0,.2,1) forwards;stroke:url(#pre-grad)}
+@keyframes preRingFill{from{stroke-dashoffset:282}to{stroke-dashoffset:0}}
+@keyframes preRingSpin{to{transform:rotate(360deg)}}
+.pre-logo{position:absolute;font-family:'JetBrains Mono',monospace;font-size:1.7rem;font-weight:700;
+  background:linear-gradient(135deg,#38bdf8,#1d6fa4,#10b981);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  animation:prePulse 1.4s ease-in-out infinite alternate}
+@keyframes prePulse{from{opacity:.75;transform:scale(.97)}to{opacity:1;transform:scale(1.04)}}
+.pre-sub{font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#4d7fa0;
+  letter-spacing:.22em;text-transform:uppercase;animation:preFade 1.2s ease .3s both}
+@keyframes preFade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* CUSTOM CURSOR */
+#cursor-blob{position:fixed;pointer-events:none;z-index:9990;width:24px;height:24px;
+  border-radius:50%;background:rgba(29,111,164,.45);filter:blur(6px);
+  transform:translate(-50%,-50%);transition:width .15s,height .15s,background .2s;mix-blend-mode:screen}
+#cursor-dot{position:fixed;pointer-events:none;z-index:9991;width:5px;height:5px;
+  border-radius:50%;background:#38bdf8;transform:translate(-50%,-50%)}
+@media(pointer:coarse){#cursor-blob,#cursor-dot{display:none}}
+@media(pointer:fine){body{cursor:none}a,button,[data-tilt]{cursor:none}}
+
+/* TERMINAL */
+.term-hdr{display:flex;align-items:center;gap:7px;padding:9px 14px;
+  background:#0a1628;border-bottom:1px solid #1a3050;flex-shrink:0}
+.tdot{width:11px;height:11px;border-radius:50%}
+.term-title3d{font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#4d7fa0;flex:1;
+  margin-left:2px;letter-spacing:.05em}
+.term-body3d{flex:1;overflow-y:auto;padding:10px 14px;
+  font-family:'JetBrains Mono',monospace;font-size:.77rem;line-height:1.75;color:#dde6f0}
+.term-body3d::-webkit-scrollbar{width:3px}
+.term-body3d::-webkit-scrollbar-thumb{background:#1a3050;border-radius:2px}
+.tl-prompt3d{color:#10b981;font-family:'JetBrains Mono',monospace;font-size:.77rem}
+.tl-out3d{color:#9ca3af}
+.tl-out3d.i{color:#38bdf8}.tl-out3d.s{color:#34d399}.tl-out3d.e{color:#f87171}
+.term-irow3d{display:flex;align-items:center;gap:8px;padding:8px 14px;
+  border-top:1px solid #1a3050;flex-shrink:0}
+#term3d-input{flex:1;background:none;border:none;outline:none;color:#38bdf8;
+  font-family:'JetBrains Mono',monospace;font-size:.77rem;caret-color:#10b981}
+#term3d-input::placeholder{color:#2a5470;opacity:1}
+.term-tip3d{width:100%;text-align:left;background:none;border:1px solid transparent;
+  border-radius:7px;padding:4px 8px;font-family:'JetBrains Mono',monospace;font-size:.68rem;
+  color:#38bdf8;cursor:pointer;transition:background .15s,border-color .15s;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.term-tip3d:hover{background:rgba(29,111,164,.18);border-color:rgba(29,111,164,.4)}
+
+/* KONAMI */
+#konami3d{position:fixed;inset:0;z-index:99998;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:1.2rem;
+  background:rgba(4,8,16,.96);backdrop-filter:blur(20px);
+  opacity:0;visibility:hidden;transition:opacity .4s,visibility .4s}
+#konami3d.on{opacity:1;visibility:visible}
+.kon-title{font-family:'JetBrains Mono',monospace;font-size:clamp(1.4rem,4vw,2.6rem);
+  font-weight:700;text-align:center;
+  background:linear-gradient(135deg,#38bdf8,#10b981,#6d5ef7);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.kon-sub{font-family:'JetBrains Mono',monospace;font-size:.8rem;color:#4d7fa0;
+  text-align:center;letter-spacing:.1em}
+.kon-code{font-family:'JetBrains Mono',monospace;font-size:.7rem;color:#1d6fa4;
+  background:#0a1628;border:1px solid #1a3050;border-radius:10px;padding:.6rem 1.2rem}
+.kon-btn{margin-top:.5rem;padding:.5rem 1.4rem;border-radius:10px;font-size:.78rem;
+  font-family:'JetBrains Mono',monospace;background:rgba(29,111,164,.15);
+  border:1px solid rgba(29,111,164,.4);color:#38bdf8;cursor:pointer;transition:all .2s}
+.kon-btn:hover{background:rgba(29,111,164,.3)}
+
 /* FOOTER */
 footer{text-align:center;padding:1.5rem 2rem;border-top:1px solid var(--border);
   font-family:var(--mono);font-size:0.75rem;color:var(--muted)}
@@ -227,6 +306,37 @@ footer span{color:var(--blue2)}
 </style>
 </head>
 <body>
+<!-- Preloader -->
+<div id="preloader">
+  <div class="pre-ring-wrap">
+    <svg class="pre-ring" viewBox="0 0 96 96">
+      <defs>
+        <linearGradient id="pre-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#38bdf8"/>
+          <stop offset="50%" stop-color="#1d6fa4"/>
+          <stop offset="100%" stop-color="#10b981"/>
+        </linearGradient>
+      </defs>
+      <circle class="track" cx="48" cy="48" r="44"/>
+      <circle class="fill" cx="48" cy="48" r="44" transform="rotate(-90 48 48)"/>
+    </svg>
+    <span class="pre-logo">ML²</span>
+  </div>
+  <p class="pre-sub">Marco Loaiza · 3D Portfolio</p>
+</div>
+
+<div id="scroll-progress"></div>
+<div id="cursor-blob"></div>
+<div id="cursor-dot"></div>
+
+<!-- Konami -->
+<div id="konami3d">
+  <div class="kon-title">🎮 Easter Egg — Versión 3D</div>
+  <p class="kon-sub">Este portfolio tiene un globo interactivo, mini escenas Three.js<br>y un logo ML² con 6 anillos concéntricos en 3D.</p>
+  <div class="kon-code">↑ ↑ ↓ ↓ ← → ← → B A</div>
+  <button class="kon-btn" onclick="document.getElementById('konami3d').classList.remove('on')">[ continuar → ]</button>
+</div>
+
 <canvas id="bg-canvas"></canvas>
 <div class="content">
 
@@ -521,25 +631,68 @@ footer span{color:var(--blue2)}
 </section>
 
 <!-- CONTACT -->
-<section id="contact-section">
+<section id="contact-section" style="padding:6rem 2rem 10rem;max-width:1200px;margin:0 auto">
   <p class="sec-label rev" style="text-align:center">05 // get_in_touch</p>
   <h2 class="sec-title rev d1" style="text-align:center">Let's work <span class="gt">together</span></h2>
-  <p class="contact-subtitle rev d2">Open to projects, collaborations or just connecting. Always excited to build and share new ideas.</p>
-  <div class="contact-links rev d2">
-    <a href="mailto:maloaiza30@gmail.com" class="c-link">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-      maloaiza30@gmail.com
-    </a>
-    <a href="https://github.com/marcolo-30" target="_blank" class="c-link">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-      github.com/marcolo-30
-    </a>
-    <a href="https://linkedin.com/in/marco-loaiza" target="_blank" class="c-link">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-      linkedin.com/in/marco-loaiza
-    </a>
+  <p class="contact-subtitle rev d2">Open to projects, collaborations or just connecting. Type a command or click one.</p>
+
+  <div class="rev d2" style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;align-items:start">
+
+    <!-- Terminal -->
+    <div style="background:var(--navy3);border:1px solid var(--border);border-radius:18px;
+      overflow:hidden;display:flex;flex-direction:column;min-height:340px">
+      <div class="term-hdr">
+        <div class="tdot" style="background:#ef4444"></div>
+        <div class="tdot" style="background:#fbbf24"></div>
+        <div class="tdot" style="background:#10b981"></div>
+        <span class="term-title3d">marco@ml2:~$ — 3D Portfolio Terminal</span>
+      </div>
+      <div style="display:flex;flex:1;overflow:hidden">
+        <!-- Tips -->
+        <div style="width:160px;flex-shrink:0;border-right:1px solid #1a3050;padding:12px 10px;
+          display:flex;flex-direction:column;gap:5px;background:rgba(6,13,24,.5)">
+          <p style="font-family:'JetBrains Mono',monospace;font-size:.58rem;color:#1d6fa4;
+            letter-spacing:.15em;text-transform:uppercase;margin-bottom:4px">// commands</p>
+          <button onclick="run3d('help')"            class="term-tip3d">help</button>
+          <button onclick="run3d('whoami')"          class="term-tip3d">whoami</button>
+          <button onclick="run3d('ls projects')"     class="term-tip3d">ls projects</button>
+          <button onclick="run3d('cat skills.txt')"  class="term-tip3d">cat skills.txt</button>
+          <button onclick="run3d('cat pubs.txt')"    class="term-tip3d">cat pubs.txt</button>
+          <button onclick="run3d('cat contact.txt')" class="term-tip3d">cat contact.txt</button>
+          <button onclick="run3d('phd status')"      class="term-tip3d">phd status</button>
+          <button onclick="run3d('clear')"           class="term-tip3d" style="margin-top:auto;color:#4d7fa0">clear</button>
+        </div>
+        <div class="term-body3d" id="term3d-body" style="flex:1"
+          onclick="document.getElementById('term3d-input').focus()"></div>
+      </div>
+      <div class="term-irow3d">
+        <span class="tl-prompt3d">marco@ml2:~$</span>
+        <input id="term3d-input" type="text" placeholder="o escribe un comando..." autocomplete="off" spellcheck="false"/>
+      </div>
+    </div>
+
+    <!-- Contact info -->
+    <div style="display:flex;flex-direction:column;gap:1rem">
+      <a href="mailto:maloaiza30@gmail.com" class="c-link" style="justify-content:flex-start">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        maloaiza30@gmail.com
+      </a>
+      <a href="https://github.com/marcolo-30" target="_blank" class="c-link" style="justify-content:flex-start">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        github.com/marcolo-30
+      </a>
+      <a href="https://linkedin.com/in/marco-loaiza" target="_blank" class="c-link" style="justify-content:flex-start">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        linkedin.com/in/marco-loaiza
+      </a>
+      <a href="tel:+393513175674" class="c-link" style="justify-content:flex-start">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13 19.79 19.79 0 0 1 1.61 4.4 2 2 0 0 1 3.6 2.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.07 6.07l.95-.94a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        +39 351 317 5674
+      </a>
+      <a href="Marco_Loaiza_CV.pdf" download class="btn-primary" style="margin-top:.5rem">&#8595; Download Full CV</a>
+    </div>
+
   </div>
-  <a href="Marco_Loaiza_CV.pdf" download class="btn-primary rev d3" style="display:inline-flex;margin:0 auto">&#8595; Download Full CV</a>
 </section>
 
 <footer>
@@ -1455,6 +1608,158 @@ dAll.forEach(function(item,i){
   item.addEventListener('mouseenter',function(){dAll.forEach(function(d,j){var dist=Math.abs(i-j);if(dist===0)d.style.transform='translateY(-5px) scale(1.2)';else if(dist===1)d.style.transform='translateY(-2px) scale(1.07)';else d.style.transform='';});});
 });
 document.getElementById('dock').addEventListener('mouseleave',function(){dAll.forEach(function(d){d.style.transform='';});});
+
+// ── PRELOADER ──
+window.addEventListener('load',function(){
+  setTimeout(function(){
+    var pl=document.getElementById('preloader');
+    if(pl){pl.classList.add('hidden');setTimeout(function(){pl.remove();},850);}
+  },2800);
+});
+
+// ── SCROLL PROGRESS ──
+window.addEventListener('scroll',function(){
+  var bar=document.getElementById('scroll-progress');
+  if(bar){var pct=window.scrollY/(document.documentElement.scrollHeight-window.innerHeight)*100;bar.style.width=Math.min(pct,100)+'%';}
+},{passive:true});
+
+// ── CUSTOM CURSOR ──
+(function(){
+  var blob=document.getElementById('cursor-blob'),dot=document.getElementById('cursor-dot');
+  if(!blob||!window.matchMedia('(pointer:fine)').matches)return;
+  var mx=innerWidth/2,my=innerHeight/2,bx=mx,by=my;
+  document.addEventListener('mousemove',function(e){mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';});
+  document.addEventListener('mousedown',function(){blob.style.width='38px';blob.style.height='38px';blob.style.background='rgba(16,185,129,.5)';});
+  document.addEventListener('mouseup',function(){blob.style.width='24px';blob.style.height='24px';blob.style.background='rgba(29,111,164,.45)';});
+  document.querySelectorAll('a,button,[data-tilt]').forEach(function(el){
+    el.addEventListener('mouseenter',function(){blob.style.width='44px';blob.style.height='44px';blob.style.background='rgba(56,189,248,.35)';});
+    el.addEventListener('mouseleave',function(){blob.style.width='24px';blob.style.height='24px';blob.style.background='rgba(29,111,164,.45)';});
+  });
+  (function loop(){bx+=(mx-bx)*.11;by+=(my-by)*.11;blob.style.left=bx+'px';blob.style.top=by+'px';requestAnimationFrame(loop);})();
+})();
+
+// ── KONAMI ──
+(function(){
+  var seq=['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'],idx=0;
+  document.addEventListener('keydown',function(e){
+    if(e.key===seq[idx]){idx++;if(idx===seq.length){idx=0;document.getElementById('konami3d').classList.add('on');}}
+    else{idx=e.key===seq[0]?1:0;}
+  });
+})();
+document.addEventListener('keydown',function(e){if(e.key==='Escape')document.getElementById('konami3d').classList.remove('on');});
+
+// ── TERMINAL 3D ──
+var CMDS3D={
+  help:function(){return[
+    {c:'i',v:'Available commands:'},
+    {c:'',v:'  whoami           — about Marco'},
+    {c:'',v:'  ls projects      — list projects'},
+    {c:'',v:'  cat skills.txt   — technical skills'},
+    {c:'',v:'  cat pubs.txt     — IEEE publications'},
+    {c:'',v:'  cat contact.txt  — contact info'},
+    {c:'',v:'  phd status       — PhD progress'},
+    {c:'',v:'  clear            — clear terminal'},
+  ]},
+  whoami:function(){return[
+    {c:'s',v:'Marco Alfredo Loaiza Carrillo'},
+    {c:'',v:'Role    : PhD ICT · Edge-Cloud Engineer · ML'},
+    {c:'',v:'Location: Rende, Calabria, Italy 🇮🇹  (from Colombia 🇨🇴)'},
+    {c:'',v:'Exp     : 7+ years in distributed infrastructure'},
+    {c:'',v:'Project : MLSysOps · EU Horizon Europe (2023-2026)'},
+    {c:'',v:'Skills  : Kubernetes · Python · AI/ML · IoT · Docker'},
+  ]},
+  'ls projects':function(){return[
+    {c:'i',v:'4 projects found:'},
+    {c:'s',v:'[1] MLSysOps         — EU Horizon · K8s · SPADE · 3x IEEE'},
+    {c:'s',v:'[2] K8s GitOps Lab   — CI/CD 20min→90sec · ArgoCD'},
+    {c:'s',v:'[3] IoT Health Mon.  — ESP32 · AWS IoT · ML Pipeline'},
+    {c:'s',v:'[4] IoT Fleet Trace  — PCB · C/C++ · MQTT · ThingsBoard'},
+    {c:'',v:'→ Scroll up to explore each project in 3D'},
+  ]},
+  'cat skills.txt':function(){return[
+    {c:'i',v:'skills.txt'},
+    {c:'',v:'─────────────────────────────'},
+    {c:'s',v:'Kubernetes · Docker · DevOps    ████████████  92%'},
+    {c:'s',v:'Python · C/C++ · REST APIs      ████████████  88%'},
+    {c:'s',v:'AI/ML · Multi-Agent · IoT       ███████████   82%'},
+    {c:'s',v:'Terraform · Ansible · IaC       ██████████    78%'},
+    {c:'s',v:'Claude · ChatGPT · LLMs         █████████████ 95%'},
+    {c:'',v:'─────────────────────────────'},
+  ]},
+  'cat pubs.txt':function(){return[
+    {c:'i',v:'5 peer-reviewed publications:'},
+    {c:'s',v:'[2026] IEEE VTM  — Energy-Efficient Task Orch. in 5G V2X'},
+    {c:'s',v:'[2025] Book Ch.  — From Objects to Agents: Intelligent IoT'},
+    {c:'s',v:'[2024] IEEE INISTA — Agent-Oriented Monolithic→Microservices'},
+    {c:'s',v:'[2023] EWSN      — Agents in Computing Continuum: MLSysOps'},
+    {c:'s',v:'[2023] WOA       — Agents in Software Dev Architectures'},
+  ]},
+  'cat contact.txt':function(){return[
+    {c:'i',v:'contact.txt'},
+    {c:'',v:'Email   : maloaiza30@gmail.com'},
+    {c:'',v:'GitHub  : github.com/marcolo-30'},
+    {c:'',v:'LinkedIn: linkedin.com/in/marco-loaiza'},
+    {c:'',v:'Tel     : +39 351 317 5674'},
+    {c:'s',v:'→ Click any link on the right to connect'},
+  ]},
+  'phd status':function(){
+    var start=new Date('2023-01-01'),now=new Date();
+    var months=Math.floor((now-start)/(1000*60*60*24*30.44));
+    var yrs=Math.floor(months/12),mos=months%12;
+    return[
+      {c:'i',v:'PhD ICT · Università della Calabria'},
+      {c:'',v:'Status  : ✅ Completed · Defense: 2026'},
+      {c:'s',v:'Duration: '+yrs+' years and '+mos+' months of research'},
+      {c:'',v:'Project : MLSysOps · EU Horizon Europe'},
+      {c:'',v:'Area    : Computing Continuum · Multi-Agent · Edge-Cloud'},
+      {c:'s',v:'Output  : 3 IEEE papers · 1 book chapter'},
+    ];
+  },
+  clear:function(){return null;}
+};
+
+var hist3d={cmds:[],idx:0};
+
+function run3d(cmd){
+  var body=document.getElementById('term3d-body');
+  if(!body)return;
+  cmd=(cmd||'').trim().toLowerCase();
+  if(!cmd)return;
+  if(!hist3d.cmds.length||hist3d.cmds[hist3d.cmds.length-1]!==cmd)hist3d.cmds.push(cmd);
+  hist3d.idx=hist3d.cmds.length;
+  body.innerHTML='';
+  var pr=document.createElement('div');
+  pr.innerHTML='<span class="tl-prompt3d">marco@ml2:~$</span> '+cmd.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+  body.appendChild(pr);
+  var fn=CMDS3D[cmd];
+  if(fn){
+    var out=fn();
+    if(out)out.forEach(function(l){
+      var d=document.createElement('div');d.className='tl-out3d'+(l.c?' '+l.c:'');d.textContent=l.v;body.appendChild(d);
+    });
+  } else {
+    var err=document.createElement('div');err.className='tl-out3d e';
+    err.textContent='bash: '+cmd+': command not found. Type "help".';body.appendChild(err);
+  }
+  body.scrollTop=0;
+}
+
+document.addEventListener('DOMContentLoaded',function(){
+  var inp=document.getElementById('term3d-input');
+  if(!inp)return;
+  inp.addEventListener('keydown',function(e){
+    if(e.key==='Enter'){var v=this.value;this.value='';run3d(v);}
+    else if(e.key==='ArrowUp'){e.preventDefault();if(hist3d.idx>0){hist3d.idx--;this.value=hist3d.cmds[hist3d.idx]||'';}}
+    else if(e.key==='ArrowDown'){e.preventDefault();hist3d.idx++;this.value=hist3d.cmds[hist3d.idx]||'';if(hist3d.idx>=hist3d.cmds.length)hist3d.idx=hist3d.cmds.length;}
+  });
+  // Boot message
+  var body=document.getElementById('term3d-body');
+  if(body)[
+    {c:'s',v:'Welcome to Marco Loaiza\'s 3D Portfolio — ML²'},
+    {c:'i',v:'Type "help" to see all available commands.'},
+    {c:'',v:''},
+  ].forEach(function(l){var d=document.createElement('div');d.className='tl-out3d'+(l.c?' '+l.c:'');d.textContent=l.v;body.appendChild(d);});
+});
 </script>
 </body>
 </html>
