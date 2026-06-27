@@ -282,6 +282,107 @@
       animation:twblink .72s step-end infinite;vertical-align:text-bottom;border-radius:1px}
     @keyframes twblink{0%,100%{opacity:1}50%{opacity:0}}
 
+    /* ── TERMINAL ── */
+    #term-panel{position:fixed;bottom:80px;right:24px;z-index:300;
+      width:min(500px,calc(100vw - 32px));height:340px;display:flex;flex-direction:column;
+      background:#060d18;border:1px solid rgba(29,111,164,.55);border-radius:16px;overflow:hidden;
+      box-shadow:0 28px 80px rgba(0,0,0,.75),0 0 0 1px rgba(29,111,164,.1);
+      opacity:0;transform:translateY(16px) scale(.97);pointer-events:none;
+      transition:opacity .28s,transform .28s,visibility .28s;visibility:hidden}
+    #term-panel.open{opacity:1;transform:none;pointer-events:all;visibility:visible}
+    .term-hdr{display:flex;align-items:center;gap:7px;padding:9px 14px;
+      background:#0a1628;border-bottom:1px solid #1a3050;flex-shrink:0}
+    .tdot{width:11px;height:11px;border-radius:50%}
+    .term-title{font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#4d7fa0;flex:1;
+      margin-left:2px;letter-spacing:.05em}
+    .term-x{background:none;border:none;color:#4d7fa0;cursor:pointer;font-size:.9rem;
+      padding:2px 6px;border-radius:6px;transition:all .15s;line-height:1}
+    .term-x:hover{color:#ef4444;background:rgba(239,68,68,.12)}
+    .term-body{flex:1;overflow-y:auto;padding:10px 14px;
+      font-family:'JetBrains Mono',monospace;font-size:.77rem;line-height:1.75;color:#dde6f0}
+    .term-body::-webkit-scrollbar{width:3px}
+    .term-body::-webkit-scrollbar-thumb{background:#1a3050;border-radius:2px}
+    .tl-prompt{color:#10b981}
+    .tl-out{color:#9ca3af}
+    .tl-out.i{color:#38bdf8}.tl-out.s{color:#34d399}.tl-out.w{color:#fbbf24}.tl-out.e{color:#f87171}
+    .term-irow{display:flex;align-items:center;gap:8px;padding:8px 14px;
+      border-top:1px solid #1a3050;flex-shrink:0}
+    .term-irow .tl-prompt{white-space:nowrap;font-family:'JetBrains Mono',monospace;font-size:.77rem}
+    #term-input{flex:1;background:none;border:none;outline:none;color:#dde6f0;
+      font-family:'JetBrains Mono',monospace;font-size:.77rem;caret-color:#38bdf8}
+
+    /* ── VISIT COUNTER ── */
+    #visit-badge{display:inline-flex;align-items:center;gap:5px;
+      font-family:'JetBrains Mono',monospace;font-size:.68rem;
+      padding:3px 9px;border-radius:20px;
+      background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);color:#34d399}
+
+    /* ── KONAMI OVERLAY ── */
+    #konami-overlay{position:fixed;inset:0;z-index:99998;display:flex;flex-direction:column;
+      align-items:center;justify-content:center;gap:1.2rem;
+      background:rgba(4,8,16,.96);backdrop-filter:blur(20px);
+      opacity:0;visibility:hidden;transition:opacity .4s,visibility .4s}
+    #konami-overlay.on{opacity:1;visibility:visible}
+    .konami-title{font-family:'JetBrains Mono',monospace;font-size:clamp(1.4rem,4vw,2.6rem);
+      font-weight:700;text-align:center;
+      background:linear-gradient(135deg,#38bdf8,#10b981,#6d5ef7);
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+      animation:konPulse 1.4s ease-in-out infinite alternate}
+    @keyframes konPulse{from{filter:brightness(1)}to{filter:brightness(1.3)}}
+    .konami-sub{font-family:'JetBrains Mono',monospace;font-size:.8rem;color:#4d7fa0;
+      text-align:center;letter-spacing:.12em}
+    .konami-code{font-family:'JetBrains Mono',monospace;font-size:.7rem;color:#1d6fa4;
+      background:#0a1628;border:1px solid #1a3050;border-radius:10px;padding:.6rem 1.2rem;
+      letter-spacing:.1em}
+    .konami-close{margin-top:.5rem;padding:.5rem 1.4rem;border-radius:10px;font-size:.78rem;
+      font-family:'JetBrains Mono',monospace;background:rgba(29,111,164,.15);
+      border:1px solid rgba(29,111,164,.4);color:#38bdf8;cursor:pointer;transition:all .2s}
+    .konami-close:hover{background:rgba(29,111,164,.3)}
+    .konami-stars{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+    .kstar{position:absolute;width:3px;height:3px;border-radius:50%;background:#38bdf8;
+      animation:kstarFall linear infinite}
+    @keyframes kstarFall{from{transform:translateY(-10px);opacity:1}to{transform:translateY(100vh);opacity:0}}
+
+    /* ── RECRUITER MODE ── */
+    #rec-overlay{position:fixed;inset:0;z-index:400;overflow-y:auto;
+      background:#060d18;opacity:0;visibility:hidden;
+      transition:opacity .4s,visibility .4s}
+    #rec-overlay.on{opacity:1;visibility:visible}
+    .rec-inner{max-width:680px;margin:0 auto;padding:3rem 1.5rem 6rem;
+      display:flex;flex-direction:column;gap:2rem}
+    .rec-badge{display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;
+      font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;
+      padding:4px 12px;border-radius:20px;
+      background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.3);color:#10b981}
+    .rec-name{font-size:clamp(2rem,6vw,3.4rem);font-weight:700;line-height:1.1;
+      background:linear-gradient(135deg,#38bdf8,#1d6fa4,#10b981);
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .rec-title{font-size:1rem;color:#9ca3af;margin-top:.4rem;font-weight:400}
+    .rec-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+    @media(max-width:500px){.rec-grid{grid-template-columns:1fr 1fr}}
+    .rec-stat{background:#0e1d30;border:1px solid #1a3050;border-radius:14px;
+      padding:1rem;text-align:center}
+    .rec-stat-n{font-size:1.8rem;font-weight:700;
+      background:linear-gradient(135deg,#38bdf8,#10b981);
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .rec-stat-l{font-size:.72rem;color:#6b7280;font-family:'JetBrains Mono',monospace;margin-top:2px}
+    .rec-section-title{font-family:'JetBrains Mono',monospace;font-size:.68rem;
+      color:#1d9bd1;letter-spacing:.2em;text-transform:uppercase;margin-bottom:.8rem}
+    .rec-skill{display:flex;align-items:center;justify-content:space-between;
+      padding:.55rem .9rem;background:#0e1d30;border:1px solid #1a3050;border-radius:10px;
+      font-size:.85rem;color:#e2e4f0}
+    .rec-proj{padding:1rem 1.2rem;background:#0e1d30;border:1px solid #1a3050;
+      border-radius:12px;display:flex;align-items:flex-start;gap:.8rem}
+    .rec-proj-icon{font-size:1.4rem;flex-shrink:0;margin-top:1px}
+    .rec-cta{display:flex;gap:.75rem;flex-wrap:wrap}
+    #rec-close{position:fixed;top:1.2rem;right:1.2rem;z-index:401;
+      display:flex;align-items:center;gap:6px;padding:7px 14px;
+      font-family:'JetBrains Mono',monospace;font-size:.72rem;
+      background:rgba(6,13,24,.9);border:1px solid rgba(29,111,164,.4);
+      color:#38bdf8;border-radius:12px;cursor:pointer;backdrop-filter:blur(16px);
+      transition:all .2s}
+    #rec-close:hover{background:rgba(29,111,164,.15)}
+
     /* PROJECT MODAL */
     #proj-modal{position:fixed;inset:0;z-index:500;display:flex;align-items:center;justify-content:center;
       padding:1.5rem;opacity:0;pointer-events:none;transition:opacity .3s}
@@ -331,6 +432,81 @@
 <div id="cursor-blob"></div>
 <div id="cursor-dot"></div>
 
+<!-- Terminal panel -->
+<div id="term-panel" role="complementary" aria-label="Terminal interactiva">
+  <div class="term-hdr">
+    <div class="tdot" style="background:#ef4444"></div>
+    <div class="tdot" style="background:#fbbf24"></div>
+    <div class="tdot" style="background:#10b981"></div>
+    <span class="term-title">marco@ml2:~$</span>
+    <button class="term-x" onclick="toggleTerm()" title="Cerrar">✕</button>
+  </div>
+  <div class="term-body" id="term-body"></div>
+  <div class="term-irow">
+    <span class="tl-prompt">marco@ml2:~$</span>
+    <input id="term-input" type="text" placeholder="escribe 'help'" autocomplete="off" spellcheck="false" />
+  </div>
+</div>
+
+<!-- Konami overlay -->
+<div id="konami-overlay">
+  <div class="konami-stars" id="konami-stars"></div>
+  <div class="konami-title">🎮 Easter Egg Encontrado!</div>
+  <p class="konami-sub">Eres claramente un dev — solo un dev conoce el Konami Code</p>
+  <div class="konami-code">↑ ↑ ↓ ↓ ← → ← → B A</div>
+  <p class="konami-sub" style="font-size:.65rem;margin-top:.2rem">Fun fact: este portfolio tiene partículas, cursor personalizado,<br>terminal interactiva y modo recruiter. Todo en un HTML.</p>
+  <button class="konami-close" onclick="closeKonami()">[ continuar → ]</button>
+</div>
+
+<!-- Recruiter overlay -->
+<div id="rec-overlay" role="dialog" aria-label="Vista para recruiters">
+  <button id="rec-close" onclick="toggleRecruiter()">← Volver al portfolio técnico</button>
+  <div class="rec-inner">
+    <div>
+      <span class="rec-badge">👔 Recruiter View</span>
+      <div class="rec-name" style="margin-top:1rem">Marco Loaiza</div>
+      <div class="rec-title">PhD · Edge-Cloud Engineer · Machine Learning · IoT</div>
+      <p style="color:#6b7280;font-size:.85rem;margin-top:.6rem">Colombiano 🇨🇴 · Rende, Calabria, Italia 🇮🇹 · Disponible para oportunidades</p>
+    </div>
+    <div>
+      <div class="rec-section-title">Números clave</div>
+      <div class="rec-grid">
+        <div class="rec-stat"><div class="rec-stat-n">7+</div><div class="rec-stat-l">años exp.</div></div>
+        <div class="rec-stat"><div class="rec-stat-n">3</div><div class="rec-stat-l">publicaciones IEEE</div></div>
+        <div class="rec-stat"><div class="rec-stat-n">800+</div><div class="rec-stat-l">servidores gestionados</div></div>
+        <div class="rec-stat"><div class="rec-stat-n">PhD</div><div class="rec-stat-l">ICT · 2026</div></div>
+        <div class="rec-stat"><div class="rec-stat-n">EU</div><div class="rec-stat-l">Horizon Europe</div></div>
+        <div class="rec-stat"><div class="rec-stat-n">3</div><div class="rec-stat-l">idiomas</div></div>
+      </div>
+    </div>
+    <div>
+      <div class="rec-section-title">Top habilidades</div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div class="rec-skill"><span>☸️ Kubernetes · Docker · DevOps</span><span style="color:#38bdf8;font-size:.8rem">92%</span></div>
+        <div class="rec-skill"><span>🐍 Python · C/C++ · REST APIs</span><span style="color:#38bdf8;font-size:.8rem">88%</span></div>
+        <div class="rec-skill"><span>🤖 AI / ML · Multi-Agent · IoT</span><span style="color:#38bdf8;font-size:.8rem">82%</span></div>
+        <div class="rec-skill"><span>🌍 Terraform · Ansible · CI/CD</span><span style="color:#38bdf8;font-size:.8rem">78%</span></div>
+      </div>
+    </div>
+    <div>
+      <div class="rec-section-title">Proyectos destacados</div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div class="rec-proj"><span class="rec-proj-icon">🌍</span><div><p style="color:#e2e4f0;font-size:.88rem;font-weight:600">MLSysOps — EU Horizon Europe</p><p style="color:#6b7280;font-size:.8rem;margin-top:2px">Plataforma ML-IoT con Kubernetes · 3 publicaciones IEEE · 2023–2026</p></div></div>
+        <div class="rec-proj"><span class="rec-proj-icon">☸️</span><div><p style="color:#e2e4f0;font-size:.88rem;font-weight:600">K8s GitOps Lab</p><p style="color:#6b7280;font-size:.8rem;margin-top:2px">Redujo ciclo de deploy de 20 min → 90 seg con GitHub Actions + ArgoCD</p></div></div>
+        <div class="rec-proj"><span class="rec-proj-icon">💓</span><div><p style="color:#e2e4f0;font-size:.88rem;font-weight:600">IoT-Cloud ML Health Monitor</p><p style="color:#6b7280;font-size:.8rem;margin-top:2px">Wearable ESP32 + AWS IoT + pipeline ML para analítica fisiológica</p></div></div>
+      </div>
+    </div>
+    <div>
+      <div class="rec-section-title">Contacto directo</div>
+      <div class="rec-cta">
+        <a href="mailto:maloaiza30@gmail.com" class="btn-p text-sm">✉️ maloaiza30@gmail.com</a>
+        <a href="https://linkedin.com/in/marco-loaiza" target="_blank" class="btn-g text-sm">💼 LinkedIn</a>
+        <a href="Marco_Loaiza_CV.pdf" download class="btn-g text-sm">⬇️ CV PDF</a>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- Project detail modal -->
 <div id="proj-modal" role="dialog" aria-modal="true">
   <div id="proj-modal-bg" onclick="closeModal()"></div>
@@ -363,6 +539,7 @@
     <div class="gdot"></div>
     <span class="font-mono text-xs text-muted tracking-[.18em] uppercase" data-i18n="hero.status">Available · Rende, Calabria 🇮🇹</span>
     <span class="font-mono text-xs px-2 py-0.5 rounded-full" style="background:rgba(45,212,191,.1);color:#2dd4bf;border:1px solid rgba(45,212,191,.2)">PhD ICT · 2026</span>
+    <span id="visit-badge">👁 <span id="visit-count">···</span> visitas</span>
   </div>
 
   <!-- BENTO HERO -->
@@ -1026,6 +1203,15 @@
     3D
   </a>
   <div class="dsep"></div>
+  <button onclick="toggleTerm()" class="di" title="Terminal interactiva" id="term-dock-btn">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+    <span>Terminal</span>
+  </button>
+  <button onclick="toggleRecruiter()" class="di" title="Vista para recruiters" id="rec-dock-btn">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+    <span>Recruiter</span>
+  </button>
+  <div class="dsep"></div>
   <!-- LANGUAGE TOGGLE -->
   <button id="lang-btn" onclick="toggleLang()" class="di" title="Switch language" style="background:none;border:1px solid transparent;cursor:pointer">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="17" height="17"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
@@ -1327,6 +1513,204 @@ window.addEventListener('load',function(){
   s.textContent='@keyframes spin360{to{transform:rotate(360deg)}}';
   document.head.appendChild(s);
 })();
+
+// ── TERMINAL ──
+var termOpen=false;
+var termHistory=[];
+var termHistIdx=-1;
+
+var TCMDS={
+  help:function(){return[
+    {c:'i',v:'Comandos disponibles:'},
+    {c:'',v:'  whoami           — quién es Marco'},
+    {c:'',v:'  ls projects      — listar proyectos'},
+    {c:'',v:'  cat skills.txt   — habilidades técnicas'},
+    {c:'',v:'  cat pubs.txt     — publicaciones IEEE'},
+    {c:'',v:'  cat contact.txt  — información de contacto'},
+    {c:'',v:'  phd status       — estado del doctorado'},
+    {c:'',v:'  clear            — limpiar terminal'},
+    {c:'',v:'  exit             — cerrar terminal'},
+  ]},
+  whoami:function(){return[
+    {c:'s',v:'Marco Alfredo Loaiza Carrillo'},
+    {c:'',v:'Rol     : PhD ICT · Edge-Cloud Engineer · ML'},
+    {c:'',v:'Loc     : Rende, Calabria, Italia 🇮🇹  (de Colombia 🇨🇴)'},
+    {c:'',v:'Exp     : 7+ años en infraestructura distribuida'},
+    {c:'',v:'Proyecto: MLSysOps · EU Horizon Europe (2023-2026)'},
+    {c:'',v:'Idiomas : ES nativo · EN profesional · IT básico'},
+  ]},
+  'ls projects':function(){return[
+    {c:'i',v:'4 proyectos encontrados:'},
+    {c:'s',v:'[1] MLSysOps         — EU Horizon · Kubernetes · SPADE · 3x IEEE'},
+    {c:'s',v:'[2] K8s GitOps Lab   — CI/CD 20min→90sec · ArgoCD · GitHub Actions'},
+    {c:'s',v:'[3] IoT Health Mon.  — ESP32 · AWS IoT · ML Pipeline · SpO2'},
+    {c:'s',v:'[4] IoT Fleet Trace  — PCB · C/C++ · MQTT · ThingsBoard'},
+    {c:'',v:'→ Usa el modal de cada proyecto para más detalles'},
+  ]},
+  'cat skills.txt':function(){return[
+    {c:'i',v:'skills.txt'},
+    {c:'',v:'──────────────────────────────'},
+    {c:'s',v:'Kubernetes · Docker · DevOps    ████████████  92%'},
+    {c:'s',v:'Python · C/C++ · REST APIs      ████████████  88%'},
+    {c:'s',v:'AI/ML · Multi-Agent · IoT       ███████████   82%'},
+    {c:'s',v:'Terraform · Ansible · IaC       ██████████    78%'},
+    {c:'s',v:'Claude · ChatGPT · LLMs         █████████████ 95%'},
+    {c:'',v:'──────────────────────────────'},
+  ]},
+  'cat pubs.txt':function(){return[
+    {c:'i',v:'5 publicaciones peer-reviewed:'},
+    {c:'s',v:'[2026] IEEE VTM — Energy-Efficient Task Orchestration in 5G V2X'},
+    {c:'s',v:'[2025] Book Ch. — From Objects to Agents: Intelligent IoT Systems'},
+    {c:'s',v:'[2024] IEEE INISTA — Agent-Oriented Monolithic→Service Architectures'},
+    {c:'s',v:'[2023] EWSN — Agents in the Computing Continuum: MLSysOps'},
+    {c:'s',v:'[2023] WOA — Agents in Software Development Architectures'},
+    {c:'',v:'DOI disponibles en la sección About → Investigación Publicada'},
+  ]},
+  'cat contact.txt':function(){return[
+    {c:'i',v:'contact.txt'},
+    {c:'',v:'Email  : maloaiza30@gmail.com'},
+    {c:'',v:'GitHub : github.com/marcolo-30'},
+    {c:'',v:'LinkedIn: linkedin.com/in/marco-loaiza'},
+    {c:'',v:'Tel    : +39 351 317 5674'},
+    {c:'s',v:'→ Scroll hasta #contact o usa el dock para ir directo'},
+  ]},
+  'phd status':function(){
+    var start=new Date('2023-01-01');
+    var now=new Date();
+    var months=Math.floor((now-start)/(1000*60*60*24*30.44));
+    var yrs=Math.floor(months/12);var mos=months%12;
+    return[
+      {c:'i',v:'PhD ICT · Università della Calabria'},
+      {c:'',v:'Estado  : ✅ Completado · Defensa: 2026'},
+      {c:'s',v:'Duración: '+yrs+' años y '+mos+' meses de investigación'},
+      {c:'',v:'Proyecto: MLSysOps · EU Horizon Europe'},
+      {c:'',v:'Área    : Computing Continuum · Multi-Agent · Edge-Cloud'},
+      {c:'s',v:'Output  : 3 publicaciones IEEE · 1 capítulo de libro'},
+    ];
+  },
+  clear:function(){return null;},
+  exit:function(){toggleTerm();return[];}
+};
+
+function termPrint(lines){
+  var body=document.getElementById('term-body');
+  if(!lines){body.innerHTML='';return;}
+  lines.forEach(function(l){
+    var d=document.createElement('div');
+    d.className='tl-out'+(l.c?' '+l.c:'');
+    d.textContent=l.v;
+    body.appendChild(d);
+  });
+  body.scrollTop=body.scrollHeight;
+}
+
+function termRun(cmd){
+  var body=document.getElementById('term-body');
+  cmd=(cmd||'').trim().toLowerCase();
+  var promptEl=document.createElement('div');
+  promptEl.innerHTML='<span class="tl-prompt">marco@ml2:~$</span> '+escHtml(cmd);
+  body.appendChild(promptEl);
+  if(!cmd){body.scrollTop=body.scrollHeight;return;}
+  if(termHistory[termHistory.length-1]!==cmd)termHistory.push(cmd);
+  termHistIdx=termHistory.length;
+  var fn=TCMDS[cmd];
+  if(fn){
+    var out=fn();
+    termPrint(out);
+  } else {
+    termPrint([{c:'e',v:'bash: '+cmd+': command not found. Escribe "help" para ver comandos.'}]);
+  }
+}
+
+function escHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+function toggleTerm(){
+  var p=document.getElementById('term-panel');
+  var btn=document.getElementById('term-dock-btn');
+  termOpen=!termOpen;
+  p.classList.toggle('open',termOpen);
+  btn.classList.toggle('active',termOpen);
+  if(termOpen){
+    var body=document.getElementById('term-body');
+    if(!body.hasChildNodes()){
+      termPrint([
+        {c:'s',v:'Bienvenido al portfolio de Marco Loaiza — ML²'},
+        {c:'i',v:'Escribe "help" para ver los comandos disponibles.'},
+        {c:'',v:''},
+      ]);
+    }
+    setTimeout(function(){document.getElementById('term-input').focus();},80);
+  }
+}
+
+document.addEventListener('DOMContentLoaded',function(){
+  var inp=document.getElementById('term-input');
+  if(!inp)return;
+  inp.addEventListener('keydown',function(e){
+    if(e.key==='Enter'){var v=this.value;this.value='';termRun(v);}
+    else if(e.key==='ArrowUp'){e.preventDefault();if(termHistIdx>0){termHistIdx--;this.value=termHistory[termHistIdx]||'';}}
+    else if(e.key==='ArrowDown'){e.preventDefault();termHistIdx++;this.value=termHistory[termHistIdx]||'';if(termHistIdx>=termHistory.length)termHistIdx=termHistory.length;}
+    else if(e.key==='Escape'){toggleTerm();}
+  });
+});
+
+// ── VISIT COUNTER ──
+(function(){
+  fetch('https://api.countapi.xyz/hit/marcolo-30.github.io/visits')
+    .then(function(r){return r.json();})
+    .then(function(d){
+      var el=document.getElementById('visit-count');
+      if(!el||!d.value)return;
+      var target=d.value,current=0,step=Math.max(1,Math.floor(target/40));
+      var tm=setInterval(function(){
+        current=Math.min(current+step,target);
+        el.textContent=current.toLocaleString();
+        if(current>=target)clearInterval(tm);
+      },35);
+    })
+    .catch(function(){
+      var el=document.getElementById('visit-badge');
+      if(el)el.style.display='none';
+    });
+})();
+
+// ── KONAMI CODE ──
+(function(){
+  var seq=['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+  var idx=0;
+  document.addEventListener('keydown',function(e){
+    if(e.key===seq[idx]){
+      idx++;
+      if(idx===seq.length){idx=0;openKonami();}
+    } else {idx=e.key===seq[0]?1:0;}
+  });
+  function openKonami(){
+    var stars=document.getElementById('konami-stars');
+    if(stars){
+      stars.innerHTML='';
+      for(var i=0;i<60;i++){
+        var s=document.createElement('div');s.className='kstar';
+        s.style.cssText='left:'+Math.random()*100+'%;animation-duration:'+(2+Math.random()*4)+'s;animation-delay:'+(-Math.random()*4)+'s;width:'+(1+Math.random()*3)+'px;height:'+(1+Math.random()*3)+'px;background:'+(Math.random()>.5?'#38bdf8':'#10b981');
+        stars.appendChild(s);
+      }
+    }
+    document.getElementById('konami-overlay').classList.add('on');
+  }
+})();
+function closeKonami(){document.getElementById('konami-overlay').classList.remove('on');}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeKonami();});
+
+// ── RECRUITER MODE ──
+var recOpen=false;
+function toggleRecruiter(){
+  recOpen=!recOpen;
+  var ov=document.getElementById('rec-overlay');
+  var btn=document.getElementById('rec-dock-btn');
+  ov.classList.toggle('on',recOpen);
+  btn.classList.toggle('active',recOpen);
+  document.body.style.overflow=recOpen?'hidden':'';
+  if(recOpen)ov.scrollTop=0;
+}
 
 // ── PARTICLES ──
 (function(){
