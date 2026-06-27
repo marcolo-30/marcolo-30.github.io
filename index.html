@@ -1684,17 +1684,17 @@ function termRunIn(cmd, bodyId, histRef){
   var body=document.getElementById(bodyId);
   if(!body)return;
   cmd=(cmd||'').trim().toLowerCase();
+  if(!cmd)return;
+  if(!histRef.cmds.length||histRef.cmds[histRef.cmds.length-1]!==cmd)histRef.cmds.push(cmd);
+  histRef.idx=histRef.cmds.length;
+  body.innerHTML='';
   var promptEl=document.createElement('div');
   promptEl.innerHTML='<span class="tl-prompt">marco@ml2:~$</span> '+escHtml(cmd);
   body.appendChild(promptEl);
-  if(!cmd){body.scrollTop=body.scrollHeight;return;}
-  if(!histRef.cmds.length||histRef.cmds[histRef.cmds.length-1]!==cmd)histRef.cmds.push(cmd);
-  histRef.idx=histRef.cmds.length;
   var fn=TCMDS[cmd];
   if(fn){
     var out=fn();
-    if(!out){body.innerHTML='';return;}
-    out.forEach(function(l){
+    if(out) out.forEach(function(l){
       var d=document.createElement('div');
       d.className='tl-out'+(l.c?' '+l.c:'');
       d.textContent=l.v;
@@ -1706,7 +1706,7 @@ function termRunIn(cmd, bodyId, histRef){
     err.textContent='bash: '+cmd+': command not found. Escribe "help".';
     body.appendChild(err);
   }
-  body.scrollTop=body.scrollHeight;
+  body.scrollTop=0;
 }
 
 document.addEventListener('DOMContentLoaded',function(){
