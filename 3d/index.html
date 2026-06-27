@@ -200,13 +200,7 @@ section{padding:6rem 2rem;max-width:1200px;margin:0 auto}
   transition:opacity .8s ease,visibility .8s ease}
 #preloader.hidden{opacity:0;visibility:hidden}
 .pre-ring-wrap{position:relative;width:110px;height:110px;display:flex;align-items:center;justify-content:center}
-.pre-ring{position:absolute;inset:0;animation:preRingSpin 2s linear infinite}
-.pre-ring circle.track{stroke:#1a3050;fill:none;stroke-width:3}
-.pre-ring circle.fill{fill:none;stroke-width:3;stroke-linecap:round;
-  stroke-dasharray:282;stroke-dashoffset:282;
-  animation:preRingFill 2.5s cubic-bezier(.4,0,.2,1) forwards;stroke:url(#pre-grad)}
-@keyframes preRingFill{from{stroke-dashoffset:282}to{stroke-dashoffset:0}}
-@keyframes preRingSpin{to{transform:rotate(360deg)}}
+#pre-sphere3d{border-radius:50%}
 .pre-logo{position:absolute;font-family:'JetBrains Mono',monospace;font-size:1.7rem;font-weight:700;
   background:linear-gradient(135deg,#38bdf8,#1d6fa4,#10b981);
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
@@ -309,17 +303,7 @@ footer span{color:var(--blue2)}
 <!-- Preloader -->
 <div id="preloader">
   <div class="pre-ring-wrap">
-    <svg class="pre-ring" viewBox="0 0 96 96">
-      <defs>
-        <linearGradient id="pre-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#38bdf8"/>
-          <stop offset="50%" stop-color="#1d6fa4"/>
-          <stop offset="100%" stop-color="#10b981"/>
-        </linearGradient>
-      </defs>
-      <circle class="track" cx="48" cy="48" r="44"/>
-      <circle class="fill" cx="48" cy="48" r="44" transform="rotate(-90 48 48)"/>
-    </svg>
+    <canvas id="pre-sphere3d" width="220" height="220" style="width:110px;height:110px;display:block"></canvas>
     <span class="pre-logo">ML²</span>
   </div>
   <p class="pre-sub">Marco Loaiza · 3D Portfolio</p>
@@ -360,6 +344,7 @@ footer span{color:var(--blue2)}
     <li><a href="#projects-section">Projects</a></li>
     <li><a href="#about-section">About</a></li>
     <li><a href="#pubs-section">Research</a></li>
+    <li><a href="#dashboard-section">Dashboard</a></li>
     <li><a href="#contact-section">Contact</a></li>
   </ul>
   <div style="display:flex;gap:0.5rem;align-items:center">
@@ -630,6 +615,44 @@ footer span{color:var(--blue2)}
 
 </section>
 
+<!-- DASHBOARD 3D -->
+<section id="dashboard-section" style="padding:5rem 2rem;max-width:1200px;margin:0 auto">
+  <p class="sec-label rev" style="text-align:center">05 // metrics_3d</p>
+  <h2 class="sec-title rev d1" style="text-align:center">Research <span class="gt">Dashboard</span></h2>
+  <p style="text-align:center;color:var(--muted);font-size:.9rem;margin-bottom:2.5rem;font-family:'JetBrains Mono',monospace" class="rev d2">// live simulation · edge-cloud infrastructure telemetry</p>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.4rem" class="rev d2">
+
+    <!-- Skills 3D bar chart -->
+    <div style="background:var(--navy3);border:1px solid var(--border);border-radius:18px;overflow:hidden;position:relative">
+      <div style="padding:16px 20px 0;display:flex;justify-content:space-between;align-items:center">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:.72rem;color:#38bdf8;letter-spacing:.1em">SKILL_LEVELS.json</span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:.62rem;color:#1d6fa4">● LIVE</span>
+      </div>
+      <canvas id="db-skills" style="width:100%;height:280px;display:block"></canvas>
+    </div>
+
+    <!-- Orbit metrics -->
+    <div style="background:var(--navy3);border:1px solid var(--border);border-radius:18px;overflow:hidden;position:relative">
+      <div style="padding:16px 20px 0;display:flex;justify-content:space-between;align-items:center">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:.72rem;color:#10b981;letter-spacing:.1em">RESEARCH_METRICS.3d</span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:.62rem;color:#1d6fa4">● LIVE</span>
+      </div>
+      <canvas id="db-metrics" style="width:100%;height:280px;display:block"></canvas>
+    </div>
+
+    <!-- Network topology -->
+    <div style="grid-column:span 2;background:var(--navy3);border:1px solid var(--border);border-radius:18px;overflow:hidden;position:relative">
+      <div style="padding:16px 20px 0;display:flex;justify-content:space-between;align-items:center">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:.72rem;color:#6d5ef7;letter-spacing:.1em">EDGE_CLOUD_TOPOLOGY.live</span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:.62rem;color:#1d6fa4">● STREAMING</span>
+      </div>
+      <canvas id="db-topo" style="width:100%;height:220px;display:block"></canvas>
+    </div>
+
+  </div>
+</section>
+
 <!-- CONTACT -->
 <section id="contact-section" style="padding:6rem 2rem 10rem;max-width:1200px;margin:0 auto">
   <p class="sec-label rev" style="text-align:center">05 // get_in_touch</p>
@@ -708,6 +731,7 @@ footer span{color:var(--blue2)}
   <a href="#projects-section" class="di" data-s="projects-section"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>Work</a>
   <a href="#about-section" class="di" data-s="about-section"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>About</a>
   <a href="#pubs-section" class="di" data-s="pubs-section"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>Papers</a>
+  <a href="#dashboard-section" class="di" data-s="dashboard-section"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Dashboard</a>
   <a href="#contact-section" class="di" data-s="contact-section"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>Contact</a>
   <div class="dsep"></div>
   <a href="index.html" class="di" style="color:#38bdf8;border-color:rgba(56,189,248,0.3)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>2D</a>
@@ -1609,13 +1633,248 @@ dAll.forEach(function(item,i){
 });
 document.getElementById('dock').addEventListener('mouseleave',function(){dAll.forEach(function(d){d.style.transform='';});});
 
-// ── PRELOADER ──
+// ── PRELOADER 3D SPHERE ──
+(function(){
+  var canvas=document.getElementById('pre-sphere3d');
+  if(!canvas)return;
+  var W=220,H=220;
+  canvas.width=W;canvas.height=H;
+  var renderer=new THREE.WebGLRenderer({canvas:canvas,alpha:true,antialias:true});
+  renderer.setPixelRatio(window.devicePixelRatio||1);
+  renderer.setSize(W/2,H/2);
+  var scene=new THREE.Scene();
+  var camera=new THREE.PerspectiveCamera(45,1,0.1,100);
+  camera.position.z=3.8;
+  // Wireframe outer
+  var wMesh=new THREE.Mesh(new THREE.SphereGeometry(1,22,16),new THREE.MeshBasicMaterial({color:0x1d6fa4,wireframe:true,transparent:true,opacity:0.22}));
+  scene.add(wMesh);
+  // Dark inner sphere
+  scene.add(new THREE.Mesh(new THREE.SphereGeometry(0.82,32,32),new THREE.MeshStandardMaterial({color:0x060d18,metalness:0.95,roughness:0.05,emissive:0x091420,emissiveIntensity:1})));
+  // 3 orbital rings at different angles
+  var rings=[];
+  [[0,0x38bdf8,0.018],[Math.PI/3,0x10b981,0.013],[Math.PI*2/3,0x6d5ef7,0.010]].forEach(function(cfg){
+    var r=new THREE.Mesh(new THREE.TorusGeometry(1,cfg[1]===0x38bdf8?0.018:cfg[1]===0x10b981?0.013:0.010,8,80),new THREE.MeshBasicMaterial({color:cfg[1],transparent:cfg[1]!==0x38bdf8,opacity:cfg[1]===0x38bdf8?1:cfg[1]===0x10b981?0.8:0.55}));
+    r.rotation.x=cfg[0];rings.push(r);scene.add(r);
+  });
+  // 8 orbiting nodes
+  var nodes=[];
+  for(var i=0;i<8;i++){
+    var n=new THREE.Mesh(new THREE.SphereGeometry(0.045,8,8),new THREE.MeshBasicMaterial({color:i%3===0?0x38bdf8:i%3===1?0x10b981:0x6d5ef7}));
+    nodes.push({mesh:n,angle:(i/8)*Math.PI*2,spd:0.65+i*0.09,ring:i%3});
+    scene.add(n);
+  }
+  scene.add(new THREE.AmbientLight(0x1a3050,2));
+  var pl1=new THREE.PointLight(0x38bdf8,5,12);pl1.position.set(2,2,3);scene.add(pl1);
+  var pl2=new THREE.PointLight(0x10b981,4,12);pl2.position.set(-2,-1,2);scene.add(pl2);
+  var t=0,alive=true;
+  function loop(){
+    if(!alive)return;
+    requestAnimationFrame(loop);
+    t+=0.016;
+    wMesh.rotation.y=t*0.42;wMesh.rotation.x=t*0.19;
+    rings[0].rotation.y=t*0.6;
+    rings[1].rotation.y=t*0.9;rings[1].rotation.z=t*0.3;
+    rings[2].rotation.y=-t*0.7;rings[2].rotation.z=t*0.22;
+    nodes.forEach(function(nd){
+      nd.angle+=nd.spd*0.016;
+      if(nd.ring===0) nd.mesh.position.set(Math.cos(nd.angle),0,Math.sin(nd.angle));
+      else if(nd.ring===1) nd.mesh.position.set(Math.cos(nd.angle)*Math.cos(Math.PI/3),Math.sin(nd.angle),Math.cos(nd.angle)*Math.sin(Math.PI/3));
+      else nd.mesh.position.set(Math.cos(nd.angle)*Math.cos(Math.PI*2/3),Math.sin(nd.angle),Math.cos(nd.angle)*Math.sin(Math.PI*2/3));
+    });
+    renderer.render(scene,camera);
+  }
+  loop();
+  // stop once preloader hides
+  window.addEventListener('load',function(){setTimeout(function(){alive=false;},3700);});
+})();
+
 window.addEventListener('load',function(){
   setTimeout(function(){
     var pl=document.getElementById('preloader');
     if(pl){pl.classList.add('hidden');setTimeout(function(){pl.remove();},850);}
   },2800);
 });
+
+// ── DASHBOARD 3D ──
+(function(){
+  function initCanvas(id){
+    var c=document.getElementById(id);
+    if(!c)return null;
+    var p=c.parentElement,W=p.offsetWidth||600,H=parseInt(c.style.height)||280;
+    c.width=W;c.height=H;
+    var r=new THREE.WebGLRenderer({canvas:c,alpha:true,antialias:true});
+    r.setPixelRatio(1);r.setSize(W,H);
+    var sc=new THREE.Scene(),cam=new THREE.PerspectiveCamera(50,W/H,0.1,200);
+    return{r:r,sc:sc,cam:cam,W:W,H:H};
+  }
+
+  // ── SKILLS BARS 3D ──
+  var db1=initCanvas('db-skills');
+  if(db1){
+    db1.cam.position.set(0,3,12);db1.cam.lookAt(0,1,0);
+    var skills=[
+      {label:'K8s / DevOps',v:0.92,col:0x38bdf8},
+      {label:'Python / C++', v:0.88,col:0x10b981},
+      {label:'AI / ML',      v:0.82,col:0x6d5ef7},
+      {label:'Terraform',    v:0.78,col:0xfbbf24},
+      {label:'LLMs / Claude',v:0.95,col:0xf472b6},
+    ];
+    var bars=[],heights=[];
+    skills.forEach(function(sk,i){
+      var targetH=sk.v*5;
+      heights.push(0);
+      var geo=new THREE.BoxGeometry(1.1,targetH,1.1);
+      var mat=new THREE.MeshStandardMaterial({color:sk.col,emissive:sk.col,emissiveIntensity:0.25,metalness:0.7,roughness:0.2});
+      var mesh=new THREE.Mesh(geo,mat);
+      mesh.position.set((i-2)*1.7,targetH/2-2.5,0);
+      // wireframe overlay
+      var wf=new THREE.Mesh(geo,new THREE.MeshBasicMaterial({color:sk.col,wireframe:true,transparent:true,opacity:0.2}));
+      wf.position.copy(mesh.position);
+      db1.sc.add(mesh);db1.sc.add(wf);
+      bars.push({mesh:mesh,wf:wf,target:targetH,cur:0,col:sk.col});
+      // glow top
+      var top=new THREE.Mesh(new THREE.SphereGeometry(0.14,12,12),new THREE.MeshBasicMaterial({color:sk.col}));
+      top.position.set((i-2)*1.7,targetH-2.5,0);
+      db1.sc.add(top);
+    });
+    // Grid floor
+    db1.sc.add(new THREE.GridHelper(14,14,0x1a3050,0x0e1d30));
+    db1.sc.children[db1.sc.children.length-1].position.y=-2.5;
+    db1.sc.add(new THREE.AmbientLight(0x1a3050,2));
+    [0x38bdf8,0x10b981,0x6d5ef7].forEach(function(col,i){
+      var pl=new THREE.PointLight(col,3,20);
+      pl.position.set((i-1)*5,6,5);db1.sc.add(pl);
+    });
+    var t1=0,growDone=false;
+    (function loop(){
+      requestAnimationFrame(loop);t1+=0.016;
+      // grow bars on first 2s
+      bars.forEach(function(b){
+        if(b.cur<b.target){b.cur=Math.min(b.cur+b.target*0.018,b.target);
+          b.mesh.scale.y=b.cur/b.target;b.mesh.position.y=(b.cur/2)-2.5;
+          b.wf.scale.y=b.cur/b.target;b.wf.position.y=(b.cur/2)-2.5;
+        }
+      });
+      // gentle rotation
+      db1.cam.position.x=Math.sin(t1*0.15)*3;
+      db1.cam.position.z=12+Math.cos(t1*0.1)*2;
+      db1.cam.lookAt(0,1,0);
+      db1.r.render(db1.sc,db1.cam);
+    })();
+  }
+
+  // ── METRICS ORBIT 3D ──
+  var db2=initCanvas('db-metrics');
+  if(db2){
+    db2.cam.position.set(0,0,10);db2.cam.lookAt(0,0,0);
+    var metrics=[
+      {label:'5',sub:'Papers IEEE',col:0x38bdf8,r:3.2,a:0,   spd:0.35},
+      {label:'7+',sub:'Yrs Exp',   col:0x10b981,r:2.2,a:2.1, spd:0.5},
+      {label:'4', sub:'Projects',  col:0x6d5ef7,r:3.8,a:4.2, spd:0.28},
+      {label:'EU',sub:'H2020',     col:0xfbbf24,r:2.8,a:1.0, spd:0.42},
+      {label:'3', sub:'Countries', col:0xf472b6,r:1.6,a:3.5, spd:0.65},
+    ];
+    // Central core sphere
+    var core=new THREE.Mesh(new THREE.SphereGeometry(0.7,32,32),new THREE.MeshStandardMaterial({color:0x0a1628,metalness:0.95,roughness:0.05,emissive:0x1d6fa4,emissiveIntensity:0.4}));
+    db2.sc.add(core);
+    db2.sc.add(new THREE.Mesh(new THREE.SphereGeometry(0.74,20,14),new THREE.MeshBasicMaterial({color:0x38bdf8,wireframe:true,transparent:true,opacity:0.2})));
+    // Orbit rings
+    metrics.forEach(function(m){
+      db2.sc.add(new THREE.Mesh(new THREE.TorusGeometry(m.r,0.012,8,80),new THREE.MeshBasicMaterial({color:m.col,transparent:true,opacity:0.25})));
+    });
+    // Metric nodes
+    var mnodes=[];
+    metrics.forEach(function(m){
+      var g=new THREE.SphereGeometry(0.28,16,16);
+      var mat=new THREE.MeshStandardMaterial({color:m.col,emissive:m.col,emissiveIntensity:0.35,metalness:0.6,roughness:0.2});
+      var mesh=new THREE.Mesh(g,mat);
+      db2.sc.add(mesh);
+      mnodes.push(Object.assign({mesh:mesh},m));
+    });
+    db2.sc.add(new THREE.AmbientLight(0x1a3050,2));
+    db2.sc.add(new THREE.PointLight(0x38bdf8,5,15)).position.set(4,4,5);
+    db2.sc.add(new THREE.PointLight(0x10b981,4,15)).position.set(-4,-3,4);
+    var t2=0;
+    (function loop(){
+      requestAnimationFrame(loop);t2+=0.016;
+      core.rotation.y=t2*0.5;core.rotation.x=t2*0.2;
+      db2.sc.children[1].rotation.y=t2*0.5;
+      mnodes.forEach(function(m){
+        m.a+=m.spd*0.016;
+        m.mesh.position.set(Math.cos(m.a)*m.r,Math.sin(m.a*0.4)*0.8,Math.sin(m.a)*m.r);
+      });
+      db2.cam.position.y=Math.sin(t2*0.2)*1.5;
+      db2.cam.lookAt(0,0,0);
+      db2.r.render(db2.sc,db2.cam);
+    })();
+  }
+
+  // ── EDGE-CLOUD TOPOLOGY 3D ──
+  var db3=initCanvas('db-topo');
+  if(db3){
+    db3.cam.position.set(0,5,18);db3.cam.lookAt(0,0,0);
+    var nodes3=[
+      {id:'Cloud',  pos:[-6,0,0],  col:0x38bdf8,size:0.55},
+      {id:'Edge-1', pos:[-2,0, 3], col:0x10b981,size:0.4},
+      {id:'Edge-2', pos:[-2,0,-3], col:0x10b981,size:0.4},
+      {id:'IoT-A',  pos:[ 2,0, 5], col:0xfbbf24,size:0.25},
+      {id:'IoT-B',  pos:[ 2,0, 1], col:0xfbbf24,size:0.25},
+      {id:'IoT-C',  pos:[ 2,0,-1], col:0xfbbf24,size:0.25},
+      {id:'IoT-D',  pos:[ 2,0,-5], col:0xfbbf24,size:0.25},
+      {id:'K8s',    pos:[-4,0, 0], col:0x6d5ef7,size:0.35},
+    ];
+    var edges3=[[0,7],[7,1],[7,2],[1,3],[1,4],[2,5],[2,6],[0,1],[0,2]];
+    var nmeshes=[];
+    nodes3.forEach(function(nd){
+      var m=new THREE.Mesh(new THREE.SphereGeometry(nd.size,16,16),new THREE.MeshStandardMaterial({color:nd.col,emissive:nd.col,emissiveIntensity:0.4,metalness:0.7,roughness:0.2}));
+      m.position.set(nd.pos[0],nd.pos[1],nd.pos[2]);
+      db3.sc.add(m);nmeshes.push(m);
+      // pulse ring
+      var pr=new THREE.Mesh(new THREE.TorusGeometry(nd.size+0.1,0.015,8,40),new THREE.MeshBasicMaterial({color:nd.col,transparent:true,opacity:0.5}));
+      pr.position.copy(m.position);pr.rotation.x=Math.PI/2;db3.sc.add(pr);
+    });
+    // Static edges as line segments
+    var lpts=[];
+    edges3.forEach(function(e){
+      var a=nodes3[e[0]].pos,b=nodes3[e[1]].pos;
+      lpts.push(new THREE.Vector3(a[0],a[1],a[2]),new THREE.Vector3(b[0],b[1],b[2]));
+    });
+    var lGeo=new THREE.BufferGeometry().setFromPoints(lpts);
+    db3.sc.add(new THREE.LineSegments(lGeo,new THREE.LineBasicMaterial({color:0x1a3a5c,transparent:true,opacity:0.6})));
+    // Animated data packets
+    var packets=edges3.map(function(e){
+      var pm=new THREE.Mesh(new THREE.SphereGeometry(0.09,8,8),new THREE.MeshBasicMaterial({color:0x38bdf8}));
+      db3.sc.add(pm);
+      return{mesh:pm,a:nodes3[e[0]].pos,b:nodes3[e[1]].pos,t:Math.random(),spd:0.004+Math.random()*0.006};
+    });
+    db3.sc.add(new THREE.GridHelper(20,20,0x1a3050,0x0a1220));
+    db3.sc.children[db3.sc.children.length-1].position.y=-0.8;
+    db3.sc.add(new THREE.AmbientLight(0x1a3050,2.5));
+    db3.sc.add(new THREE.PointLight(0x38bdf8,5,25)).position.set(0,8,5);
+    db3.sc.add(new THREE.PointLight(0x10b981,4,20)).position.set(-8,4,-4);
+    var t3=0;
+    (function loop(){
+      requestAnimationFrame(loop);t3+=0.016;
+      // pulse rings
+      nmeshes.forEach(function(m,i){
+        var pr=db3.sc.children[nmeshes.length+i];
+        if(pr&&pr.material){pr.material.opacity=0.3+0.3*Math.abs(Math.sin(t3*1.5+i*0.7));}
+      });
+      // move packets
+      packets.forEach(function(pk){
+        pk.t+=pk.spd;if(pk.t>1)pk.t=0;
+        pk.mesh.position.set(
+          pk.a[0]+(pk.b[0]-pk.a[0])*pk.t,
+          pk.a[1]+(pk.b[1]-pk.a[1])*pk.t,
+          pk.a[2]+(pk.b[2]-pk.a[2])*pk.t
+        );
+      });
+      db3.cam.position.x=Math.sin(t3*0.12)*3;
+      db3.cam.lookAt(0,0,0);
+      db3.r.render(db3.sc,db3.cam);
+    })();
+  }
+})();
 
 // ── SCROLL PROGRESS ──
 window.addEventListener('scroll',function(){
